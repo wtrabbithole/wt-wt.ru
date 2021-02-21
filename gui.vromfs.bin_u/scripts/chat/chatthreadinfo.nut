@@ -277,5 +277,14 @@ const MAX_THREAD_LANG_VISIBLE = 3
   }
 
   //It's like hidden, but must reveal when unhidden
-  isConcealed = @() !isCrossNetworkMessageAllowed(ownerNick)
+  isConcealed = function() {
+    if (!isCrossNetworkMessageAllowed(ownerNick))
+      return true
+
+    local contact = ::getContact(ownerUid, ownerNick, ownerClanTag)
+    if (contact)
+      return contact.isBlockedMe || contact.isInBlockGroup()
+
+    return false
+  }
 }

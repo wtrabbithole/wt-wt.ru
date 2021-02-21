@@ -22,7 +22,7 @@ local function isUnitHaveSecondaryWeapons(unit)
 
 local function isShipWithoutPurshasedTorpedoes(unit)
 {
-  if (!unit?.isShip())
+  if (!unit?.isShipOrBoat())
     return false
 
   local torpedoes = null

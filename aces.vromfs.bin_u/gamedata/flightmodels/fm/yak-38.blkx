@@ -89,7 +89,7 @@
     "dvRudderTrim": 1.125,
     "hasFlapsControl": true,
     "canTakeoffWithoutFlaps": true,
-    "hasAirbrake": true,
+    "hasAirbrake": false,
     "hasGearControl": true,
     "hasArrestorControl": false,
     "hasCockpitDoorControl": true,
@@ -122,14 +122,6 @@
       "ElevatorMode": "Angle",
       "RudderMode": "Rate",
       "ThrottleMode": "Manual",
-      "allowOverrideByForcedStabilization": true
-    },
-    "ModePreset3": {
-      "Mode": "Separate",
-      "AileronsMode": "Vel",
-      "ElevatorMode": "Vel",
-      "RudderMode": "Rate",
-      "ThrottleMode": "Climb",
       "allowOverrideByForcedStabilization": true
     }
   },
@@ -291,10 +283,10 @@
       "CdMin": 0.007
     },
     "FullFlaps": {
-      "Cl0": 0.65,
+      "Cl0": 0.45,
       "alphaCritHigh": 24.0,
       "alphaCritLow": -25.0,
-      "ClCritHigh": 1.45,
+      "ClCritHigh": 1.35,
       "ClCritLow": -0.35,
       "CdMin": 0.08
     },
@@ -348,7 +340,7 @@
       "alphaCritLow": -20.0,
       "ClCritHigh": 0.2,
       "ClCritLow": -0.2,
-      "CdMin": 0.0085
+      "CdMin": 0.0092
     },
     "Stab": {
       "OswaldsEfficiencyNumber": 0.8,
@@ -512,7 +504,7 @@
         "Velocity_7": 1400.0,
         "Velocity_8": 1600.0,
         "Velocity_9": 1800.0,
-        "ThrustMax0": 5900.0,
+        "ThrustMax0": 6470.0,
         "ThrustMaxCoeff_0_0": 1.02,
         "ThrAftMaxCoeff_0_0": 1.0,
         "TorqueMaxCoeff_0_0": 1.02,
@@ -792,7 +784,7 @@
       "hasCommonRadiator": true,
       "hasVtolControl": true,
       "vtolToThrottleLim": [0.1,1.0,0.2,1.0],
-      "iasToVtolLim": [400.0,1.0,450.0,0.0],
+      "iasToVtolLim": [450.0,1.0,480.0,0.0],
       "dvVtol": 0.4
     },
     "Temperature": {
@@ -912,42 +904,42 @@
     },
     "Stages": {
       "Stage1": {
-        "minTime": 8.0,
-        "maxTime": 10.0,
+        "minTime": 6.0,
+        "maxTime": 8.0,
         "fromRPM": 0.0,
         "toRPM": 500.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage2": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 500.0,
+        "toRPM": 600.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage3": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 600.0,
+        "toRPM": 700.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage4": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 700.0,
+        "toRPM": 800.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage5": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 800.0,
+        "toRPM": 900.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       }
@@ -1010,13 +1002,13 @@
         "Velocity_7": 1400.0,
         "Velocity_8": 1600.0,
         "Velocity_9": 1800.0,
-        "ThrustMax0": 2600.0,
-        "ThrustMaxCoeff_0_0": 1.02,
+        "ThrustMax0": 2840.0,
+        "ThrustMaxCoeff_0_0": 1.0,
         "ThrAftMaxCoeff_0_0": 1.0,
-        "TorqueMaxCoeff_0_0": 1.02,
-        "ThrustMaxCoeff_0_1": 1.02,
+        "TorqueMaxCoeff_0_0": 1.0,
+        "ThrustMaxCoeff_0_1": 1.0,
         "ThrAftMaxCoeff_0_1": 1.0,
-        "TorqueMaxCoeff_0_1": 1.02,
+        "TorqueMaxCoeff_0_1": 1.0,
         "ThrustMaxCoeff_0_2": 0.97,
         "ThrAftMaxCoeff_0_2": 1.0,
         "TorqueMaxCoeff_0_2": 0.97,
@@ -1290,7 +1282,7 @@
       "hasCommonRadiator": true,
       "hasVtolControl": true,
       "vtolToThrottleLim": [0.1,0.0,0.2,1.0],
-      "iasToVtolLim": [400.0,1.0,450.0,0.0],
+      "iasToVtolLim": [450.0,1.0,480.0,0.0],
       "dvVtol": 0.4
     },
     "Temperature": {
@@ -1410,42 +1402,42 @@
     },
     "Stages": {
       "Stage1": {
-        "minTime": 8.0,
-        "maxTime": 10.0,
+        "minTime": 6.0,
+        "maxTime": 8.0,
         "fromRPM": 0.0,
         "toRPM": 500.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage2": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 500.0,
+        "toRPM": 600.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage3": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 600.0,
+        "toRPM": 700.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage4": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 700.0,
+        "toRPM": 800.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage5": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 800.0,
+        "toRPM": 900.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       }
@@ -1466,7 +1458,8 @@
       "VtolToThrustDeflection1": [30.0,0.0,90.0],
       "VtolToThrustDeflection2": [50.0,0.0,100.0],
       "VtolToThrustDeflection3": [460.0,0.0,100.0],
-      "VtolToThrustDeflection4": [600.0,0.0,60.0]
+      "VtolToThrustDeflection4": [600.0,0.0,60.0],
+      "VtolToThrust": [0.0,-0.08]
     },
     "Nozzle1": {
       "Position": [-2.4,-0.5,-0.2],
@@ -1478,7 +1471,8 @@
       "VtolToThrustDeflection1": [30.0,0.0,90.0],
       "VtolToThrustDeflection2": [50.0,0.0,100.0],
       "VtolToThrustDeflection3": [460.0,0.0,100.0],
-      "VtolToThrustDeflection4": [600.0,0.0,60.0]
+      "VtolToThrustDeflection4": [600.0,0.0,60.0],
+      "VtolToThrust": [0.0,-0.08]
     },
     "Nozzle2": {
       "Position": [-1.45,-0.3,-3.5],
@@ -1543,16 +1537,16 @@
     },
     "Nozzle1": {
       "Position": [2.8,-0.5,-0.0],
-      "Direction": [0.0,90.0],
-      "ThrustRatio": 1.0,
+      "Direction": [0.0,95.0],
+      "ThrustRatio": 0.99,
       "ThrustMax": 100000000.0,
-      "Direction2": [0.0,90.0],
+      "Direction2": [0.0,95.0],
       "VtolToThrustDeflection0": [0.0,90.0,0.0],
       "VtolToThrustDeflection1": [30.0,90.0,0.0],
       "VtolToThrustDeflection2": [50.0,90.0,0.0],
       "VtolToThrustDeflection3": [460.0,90.0,0.0],
       "VtolToThrustDeflection4": [600.0,90.0,0.0],
-      "VtolToThrust": [0.0,0.0]
+      "VtolToThrust": [0.1,0.0]
     }
   },
   "Engine2": {
@@ -1561,7 +1555,7 @@
       "FuelSystemNum": 0
     },
     "Nozzle0": {
-      "Position": [3.5,-0.5,-0.0],
+      "Position": [3.6,-0.5,-0.0],
       "Direction": [0.0,90.0],
       "ThrustRatio": 0.01,
       "ThrustMax": 100000000.0,
@@ -1574,11 +1568,11 @@
       "VtolToThrust": [0.0,0.0]
     },
     "Nozzle1": {
-      "Position": [3.5,-0.5,-0.0],
-      "Direction": [0.0,90.0],
-      "ThrustRatio": 1.0,
+      "Position": [3.6,-0.5,-0.0],
+      "Direction": [0.0,65.0],
+      "ThrustRatio": 0.99,
       "ThrustMax": 100000000.0,
-      "Direction2": [0.0,90.0],
+      "Direction2": [0.0,65.0],
       "VtolToThrustDeflection0": [0.0,90.0,0.0],
       "VtolToThrustDeflection1": [30.0,90.0,0.0],
       "VtolToThrustDeflection2": [50.0,90.0,0.0],
@@ -1590,7 +1584,7 @@
   "Mass": {
     "EmptyMass": 6515.0,
     "MaxFuelMass0": 2750.0,
-    "FuelAccumulatorCapacity0": 35.0,
+    "FuelAccumulatorCapacity0": 30.0,
     "MinimalLoadFactor0": -0.3,
     "FuelAccumulatorFlowRate0": 18.3,
     "FuelEngineFlowRate0": 1000000.0,

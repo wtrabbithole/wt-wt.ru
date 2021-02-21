@@ -387,13 +387,13 @@ local function getModItemName(unit, item, limitedName = true)
 }
 
 //include spawn score cost
-local function getFullItemCostText(unit, item)
+local function getFullItemCostText(unit, item, spawnScoreOnly = false)
 {
   local res = ""
   local wType = ::g_weaponry_types.getUpgradeTypeByItem(item)
   local misRules = ::g_mis_custom_state.getCurMissionRules()
 
-  if (!::is_in_flight() || misRules.isWarpointsRespawnEnabled)
+  if ((!::is_in_flight() || misRules.isWarpointsRespawnEnabled) && !spawnScoreOnly)
     res = wType.getCost(unit, item).tostring()
 
   if (::is_in_flight() && misRules.isScoreRespawnEnabled)
@@ -465,6 +465,7 @@ local function getWeaponItemViewParams(id, unit, item, params = {})
     isBundle                  = false
     modUpgradeStatus          = ""
     nameText                  = ""
+    nameTextWithPrice         = ""
     genericTooltipId          = ""
     iconBulletName            = ""
     itemImg                   = ""
@@ -576,6 +577,10 @@ local function getWeaponItemViewParams(id, unit, item, params = {})
     if (priceText != "")
       priceText = "<color=@goodTextColor>" + priceText +"</color>"
   }
+  res.nameTextWithPrice = res.nameText
+  local spawnScoreCost = getFullItemCostText(unit, item, true)
+  if (statusTbl.showPrice && (params?.canShowPrice ?? true) && spawnScoreCost != "")
+    res.nameTextWithPrice = "".concat(res.nameTextWithPrice, ::loc("ui/parentheses/space", {text = spawnScoreCost}))
   local showProgress = isResearchInProgress || isResearchPaused
   res.isShowPrice = !showProgress && (statusTbl.showPrice || canResearch)
   res.hideProgressBlock = !showProgress

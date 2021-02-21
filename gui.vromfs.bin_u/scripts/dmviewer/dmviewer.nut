@@ -305,7 +305,7 @@ const AFTERBURNER_CHAMBER = 3
     // Outer parts visibility toggle in Armor and Xray modes
     if (::has_feature("DmViewerExternalArmorHiding"))
     {
-      local isTankOrShip = unit != null && (unit.isTank() || unit.isShip())
+      local isTankOrShip = unit != null && (unit.isTank() || unit.isShipOrBoat())
       obj = handler.scene.findObject("dmviewer_show_external_dm")
       if (::check_obj(obj))
       {
@@ -886,16 +886,16 @@ const AFTERBURNER_CHAMBER = 3
       case "ammunition_storage_shells":
       case "ammunition_storage_charges":
       case "ammunition_storage_aux":
-        local isShip = unit.isShip()
-        if (isShip)
+        local isShipOrBoat = unit.isShipOrBoat()
+        if (isShipOrBoat)
         {
           local ammoQuantity = getAmmoQuantityByPartName(partName)
           if (ammoQuantity > 1)
             desc.append(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
         }
-        local stowageInfo = getAmmoStowageInfo(null, partName, isShip)
+        local stowageInfo = getAmmoStowageInfo(null, partName, isShipOrBoat)
         if (stowageInfo.isCharges)
-          params.partLocId <- isShip ? "ship_charges_storage" : "ammo_charges"
+          params.partLocId <- isShipOrBoat ? "ship_charges_storage" : "ammo_charges"
         if (stowageInfo.firstStageCount)
         {
           local txt = ::loc("xray/ammo/first_stage")
@@ -1276,7 +1276,7 @@ const AFTERBURNER_CHAMBER = 3
       desc.append(::loc(g.label) + " " + anglesText)
     }
 
-    if (needSingleAxis || status.isPrimary || (unit?.isShip() && status.isSecondary))
+    if (needSingleAxis || status.isPrimary || (unit?.isShipOrBoat() && status.isSecondary))
     {
       local unitModificators = unit?.modificators?[difficulty.crewSkillName]
       foreach (a in [

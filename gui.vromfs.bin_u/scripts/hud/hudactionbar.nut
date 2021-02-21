@@ -127,7 +127,7 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
     viewItem.id                 <- __action_id_prefix + item.id
     viewItem.selected           <- item.selected ? "yes" : "no"
     viewItem.active             <- item.active ? "yes" : "no"
-    viewItem.enabled            <- isReady ? "yes" : "no"
+    viewItem.enable             <- isReady ? "yes" : "no"
     viewItem.wheelmenuEnabled   <- isReady || actionBarType.canSwitchAutomaticMode()
     viewItem.shortcutText       <- shortcutText
     viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_TEXT_LEN
@@ -207,6 +207,7 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
     {
       foreach (id, item in actionItems)
         if (item.id != prewActionItems[id].id
+          || (item?.isStreakEx && item.count < 0 && prewActionItems[id].count >= 0)
           || ((item.type == ::EII_BULLET || item.type == ::EII_FORCED_GUN)
             && item?.modificationName != prewActionItems[id]?.modificationName))
         {
@@ -222,7 +223,7 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
       return
     }
 
-    local ship = getActionBarUnit()?.isShip()
+    local ship = getActionBarUnit()?.isShipOrBoat()
     foreach(item in actionItems)
     {
       local itemObj = scene.findObject(__action_id_prefix + item.id)
@@ -286,10 +287,7 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
     if (count < 0)
       return ""
 
-    local countExText = countEx < 0 ? "" : countEx.tostring()
-//
-
-
+    local countExText = modData?.isStreakEx ? ::loc("icon/nuclear_bomb") : (countEx < 0 ? "" : countEx.tostring())
     local text = count.tostring() + (countExText.len() ? "/" + countExText : "")
     if (text.len() > LONG_ACTIONBAR_TEXT_LEN && !isFull)
       text = count.tostring() + (countExText.len() ? "/" + ::loc("weapon/bigAmountNumberIcon") : "")

@@ -47,6 +47,12 @@ local checkTutorialsList = [ //idx in this array used for local profile option s
     canSkipByFeature = "AllowedToSkipBaseTutorials"
     requiresFeature = "Ships"
   }
+  {
+    id = "ship"
+    tutorial = "tutorial_destroyer_basics_arcade"
+    canSkipByFeature = "AllowedToSkipBaseTutorials"
+    requiresFeature = "Ships"
+  }
 ]
 
 local reqTutorial = {
@@ -156,9 +162,12 @@ local function getSuitableUncompletedTutorialData(unit, diff = -1) {
   if (unit?.isTank() && ::has_feature("Tanks")
     && tutorialsTbl?.tutorial_tank_basics_arcade.mission != null)
       tutorialData = tutorialsTbl.tutorial_tank_basics_arcade
-  else if (unit?.isShip() && ::has_feature("Ships")
+  else if (unit?.isBoat() && ::has_feature("Ships")
     && tutorialsTbl?.tutorial_boat_basic_arcade.mission != null)
       tutorialData = tutorialsTbl.tutorial_boat_basic_arcade
+  else if (unit?.isShip() && ::has_feature("Ships")
+    && tutorialsTbl?.tutorial_destroyer_basics_arcade.mission != null)
+      tutorialData = tutorialsTbl.tutorial_destroyer_basics_arcade
 
   if (tutorialData == null)
     foreach (tutorial in checkTutorialsList) {

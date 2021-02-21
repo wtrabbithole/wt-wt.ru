@@ -153,6 +153,20 @@ local cfg = {
     ]
   },
 
+  ["root_boat"] = {
+    title = "hotkeys/ID_SHOW_MULTIFUNC_WHEEL_MENU"
+    items = [
+      { section = "radar" }
+      { section = "gunners_ship" }
+      null
+      { section = "weapons_ship" }
+      null
+      null
+      null
+      voiceMessagesMenuFunc
+    ]
+  },
+
   ["radar"] = {
     title = "radar"
     enable = ::memoize(function(unitId) {

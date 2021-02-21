@@ -3298,6 +3298,18 @@
         },
         "torpedo_04_dm": {
           "hp": 252.0
+        },
+        "torpedo_05_dm": {
+          "hp": 252.0
+        },
+        "torpedo_06_dm": {
+          "hp": 252.0
+        },
+        "torpedo_07_dm": {
+          "hp": 252.0
+        },
+        "torpedo_08_dm": {
+          "hp": 252.0
         }
       },
       "elevators": {
@@ -8253,6 +8265,22 @@
               "count": 1
             }
           }
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_05_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_06_dm": {
+              "count": 1
+            }
+          }
         }
       ],
       "ammo8": [
@@ -8260,7 +8288,13 @@
           "weaponTrigger": "gunner22"
         },
         {
-          "fatalFire": false
+          "replenishmentDelay": 6.0
+        },
+        {
+          "replenishmentTime": 10.0
+        },
+        {
+          "removeLoadedAmmo": false
         },
         {
           "fatalExplosion": false
@@ -8282,6 +8316,7 @@
         },
         {
           "shells": {
+            "autoLoad": true,
             "damageEffect": "ammunition_torpedoes",
             "torpedo_03_dm": {
               "count": 1
@@ -8290,8 +8325,25 @@
         },
         {
           "shells": {
+            "autoLoad": true,
             "damageEffect": "ammunition_torpedoes",
             "torpedo_04_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_07_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_08_dm": {
               "count": 1
             }
           }

@@ -427,12 +427,6 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::update_gamercards()
   }
 
-  function onUnitHover(obj)
-  {
-    if (!::show_console_buttons)
-      openUnitActionsList(obj, true)
-  }
-
   function onUpdateItemsDef()
   {
     if (logs)

@@ -293,7 +293,9 @@ class gui_bhv.posNavigator
         obj.sendNotify("r_click")
       return ::RETCODE_PROCESSED
     }
-    return onLMouse(obj, mx, my, is_up, bits);
+    if (findClickedObj(obj, mx, my)?.idx == getValue(obj))
+      return ::RETCODE_PROCESSED
+    return selectItemByClick(obj, mx, my)
   }
 
   function onShortcutLeft(obj, is_down)
@@ -343,7 +345,7 @@ class gui_bhv.posNavigator
   function moveSelect(obj, axis, dir)
   {
     local byHover = isShortcutsByHover(obj)
-    local valueObj = byHover ? getHoveredChild(obj).hoveredObj : getChildObj(obj, getSelectedValue(obj))
+    local valueObj = (byHover ? getHoveredChild(obj).hoveredObj : null) ?? getChildObj(obj, getSelectedValue(obj))
     if (!valueObj)
     {
       local { foundObj, foundIdx } = getClosestItem(obj, byHover ? ::get_dagui_mouse_cursor_pos_RC() : obj.getPos())

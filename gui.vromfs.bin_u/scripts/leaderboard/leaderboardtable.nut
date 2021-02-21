@@ -56,7 +56,7 @@ class ::gui_handlers.LeaderboardTable extends ::gui_handlers.BaseGuiHandlerWT
       local headerRow = [
         { text = "#multiplayer/place", width = "0.1@sf" },
         { text = isClanLb ? "#clan/clan_name" : "#multiplayer/name",
-          tdAlign = "center", width = isClanLb ? 0 : "0.12@sf" }
+          tdalign = "center", width = isClanLb ? 0 : "0.12@sf" }
       ]
       foreach(category in lbPresets)
       {
@@ -115,7 +115,7 @@ class ::gui_handlers.LeaderboardTable extends ::gui_handlers.BaseGuiHandlerWT
       }
       {
         id = "name"
-        tdAlign = "left"
+        tdalign = "left"
         text = needAddClanTag
           ? ::g_contacts.getPlayerFullName(playerName, clanTag)
           : playerName
@@ -168,7 +168,7 @@ class ::gui_handlers.LeaderboardTable extends ::gui_handlers.BaseGuiHandlerWT
       },
       {
         id = "name"
-        tdAlign = "left"
+        tdalign = "left"
         text = needAddClanTag
           ? ::g_contacts.getPlayerFullName(playerName, clanTag)
           : playerName

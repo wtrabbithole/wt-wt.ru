@@ -402,6 +402,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function doLoginWaitJob()
   {
+    if (!isLoginEditsFilled())
+      return
+
     ::disable_autorelogin_once <- false
     local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
     local result = requestLogin(no_dump_login)
@@ -635,6 +638,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     obj.warning = res? "yes" : "no"
     obj.warningText = res? "yes" : "no"
     obj.tooltip = res? ::loc("tooltip/invalidEmail/possibly") : ""
+    setLoginBtnState()
   }
 
   function onDoneEnter()
@@ -655,6 +659,18 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         ["yes", exitGame],
         ["no", @() null]
       ], "no", { cancel_fn = @() null})
+  }
+
+  isLoginEditsFilled = @() ::get_object_value(scene, "loginbox_username", "") != ""
+    && ::get_object_value(scene, "loginbox_password", "") != ""
+
+  function setLoginBtnState ()
+  {
+    local loginBtnObj = scene.findObject("login_action_button")
+    if (!::check_obj(loginBtnObj))
+      return false
+
+    loginBtnObj.enable = isLoginEditsFilled() ? "yes" : "no"
   }
 
   function goBack()

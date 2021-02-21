@@ -27,8 +27,7 @@ shopItem {
   isInTable:t='no'
   <</isInTable>>
 
-  <<^hasHoverMenu>>refuseOpenHoverMenu:t='yes'<</hasHoverMenu>>
-  <<#hasHoverMenu>>on_hover:t='onUnitHover'<</hasHoverMenu>>
+  <<#refuseOpenHoverMenu>>refuseOpenHoverMenu:t='yes'<</refuseOpenHoverMenu>>
 
   <<@extraInfoBlock>>
 

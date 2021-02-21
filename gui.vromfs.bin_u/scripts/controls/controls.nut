@@ -18,6 +18,7 @@ local backToMainScene = require("scripts/mainmenu/backToMainScene.nut")
 local { checkTutorialsList } = require("scripts/tutorials/tutorialsData.nut")
 local { blkOptFromPath, blkFromPath } = require("sqStdLibs/helpers/datablockUtils.nut")
 local vehicleModel = require("vehicleModel")
+local { saveProfile } = require("scripts/clientState/saveProfile.nut")
 
 local PS4_CONTROLS_MODE_ACTIVATE = "ps4ControlsAdvancedModeActivated"
 
@@ -134,7 +135,7 @@ local shortcutsNotChangeByPreset = [
   if (updateHelpersMode)
     ::switch_helpers_mode_and_option(preset)
 
-  ::save_profile_offline_limited()
+  saveProfile()
 }
 
 local axisMappedOnMouse = {
@@ -432,11 +433,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
     showSceneBtn("btn_switchMode", isPlatformSony || isPlatformXboxOne || ::is_platform_shield_tv())
     showSceneBtn("btn_backupManager", ::gui_handlers.ControlsBackupManager.isAvailable())
-    local showWizard = !::is_platform_xbox
-      || (controllerState?.is_keyboard_connected() ?? false)
-      || (controllerState?.is_mouse_connected() ?? false)
-    showSceneBtn("btn_controlsWizard", showWizard)
-    showSceneBtn("btn_controlsDefault", !showWizard)
+    showSceneBtn("btn_controlsWizard", true)
     showSceneBtn("btn_clearAll", !isTutorial)
     showSceneBtn("btn_controlsHelp", ::has_feature("ControlsHelp"))
   }
@@ -1284,15 +1281,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       return
 
     ::set_controls_preset("");
-    local axis = curJoyParams.getAxis(axisMode)
-    axis.inverse = false
-    axis.innerDeadzone = 0
-    axis.nonlinearity = 0
-    axis.kAdd = 0
-    axis.kMul = 1.0
-    axis.relSens = 1.0
-    axis.relStep = 0
-    axis.relative = ::getTblValue("def_relative", item, false)
+    curJoyParams.resetAxis(axisMode)
 
     if (item)
       foreach(name, idx in item.modifiersId)
@@ -2094,15 +2083,15 @@ local mkTextShortcutRow = ::kwarg(@(scId, id, trAdd, trName, shortcutText = "")
 ::getLocalizedControlName <- function getLocalizedControlName(preset, deviceId, buttonId)
 {
   local text = preset.getButtonName(deviceId, buttonId)
-  local locText = ::loc("key/" + text, "")
-  if (locText != "")
-    return locText
-
   if (deviceId != ::STD_KEYBOARD_DEVICE_ID) {
-    locText = getLocaliazedPS4controlName(text)
+    local locText = getLocaliazedPS4controlName(text)
     if (locText != "")
       return locText
   }
+
+  local locText = ::loc("key/" + text, "")
+  if (locText != "")
+    return locText
 
   return ::getSeparatedControlLocId(text)
 }
@@ -2122,7 +2111,11 @@ local mkTextShortcutRow = ::kwarg(@(scId, id, trAdd, trName, shortcutText = "")
     return ::loc("composite/axis")+text.slice("Axis".len());
   }
 
-  local locText = ::loc("joystick/" + text, "")
+  local locText = getLocaliazedPS4controlName(text)
+  if (locText != "")
+    return locText
+
+  locText = ::loc("joystick/" + text, "")
   if (locText != "")
     return locText
 
@@ -2130,9 +2123,6 @@ local mkTextShortcutRow = ::kwarg(@(scId, id, trAdd, trName, shortcutText = "")
   if (locText != "")
     return locText
 
-  locText = ::getLocaliazedPS4controlName(text)
-  if (locText != "")
-    return locText
   return text
 }
 
@@ -2450,7 +2440,7 @@ local function getWeaponFeatures(weaponsBlkList)
     }
 
     if (vehicleModel.hasEngineVtolControl())
-      controls.append("vtol", "climb", "ID_CONTROL_MODE")
+      controls.append("vtol")
 
     if (unitBlk?.parachutes)
       controls.append("ID_CHUTE")

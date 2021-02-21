@@ -1076,8 +1076,8 @@ g_squad_manager.requestMemberDataCallback <- function requestMemberDataCallback(
   ::g_squad_manager.joinSquadChatRoom()
 
   ::broadcastEvent(squadEvent.DATA_UPDATED)
-  if (::g_squad_manager.isSquadLeader() && isMemberDataVehicleChanged)
-    battleRating.updateBattleRating()
+  if (isMemberDataVehicleChanged)
+    ::broadcastEvent("SquadMemberVehiclesChanged")
 
   local memberSquadsVersion = receivedMemberData?.squadsVersion ?? DEFAULT_SQUADS_VERSION
   ::g_squad_utils.checkSquadsVersion(memberSquadsVersion)
@@ -1102,7 +1102,7 @@ g_squad_manager.setMemberOnlineStatus <- function setMemberOnlineStatus(uid, isO
 
   ::updateContact(memberData.getData())
   ::broadcastEvent(squadEvent.DATA_UPDATED)
-  battleRating.updateBattleRating()
+  ::broadcastEvent("SquadOnlineChanged")
 }
 
 g_squad_manager.getMemberData <- function getMemberData(uid)
@@ -1183,7 +1183,6 @@ g_squad_manager.reset <- function reset()
     setReadyFlag(false, false)
 
   ::update_contacts_by_list(contactsUpdatedList)
-  battleRating.updateBattleRating()
 
   setState(squadState.NOT_IN_SQUAD)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
@@ -1412,6 +1411,7 @@ g_squad_manager.onSquadDataChanged <- function onSquadDataChanged(data = null)
     if (isSquadLeader()) {
       updatePresenceSquad()
       updateSquadData()
+      setLeaderData(true)
     }
     if (getPresence().isInBattle)
       ::g_popups.add(::loc("squad/name"), ::loc("squad/wait_until_battle_end"))
@@ -1790,8 +1790,8 @@ g_squad_manager.setLeaderData <- function setLeaderData(isActualBR = true)
     return
 
   local data = clone squadData
-  data.leaderBattleRating = isActualBR ? battleRating.getBR() : 0
-  data.leaderGameModeId = isActualBR ? battleRating.getRecentGameModeId() : currentGameModeId
+  data.leaderBattleRating = isActualBR ? battleRating.recentBR.value : 0
+  data.leaderGameModeId = isActualBR ? battleRating.recentBrGameModeId.value : currentGameModeId
   setSquadData(data)
 }
 

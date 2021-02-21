@@ -63,4 +63,8 @@ class ::items_classes.InternalItem extends ItemCouponBase
   }
 
   showAsContentItem = @() itemDef?.tags?.showAsContentItem ?? false
+
+  getShortDescription = @(colored = true) showAsContentItem()
+    ? getContentItem()?.getShortDescription(colored) ?? base.getShortDescription(colored)
+    : base.getShortDescription(colored)
 }

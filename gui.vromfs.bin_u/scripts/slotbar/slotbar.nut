@@ -8,6 +8,7 @@ local { getUnitRole,
 local { getLastWeapon,
         checkUnitWeapons,
         getWeaponsStatusName } = require("scripts/weaponry/weaponryInfo.nut")
+local { getUnitLastBullets } = require("scripts/weaponry/bulletsInfo.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { getUnitShopPriceText } = require("scripts/shop/unitCardPkg.nut")
 local { batchTrainCrew } = require("scripts/crew/crewActions.nut")
@@ -243,7 +244,7 @@ if need - put commented in array above
       tooltipId           = ::g_tooltip.getIdUnit(air.name, params?.tooltipParams)
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
       extraInfoBlock      = ::handyman.renderCached("gui/slotbar/slotExtraInfoBlock", extraInfoView)
-      hasHoverMenu        = hasActions
+      refuseOpenHoverMenu = !hasActions
     })
     local missionRules = params?.missionRules
     local groupName = missionRules ? missionRules.getRandomUnitsGroupName(air.name) : null
@@ -713,7 +714,7 @@ if need - put commented in array above
           sessionWpBalance, wpToRespawn, true, false))
       }
 
-      local reqUnitSpawnScore = ::shop_get_spawn_score(unit.name, getLastWeapon(unit.name))
+      local reqUnitSpawnScore = ::shop_get_spawn_score(unit.name, getLastWeapon(unit.name), getUnitLastBullets(unit))
       local totalSpawnScore = ::getTblValue("totalSpawnScore", params, -1)
       if (reqUnitSpawnScore > 0 && totalSpawnScore > -1)
       {

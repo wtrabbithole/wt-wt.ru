@@ -1,6 +1,7 @@
 local { clearBorderSymbols } = require("std/string.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { batchTrainCrew } = require("scripts/crew/crewActions.nut")
+local { forceSaveProfile } = require("scripts/clientState/saveProfile.nut")
 
 const PRESETS_VERSION = 1
 const PRESETS_VERSION_SAVE_ID = "presetsVersion"
@@ -358,7 +359,7 @@ const PRESETS_VERSION_SAVE_ID = "presetsVersion"
     }
 
     if (hasChanges)
-      ::save_profile_offline_limited(true)
+      forceSaveProfile()
   }
 
   function save(countryId = null, shouldSaveProfile = true)
@@ -406,7 +407,7 @@ const PRESETS_VERSION_SAVE_ID = "presetsVersion"
     if (::u.isEqual(blk, cfgBlk))
       return false
 
-    ::saveLocalByAccount("slotbar_presets/" + countryId, blk, true, shouldSaveProfile)
+    ::saveLocalByAccount("slotbar_presets/" + countryId, blk, shouldSaveProfile ? forceSaveProfile : @() null)
     return true
   }
 

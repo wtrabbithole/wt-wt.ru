@@ -90,6 +90,163 @@ return [
   }
 //-------------------------------------------------------
   {
+    id = "ID_PLANE_AXES_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+  {
+    id = "mouse_z"
+    type = CONTROL_TYPE.MOUSE_AXIS
+    axis_num = MouseAxis.MOUSE_SCROLL
+    values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
+    onChangeValue = "onMouseWheel"
+    showFunc = @() ::has_feature("EnableMouse")
+  }
+  {
+    id = "mouse_z_mult"
+    type = CONTROL_TYPE.SLIDER
+    value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_MULT)
+    setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_MULT, objValue / 100.0)
+    showFunc = @() ::has_feature("EnableMouse")
+  }
+  {
+    id = "throttle"
+    type = CONTROL_TYPE.AXIS
+    needShowInHelp = true
+  }
+  {
+    id = "holdThrottleForWEP"
+    type = CONTROL_TYPE.SWITCH_BOX
+    value = @(joyParams) joyParams.holdThrottleForWEP
+    setValue = function(joyParams, objValue)
+    {
+      local old  = joyParams.holdThrottleForWEP
+      joyParams.holdThrottleForWEP = objValue
+      if (objValue != old)
+        ::set_controls_preset("")
+    }
+  }
+  {
+    id = "ailerons"
+    type = CONTROL_TYPE.AXIS
+    reqInMouseAim = false
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    needShowInHelp = true
+  }
+  {
+    id = "elevator"
+    type = CONTROL_TYPE.AXIS
+    reqInMouseAim = false
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    needShowInHelp = true
+  }
+  {
+    id = "rudder"
+    type = CONTROL_TYPE.AXIS
+    reqInMouseAim = false
+    needShowInHelp = true
+  }
+  {
+    id = "roll_sens"
+    type = CONTROL_TYPE.SLIDER
+    filterHide = [globalEnv.EM_MOUSE_AIM]
+    optionType = ::USEROPT_AILERONS_MULTIPLIER
+  }
+  {
+    id = "pitch_sens"
+    type = CONTROL_TYPE.SLIDER
+    filterHide = [globalEnv.EM_MOUSE_AIM]
+    optionType = ::USEROPT_ELEVATOR_MULTIPLIER
+  }
+  {
+    id = "yaw_sens"
+    type = CONTROL_TYPE.SLIDER
+    filterHide = [globalEnv.EM_MOUSE_AIM]
+    optionType = ::USEROPT_RUDDER_MULTIPLIER
+  }
+  {
+    id = "vtol"
+    type = CONTROL_TYPE.AXIS
+    checkAssign = false
+  }
+  {
+    id = "climb"
+    type = CONTROL_TYPE.AXIS
+    checkAssign = false
+  }
+  {
+    id = "invert_y"
+    type = CONTROL_TYPE.SWITCH_BOX
+    optionType = ::USEROPT_INVERTY
+    onChangeValue = "doControlsGroupChangeDelayed"
+  }
+  {
+    id = "invert_x"
+    type = CONTROL_TYPE.SWITCH_BOX
+    filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
+    optionType = ::USEROPT_INVERTX
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_INVERTY, true)
+  }
+  {
+    id = "joyFX"
+    type = CONTROL_TYPE.SWITCH_BOX
+    optionType = ::USEROPT_JOYFX
+    showFunc = @() ::is_platform_pc
+  }
+  {
+    id = "multiplier_force_gain"
+    type = CONTROL_TYPE.SLIDER
+    filterHide = [globalEnv.EM_MOUSE_AIM]
+    optionType = ::USEROPT_FORCE_GAIN
+  }
+//-------------------------------------------------------
+  {
+    id = "ID_PLANE_MECHANIZATION_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+  {
+    id = "ID_IGNITE_BOOSTERS"
+    reqInMouseAim = false
+    checkAssign = false
+  }
+  {
+    id = "ID_FLAPS"
+    reqInMouseAim = false
+    alternativeIds = [ "ID_FLAPS_DOWN", "ID_FLAPS_UP" ]
+  }
+  {
+    id = "ID_FLAPS_DOWN"
+    reqInMouseAim = false
+  }
+  {
+    id = "ID_FLAPS_UP"
+    reqInMouseAim = false
+  }
+  {
+    id = "ID_AIR_BRAKE"
+    reqInMouseAim = false
+  }
+  {
+    id = "ID_GEAR"
+    needShowInHelp = true
+  }
+  {
+    id = "brake_left"
+    type = CONTROL_TYPE.AXIS
+    checkAssign = false
+    filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
+  }
+  {
+    id = "brake_right"
+    type = CONTROL_TYPE.AXIS
+    checkAssign = false
+    filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
+  }
+  {
+    id = "ID_CHUTE"
+    checkAssign = false
+  }
+//-------------------------------------------------------
+  {
     id = "ID_PLANE_FIRE_HEADER"
     type = CONTROL_TYPE.SECTION
   }
@@ -275,164 +432,6 @@ return [
     checkAssign = false
     needShowInHelp = true
     showFunc = @() ::has_feature("PointOfInterestDesignator")
-  }
-//-------------------------------------------------------
-  {
-    id = "ID_PLANE_AXES_HEADER"
-    type = CONTROL_TYPE.SECTION
-  }
-  {
-    id = "mouse_z"
-    type = CONTROL_TYPE.MOUSE_AXIS
-    axis_num = MouseAxis.MOUSE_SCROLL
-    values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
-    onChangeValue = "onMouseWheel"
-    showFunc = @() ::has_feature("EnableMouse")
-  }
-  {
-    id = "mouse_z_mult"
-    type = CONTROL_TYPE.SLIDER
-    value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_MULT)
-    setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_MULT, objValue / 100.0)
-    showFunc = @() ::has_feature("EnableMouse")
-  }
-  {
-    id = "throttle"
-    type = CONTROL_TYPE.AXIS
-    def_relative = true
-    needShowInHelp = true
-  }
-  {
-    id = "holdThrottleForWEP"
-    type = CONTROL_TYPE.SWITCH_BOX
-    value = @(joyParams) joyParams.holdThrottleForWEP
-    setValue = function(joyParams, objValue)
-    {
-      local old  = joyParams.holdThrottleForWEP
-      joyParams.holdThrottleForWEP = objValue
-      if (objValue != old)
-        ::set_controls_preset("")
-    }
-  }
-  {
-    id = "vtol"
-    type = CONTROL_TYPE.AXIS
-    def_relative = true
-  }
-  {
-    id = "climb"
-    type = CONTROL_TYPE.AXIS
-    def_relative = true
-  }
-  {
-    id = "ailerons"
-    type = CONTROL_TYPE.AXIS
-    reqInMouseAim = false
-    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
-    needShowInHelp = true
-  }
-  {
-    id = "elevator"
-    type = CONTROL_TYPE.AXIS
-    reqInMouseAim = false
-    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
-    needShowInHelp = true
-  }
-  {
-    id = "rudder"
-    type = CONTROL_TYPE.AXIS
-    reqInMouseAim = false
-    needShowInHelp = true
-  }
-  {
-    id = "roll_sens"
-    type = CONTROL_TYPE.SLIDER
-    filterHide = [globalEnv.EM_MOUSE_AIM]
-    optionType = ::USEROPT_AILERONS_MULTIPLIER
-  }
-  {
-    id = "pitch_sens"
-    type = CONTROL_TYPE.SLIDER
-    filterHide = [globalEnv.EM_MOUSE_AIM]
-    optionType = ::USEROPT_ELEVATOR_MULTIPLIER
-  }
-  {
-    id = "yaw_sens"
-    type = CONTROL_TYPE.SLIDER
-    filterHide = [globalEnv.EM_MOUSE_AIM]
-    optionType = ::USEROPT_RUDDER_MULTIPLIER
-  }
-  {
-    id = "invert_y"
-    type = CONTROL_TYPE.SWITCH_BOX
-    optionType = ::USEROPT_INVERTY
-    onChangeValue = "doControlsGroupChangeDelayed"
-  }
-  {
-    id = "invert_x"
-    type = CONTROL_TYPE.SWITCH_BOX
-    filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
-    optionType = ::USEROPT_INVERTX
-    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_INVERTY, true)
-  }
-  {
-    id = "joyFX"
-    type = CONTROL_TYPE.SWITCH_BOX
-    optionType = ::USEROPT_JOYFX
-    showFunc = @() ::is_platform_pc
-  }
-  {
-    id = "multiplier_force_gain"
-    type = CONTROL_TYPE.SLIDER
-    filterHide = [globalEnv.EM_MOUSE_AIM]
-    optionType = ::USEROPT_FORCE_GAIN
-  }
-//-------------------------------------------------------
-  {
-    id = "ID_PLANE_MECHANIZATION_HEADER"
-    type = CONTROL_TYPE.SECTION
-  }
-  {
-    id = "ID_IGNITE_BOOSTERS"
-    reqInMouseAim = false
-    checkAssign = false
-  }
-  {
-    id = "ID_FLAPS"
-    reqInMouseAim = false
-    alternativeIds = [ "ID_FLAPS_DOWN", "ID_FLAPS_UP" ]
-  }
-  {
-    id = "ID_FLAPS_DOWN"
-    reqInMouseAim = false
-  }
-  {
-    id = "ID_FLAPS_UP"
-    reqInMouseAim = false
-  }
-  {
-    id = "ID_AIR_BRAKE"
-    reqInMouseAim = false
-  }
-  {
-    id = "ID_GEAR"
-    needShowInHelp = true
-  }
-  {
-    id = "brake_left"
-    type = CONTROL_TYPE.AXIS
-    checkAssign = false
-    filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
-  }
-  {
-    id = "brake_right"
-    type = CONTROL_TYPE.AXIS
-    checkAssign = false
-    filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
-  }
-  {
-    id = "ID_CHUTE"
-    checkAssign = false
   }
 //-------------------------------------------------------
   {
@@ -902,7 +901,6 @@ return [
   }
   {
     id = "ID_TOGGLE_EXTINGUISHER"
-    filterShow = [globalEnv.EM_FULL_REAL]
     showFunc = @() ::has_feature("AircraftExtinguisher")
     checkAssign = false
   }

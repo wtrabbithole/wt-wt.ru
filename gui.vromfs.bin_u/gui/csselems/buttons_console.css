@@ -59,7 +59,7 @@
 @const bigButtonWidth: 0.25*@sf\1;
 @const buttonHeight: @cIco + 2@buttonImgPadding;
 @const battleButtonHeight: 20*@sf/@pf_outdated + 3*@scrn_tgt/100.0;
-@const bigButtonHeight: 1@frameHeaderHeight - 1@frameHeaderPad;
+@const bigButtonHeight: 1@frameHeaderHeight - 2@frameHeaderPad;
 @const smallButtonHeight: 1@sIco + 2@smallButtonImgPadding;
 @const headerButtonHeight: 1@dIco + 2@buttonImgPadding;
 
@@ -887,6 +887,7 @@ Button_close:hover {
   background-repeat: expand;
   behavior:focusFrameTarget;
   focusImageSource:background;
+  focusAnimColor:@gamepadFocusFrameColor;
 }
 
 Button_close:pushed {
@@ -1471,7 +1472,7 @@ rightClickMenu > Button_text:focus > ButtonImg[pc_style=no],
 [show_console_buttons=yes] button[showConsoleImg=yes][btnName] > ButtonImg,
 [show_console_buttons=yes] [selected=yes] ButtonImg[showOnSelect=yes],
 [show_console_buttons=yes] battlePassStage:hover ButtonImg[showOnSelect=hover],
-[show_console_buttons=yes] :hover > [selected=yes] ButtonImg[showOnSelect=hover] {
+[show_console_buttons=yes] [selected=yes]:hover ButtonImg[showOnSelect=hover] {
   display:show;
 }
 

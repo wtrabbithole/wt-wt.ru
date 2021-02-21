@@ -10,7 +10,8 @@ local { getLastWeapon,
         setLastWeapon,
         isWeaponEnabled,
         isWeaponVisible } = require("scripts/weaponry/weaponryInfo.nut")
-local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
+local { getModificationName,
+        getUnitLastBullets } = require("scripts/weaponry/bulletsInfo.nut")
 local { AMMO,
         getAmmoAmount,
         getAmmoMaxAmountInSession,
@@ -18,6 +19,7 @@ local { AMMO,
 local { getModificationByName } = require("scripts/weaponry/modificationInfo.nut")
 local { setColoredDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 local { hasFlares , bombNbr } = require("scripts/unit/unitStatus.nut")
+local { checkInRoomMembers } = require("scripts/contacts/updateContactsStatus.nut")
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -259,6 +261,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     updateControlsAllowMask()
     updateVoiceChatWidget(!isRespawn)
+    checkInRoomMembers()
   }
 
   function isModeWithFriendlyUnits(gt = null)
@@ -432,7 +435,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     foreach(idx, crew in ::get_crews_list_by_country(::get_local_player_country()))
     {
       local unit = ::g_crew.getCrewUnit(crew)
-      if (unit && ::shop_get_spawn_score(unit.name, "") >= curSpawnScore)
+      if (unit && ::shop_get_spawn_score(unit.name, "", []) >= curSpawnScore)
         res = res | (1 << idx)
     }
     return res
@@ -750,7 +753,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     {
       local unit = ::g_crew.getCrewUnit(crew)
       if (unit)
-        res += ::shop_get_spawn_score(unit.name, "")
+        res += ::shop_get_spawn_score(unit.name, "", [])
     }
     return res
   }
@@ -1143,7 +1146,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local torpedoDepthObj = scene.findObject("torpedo_dive_depth")
     if (::checkObj(torpedoDepthObj))
     {
-      local ship = air.isShip()
+      local ship = air.isShipOrBoat()
       torpedoDepthObj.show(ship)
       if (ship)
       {
@@ -1385,6 +1388,14 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     return null
   }
 
+  function getSelBulletsList()
+  {
+    local unit = getCurSlotUnit()
+    if (unit)
+      return getUnitLastBullets(unit)
+    return null
+  }
+
   function getSelSkin()
   {
     local skinObj = scene.findObject("skin")
@@ -1542,7 +1553,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     if (missionRules.isScoreRespawnEnabled && isRespawn &&
-      (curSpawnScore < ::shop_get_spawn_score(unit.name, getSelWeapon() || "")))
+      (curSpawnScore < ::shop_get_spawn_score(unit.name, getSelWeapon() ?? "", getSelBulletsList() ?? [])))
         return { text = ::loc("multiplayer/noSpawnScore"), id = "not_enought_score" }
 
     if (missionRules.isSpawnDelayEnabled && isRespawn)
@@ -1682,7 +1693,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
         if (missionRules.isScoreRespawnEnabled && unit)
         {
-          local curScore = ::shop_get_spawn_score(unit.name, getSelWeapon() || "")
+          local curScore = ::shop_get_spawn_score(unit.name, getSelWeapon() ?? "", getSelBulletsList() ?? [])
           isAvailResp = isAvailResp && (curScore <= curSpawnScore)
           if (curScore > 0)
             costTextArr.append(::loc("shop/spawnScore", { cost = curScore }))
@@ -2500,6 +2511,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function onEventBulletsGroupsChanged(p)
   {
+    local crew = getCurCrew()
+    if (missionRules.hasRespawnCost)
+      updateCrewSlot(crew)
+
     checkReady()
   }
 

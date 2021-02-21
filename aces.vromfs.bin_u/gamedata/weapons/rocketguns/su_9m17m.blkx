@@ -77,8 +77,6 @@
     "speedViscosity": 0.2,
     "timeToLive": 20.0,
     "lifeTime": 30.0,
-    "spinOffset": 0.4,
-    "spinFreq": 1.3,
     "advancedMissiles": false,
     "autoaimEnabled": false,
     "aiGroundOnly": false,
@@ -92,6 +90,8 @@
     "aiAccelPrediction": 0.5,
     "amountPerTier": 1.0,
     "iconType": "rockets_small",
+    "hasTracerTrail": true,
+    "tracerTrailEmitter": [0.1,-0.01,0.0],
     "stabilityRicochetModifier": [
       {
         "mod1": [0.0,0.0]
@@ -232,10 +232,11 @@
       "onHitChanceMultFire": 15.0
     },
     "tracerTrail": {
+      "smokeEffect": "",
       "visual": {
         "traceFreq": 1,
-        "tracer": "100mmBlue",
-        "trail": "black"
+        "tracer": "100mmRed",
+        "trail": "noTrail"
       }
     }
   }

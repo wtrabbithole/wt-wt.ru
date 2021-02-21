@@ -1507,6 +1507,15 @@ local function getFakeBulletsModByName(unit, modName)
   return null
 }
 
+local function getUnitLastBullets(unit)
+{
+  local bulletsItemsList = []
+  for (local groupIndex = 0; groupIndex < getLastFakeBulletsIndex(unit); groupIndex++) {
+    bulletsItemsList.append(::get_last_bullets(unit.name, groupIndex))
+  }
+  return bulletsItemsList
+}
+
 return {
   BULLET_TYPE                           = BULLET_TYPE
   getModificationBulletsGroup           = getModificationBulletsGroup
@@ -1536,4 +1545,5 @@ return {
   buildPiercingData                     = buildPiercingData
   getBulletsIconView                    = getBulletsIconView
   getFakeBulletsModByName               = getFakeBulletsModByName
+  getUnitLastBullets
 }

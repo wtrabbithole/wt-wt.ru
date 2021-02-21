@@ -754,7 +754,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (curRoomId == "") {
-      collapseChapter(curChapterId)
+      collapse(curChapterId)
       updateButtons()
     } else
       joinEvent()

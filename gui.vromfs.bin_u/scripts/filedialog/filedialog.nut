@@ -117,7 +117,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     name = {
       getView = function(value) {
         local view = defaultColumn.getView(value)
-        view.tdAlign <- "right"
+        view.tdalign <- "right"
         return view
       }
     }
@@ -245,7 +245,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         return {
           text = text
           tooltip = tooltip
-          tdAlign = "right"
+          tdalign = "right"
           width = width
         }
       }

@@ -108,6 +108,9 @@
     "destroysTrees": true
   },
   {
+    "AdvancedMass": true
+  },
+  {
     "type": "typeMediumTank"
   },
   {
@@ -2083,7 +2086,12 @@
             "head": "bone_turret",
             "gun": "bone_gun",
             "barrel": "bone_gun_barrel",
-            "gunnerDm": "gunner_dm"
+            "gunnerDm": "gunner_dm",
+            "linkedAnimPart": {
+              "verNode": "bone_mount_countermeasure",
+              "verLimits": [-4.3,14.3],
+              "verOriginLimits": [-4.3,14.3]
+            }
           },
           "limits": {
             "yaw": [-180.0,180.0],
@@ -2958,7 +2966,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
-      "laser_rangefinder_lws": [],
+      "laser_rangefinder_ircm_lws_t_90a": [],
       "125mm_ussr_HE_VT": [],
       "125mm_ussr_APDS_FS": [],
       "125mm_ussr_ATGM": {
@@ -3016,7 +3024,12 @@
                   "head": "bone_turret",
                   "gun": "bone_gun",
                   "barrel": "bone_gun_barrel",
-                  "gunnerDm": "gunner_dm"
+                  "gunnerDm": "gunner_dm",
+                  "linkedAnimPart": {
+                    "verNode": "bone_mount_countermeasure",
+                    "verLimits": [-4.3,14.3],
+                    "verOriginLimits": [-4.3,14.3]
+                  }
                 },
                 "limits": {
                   "yaw": [-180.0,180.0],

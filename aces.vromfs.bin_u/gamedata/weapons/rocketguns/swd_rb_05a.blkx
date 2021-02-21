@@ -24,7 +24,7 @@
     "explosiveType": "rdx",
     "explosiveMass": 48.0,
     "massEnd": 180.0,
-    "maxDeltaAngle": 25.5,
+    "maxDeltaAngle": 2.55,
     "dragCx": 0.02,
     "length": 3.636,
     "distFromCmToStab": 0.8,
@@ -36,7 +36,7 @@
     "WdK": [0.1,1.1,1.1],
     "force": 53000.0,
     "timeFire": 5.5,
-    "fireDelay": 0.25,
+    "fireDelay": 0.1,
     "spawnExplosionFx": false,
     "spawnExplosionWreckage": false,
     "explosionEffect": "explosion_midair_big",
@@ -48,8 +48,13 @@
     "maxDistance": 9000.0,
     "minDistance": 30.0,
     "hasTracerTrail": true,
-    "tracerTrailEmitter": [-0.15,-0.2,-0.04],
+    "tracerTrailEmitter": [0.5,0.1,0.0],
+    "fireEffect": "rocket_fire_short",
+    "smokeEffect": "",
+    "hazeEffect": "haze_missile",
+    "endSmokeViscosity": 0.05,
     "distanceFuse": false,
+    "hasProximityFuse": true,
     "hitPowerMult": 1.0,
     "nearHitPower": [1.0,50.0],
     "midHitPower": [0.9,400.0],
@@ -61,16 +66,8 @@
     "farArmorPower": [0.2,700.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "explodeTreshold": 0.1,
-    "explodeHitPower": 1750.0,
-    "explodeArmorPower": 120.0,
-    "explodeRadius": [3.8,8.0],
     "rendinstDamageRadius": 15.0,
     "statType": "hydra",
-    "shutterDamage": true,
-    "shutterDamageRadius": 45.0,
-    "shutterAmount": 3000,
-    "shutterArmorPower": 12.0,
-    "shutterHit": 12.0,
     "advancedMissiles": false,
     "useStartSpeed": true,
     "startSpeed": 40.0,
@@ -103,7 +100,17 @@
       }
     },
     "tracerTrail": {
-      "smokeEffect": "fx1400_smoke"
+      "smokeEffect": "",
+      "visual": {
+        "traceFreq": 1,
+        "tracer": "100mmWhite",
+        "trail": "noTrail"
+      }
+    },
+    "proximityFuse": {
+      "timeOut": 0.5,
+      "radius": 6.0,
+      "detectShells": false
     }
   }
 }

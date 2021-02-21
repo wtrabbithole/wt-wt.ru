@@ -54,25 +54,27 @@ const OVERRIDE_COUNTRY_ID = "override_country"
   return (team ?? ::get_mp_local_team()) != Team.B ? Team.A : Team.B
 }
 
-::gui_start_mpstatscreen_ <- function gui_start_mpstatscreen_(is_from_game)
+::gui_start_mpstatscreen_ <- function gui_start_mpstatscreen_(params = {})
 {
+  local isFromGame = params?.isFromGame ?? false
   local handler = ::handlersManager.loadHandler(::gui_handlers.MPStatScreen,
-                    { backSceneFunc = is_from_game? null : ::handlersManager.getLastBaseHandlerStartFunc(),
-                      isFromGame = is_from_game
-                    })
-  if (is_from_game)
+    {
+      backSceneFunc = isFromGame ? null : ::handlersManager.getLastBaseHandlerStartFunc(),
+    }.__update(params))
+
+  if (isFromGame)
     ::statscreen_handler = handler
 }
 
 ::gui_start_mpstatscreen <- function gui_start_mpstatscreen()
 {
-  gui_start_mpstatscreen_(false)
+  gui_start_mpstatscreen_({ isFromGame = false })
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mpstatscreen)
 }
 
 ::gui_start_mpstatscreen_from_game <- function gui_start_mpstatscreen_from_game()
 {
-  gui_start_mpstatscreen_(true)
+  gui_start_mpstatscreen_({ isFromGame = true })
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mpstatscreen_from_game)
 }
 
@@ -1934,13 +1936,13 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
 {
   sceneBlkName = "gui/mpStatistics.blk"
   sceneNavBlkName = "gui/navMpStat.blk"
-  shouldBlurSceneBg = true
   keepLoaded = true
 
   wasTimeLeft = -1
   isFromGame = false
   isWideScreenStatTbl = true
   showAircrafts = true
+  isResultMPStatScreen = false
 
   function initScreen()
   {
@@ -1980,13 +1982,14 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
 
     updateStats()
 
-    showSceneBtn("btn_activateorder", ::g_orders.showActivateOrderButton())
+    showSceneBtn("btn_activateorder", !isResultMPStatScreen && ::g_orders.showActivateOrderButton())
     local ordersButton = scene.findObject("btn_activateorder")
     if (::checkObj(ordersButton))
     {
       ordersButton.setUserData(this)
       ordersButton.inactiveColor = !::g_orders.orderCanBeActivated() ? "yes" : "no"
     }
+    showMissionResult()
   }
 
   function reinitScreen(params)
@@ -1997,6 +2000,7 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
     forceUpdate()
     if (::is_replay_playing())
       selectLocalPlayer()
+    showMissionResult()
   }
 
   function forceUpdate()
@@ -2022,6 +2026,10 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
 
   function goBack(obj)
   {
+    if (isResultMPStatScreen) {
+      quitToDebriefing()
+      return
+    }
     ::in_flight_menu(false)
     if (isFromGame)
       ::close_ingame_gui()
@@ -2035,6 +2043,62 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
   }
 
   function onHideHUD(obj) {}
+
+  function quitToDebriefing() {
+    if (::get_mission_status() == ::MISSION_STATUS_SUCCESS) {
+      ::quit_mission_after_complete()
+      return
+    }
+
+    local text = ::loc("flightmenu/questionQuitMission")
+    msgBox("question_quit_mission", text,
+      [
+        ["yes", function()
+          {
+          ::quit_to_debriefing()
+          ::interrupt_multiplayer(true)
+          ::in_flight_menu(false)
+        }],
+        ["no"]
+      ], "yes", { cancel_fn = @() null })
+  }
+
+  function showMissionResult() {
+    if (!isResultMPStatScreen)
+      return
+
+    scene.findObject("root-box").bgrStyle = "transparent"
+    scene.findObject("nav-help").hasMaxWindowSize = "yes"
+    scene.findObject("flight_menu_bgd").hasMissionResultPadding = "yes"
+    scene.findObject("btn_back").setValue(::loc("flightmenu/btnQuitMission"))
+    updateMissionResultText()
+    ::g_hud_event_manager.subscribe("MissionResult", updateMissionResultText, this)
+  }
+
+  function updateMissionResultText(eventData = null) {
+    local resultIdx = ::get_mission_status()
+    if (resultIdx != ::MISSION_STATUS_SUCCESS && resultIdx != ::MISSION_STATUS_FAIL)
+      return
+
+    local view = {
+      text = ::loc(resultIdx == ::MISSION_STATUS_SUCCESS ? "MISSION_SUCCESS" : "MISSION_FAIL")
+      resultIdx = resultIdx
+      useMoveOut = true
+    }
+
+    local nest = scene.findObject("mission_result_nest")
+    local needShowAnimation = !nest.isVisible()
+    nest.show(true)
+    if (!needShowAnimation)
+      return
+
+    local blk = ::handyman.renderCached("gui/hud/messageStack/missionResultMessage", view)
+    guiScene.replaceContentFromText(nest, blk, blk.len(), this)
+    local objTarget = nest.findObject("mission_result_box")
+    objTarget.show(true)
+    ::create_ObjMoveToOBj(scene, scene.findObject("mission_result_box_start"),
+      objTarget, { time = 0.5, bhvFunc = "elasticSmall" })
+  }
 }
 
 ::SquadIcon <- {

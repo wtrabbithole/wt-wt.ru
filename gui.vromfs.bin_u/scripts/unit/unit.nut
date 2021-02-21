@@ -282,7 +282,9 @@ local Unit = class
 
   isAir                 = @() esUnitType == ::ES_UNIT_TYPE_AIRCRAFT
   isTank                = @() esUnitType == ::ES_UNIT_TYPE_TANK
-  isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP || esUnitType == ::ES_UNIT_TYPE_BOAT
+  isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
+  isBoat                = @() esUnitType == ::ES_UNIT_TYPE_BOAT
+  isShipOrBoat          = @() esUnitType == ::ES_UNIT_TYPE_SHIP || esUnitType == ::ES_UNIT_TYPE_BOAT
   isSubmarine           = @() esUnitType == ::ES_UNIT_TYPE_SHIP && tags.indexof("submarine") != null
   isHelicopter          = @() esUnitType == ::ES_UNIT_TYPE_HELICOPTER
   //
@@ -497,7 +499,7 @@ local Unit = class
     return previewSkinId
   }
 
-  getSpawnScore = @(weaponName = null) ::shop_get_spawn_score(name, weaponName || getLastWeapon(name))
+  getSpawnScore = @(weaponName = null) ::shop_get_spawn_score(name, weaponName || getLastWeapon(name), [])
 
   function getMinimumSpawnScore()
   {
@@ -630,7 +632,7 @@ local Unit = class
       return "#ui/gameuiskin#blueprint_items_aircraft"
     if (isTank())
       return "#ui/gameuiskin#blueprint_items_tank"
-    if (isShip())
+    if (isShipOrBoat())
       return "#ui/gameuiskin#blueprint_items_ship"
 
     return "#ui/gameuiskin#blueprint_items_aircraft"

@@ -26,11 +26,11 @@ fillBlock {
   }
   div {
     id:t = '<<id>>_items'
-    width:t='1@arrowButtonWidth'
+    max-width:t='1@arrowButtonWidth'
     overflow:t='hidden'
     smallItems:t='yes'
     position:t='relative'
-    pos:t='1@dp-1@contentRightPadding, 1@dp'
+    pos:t='pw-w+1@dp-1@contentRightPadding, 1@dp'
     not-input-transparent:t='yes'
 
     <<@items>>

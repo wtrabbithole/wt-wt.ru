@@ -32,8 +32,6 @@
     "aimSensitivity": 30.0,
     "autoAimingMaxAngle": 10.0,
     "autoAimTrackingSensitivity": 0.4,
-    "WdK": [0.1,0.1,0.1],
-    "maxAxisValues": 0.3,
     "explosionEffect": "explosion_midair_medium",
     "groundCollisionEffect": "explosion_midair_small",
     "ricochetEffect": "cannon_ricochet",
@@ -76,8 +74,6 @@
     "speedViscosity": 0.2,
     "timeToLive": 20.0,
     "lifeTime": 30.0,
-    "spinOffset": 0.4,
-    "spinFreq": 1.7,
     "advancedMissiles": false,
     "autoaimEnabled": false,
     "aiGroundOnly": false,
@@ -89,6 +85,8 @@
     "aiSpeedViscosity": 3.0,
     "aiSpeedPrediction": 1.0,
     "aiAccelPrediction": 0.5,
+    "hasTracerTrail": true,
+    "tracerTrailEmitter": [0.0,0.0,0.0],
     "amountPerTier": 4.0,
     "iconType": "atgm_type1_x4_late",
     "stabilityRicochetModifier": [
@@ -229,6 +227,14 @@
       "distance": 7.5,
       "damage": 900.0,
       "onHitChanceMultFire": 25.0
+    },
+    "tracerTrail": {
+      "smokeEffect": "",
+      "visual": {
+        "traceFreq": 1,
+        "tracer": "100mmRed",
+        "trail": "noTrail"
+      }
     }
   }
 }

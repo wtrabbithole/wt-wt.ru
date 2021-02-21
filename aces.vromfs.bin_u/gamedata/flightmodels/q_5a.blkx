@@ -21,11 +21,8 @@
   "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
   "damagePartsExcludeFromHoleBlk": "gameData/FlightModels/DM/dm_parts_exclude_from_hole.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
-  "fireParamsPreset": "1400kph",
+  "fireParamsPreset": "1500kph",
   "fightAiBehaviour": "fighter",
-  "customClassIco": "!#ui/gameuiskin#image_in_progress_ico.svg",
-  "customImage": "!#ui/unitskin#image_in_progress",
-  "customTooltipImage": "ui/aircrafts/image_in_progress",
   "DamageParts": {
     "armor10": {
       "armor5_dm": {
@@ -2334,9 +2331,14 @@
   ],
   "commonWeapons": [
     {
-      "hideNodes": {
-        "node": "tail_spo"
-      }
+      "hideNodes": [
+        {
+          "node": "tail_spo"
+        },
+        {
+          "node": "tail_type941"
+        }
+      ]
     },
     {
       "Weapon": {
@@ -2486,45 +2488,34 @@
       ]
     },
     {
-      "preset": [
-        {
-          "name": "q_5a_type130ap"
-        },
-        {
-          "blk": "gameData/FlightModels/weaponPresets/q_5a_type130ap.blk"
-        },
-        {
-          "reqModification": "q_5b_type130"
-        },
-        {
-          "reqModification": "q_5b"
-        },
-        {
-          "weaponConfig": {
-            "Weapon": [
-              {
-                "blk": "gameData/Weapons/rocketGuns/cn_type130_ap.blk"
-              },
-              {
-                "amountPerTier": 4.0
-              },
-              {
-                "iconType": "nar_ap_block"
-              },
-              {
-                "tier": {
-                  "idx": 5
-                }
-              },
-              {
-                "tier": {
-                  "idx": 7
-                }
+      "preset": {
+        "name": "q_5a_type130ap",
+        "blk": "gameData/FlightModels/weaponPresets/q_5a_type130ap.blk",
+        "reqModification": "q_5b_type130",
+        "weaponConfig": {
+          "Weapon": [
+            {
+              "blk": "gameData/Weapons/rocketGuns/cn_type130_ap.blk"
+            },
+            {
+              "amountPerTier": 4.0
+            },
+            {
+              "iconType": "nar_ap_block"
+            },
+            {
+              "tier": {
+                "idx": 5
               }
-            ]
-          }
+            },
+            {
+              "tier": {
+                "idx": 7
+              }
+            }
+          ]
         }
-      ]
+      }
     },
     {
       "preset": [
@@ -2539,9 +2530,6 @@
         },
         {
           "reqModification": "q_5b_type130"
-        },
-        {
-          "reqModification": "q_5b"
         },
         {
           "weaponConfig": [
@@ -2615,7 +2603,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [356.0,400.0],
+    "engineExtinguishFireSpeed": [383.0,427.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
@@ -2877,12 +2865,18 @@
       "turn_it_off": false,
       "invertEnableLogic": false,
       "tier": 1,
+      "group": "q_5b_group",
       "effects": {
         "commonWeapons": [
           {
-            "hideNodes": {
-              "node": "tail_no_spo"
-            }
+            "hideNodes": [
+              {
+                "node": "tail_no_spo"
+              },
+              {
+                "node": "tail_type941"
+              }
+            ]
           },
           {
             "Weapon": {
@@ -2918,8 +2912,71 @@
         }
       }
     },
-    "q_5b_type130": {
+    "q_5b_ltc": {
+      "turn_it_off": false,
+      "invertEnableLogic": false,
+      "tier": 2,
       "reqModification": "q_5b",
+      "group": "q_5b_group",
+      "effects": {
+        "commonWeapons": [
+          {
+            "hideNodes": [
+              {
+                "node": "tail_no_spo"
+              },
+              {
+                "node": "tail_no_type941"
+              }
+            ]
+          },
+          {
+            "Weapon": {
+              "trigger": "cannon",
+              "blk": "gameData/Weapons/cannon_type23_2k.blk",
+              "emitter": "flare1",
+              "flash": "flare1",
+              "shell": "emtr_shellrejection1",
+              "dm": "cannon1_dm",
+              "bullets": 120,
+              "spread": 1.0,
+              "counterIndex": 1
+            }
+          },
+          {
+            "Weapon": {
+              "trigger": "cannon",
+              "blk": "gameData/Weapons/cannon_type23_2k.blk",
+              "emitter": "flare2",
+              "flash": "flare2",
+              "shell": "emtr_shellrejection2",
+              "dm": "cannon2_dm",
+              "bullets": 120,
+              "spread": 1.0,
+              "counterIndex": 3
+            }
+          },
+          {
+            "Weapon": {
+              "trigger": "flares",
+              "startFx": "",
+              "blk": "gameData/Weapons/rocketGuns/flare_launcher_jet.blk",
+              "emitter": "emtr_flare1",
+              "bullets": 18,
+              "external": true,
+              "separate": false
+            }
+          }
+        ],
+        "sensors": {
+          "sensor": {
+            "blk": "gameData/sensors/us_an_apr_25.blk"
+          }
+        }
+      }
+    },
+    "q_5b_type130": {
+      "reqModification": "q_5b_ltc",
       "modClass": "weapon",
       "tier": 3
     }
@@ -2984,7 +3041,7 @@
     "emtr_break_wing1_r_to": [0.699018,0.0090868,-2.7387],
     "emtr_break_wing2_r_from": [0.699018,0.0090868,-3.53209],
     "emtr_break_wing2_r_to": [0.699018,0.0090868,-4.06113],
-    "emtr_break_wing_tail": [-3.85391,0.0,0.0],
+    "emtr_break_wing_tail": [-4.5,0.0,0.0],
     "finCut": true,
     "emtr_break_tail_from": [-2.25162,0.137347,0.0],
     "emtr_break_tail_to": [-5.31613,0.137347,0.0]

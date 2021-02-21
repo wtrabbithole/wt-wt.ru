@@ -57,7 +57,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
       headerRow.append({
         id = itemName,
         text = name,
-        tdAlign="center",
+        tdalign="center",
       })
     }
     data = ::buildTableRow("row_header", headerRow, null,

@@ -714,6 +714,19 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     prevGroup = obj.getValue()
   }
 
+  function selectHoveredGroup() {
+    local listObj = scene.findObject("contacts_groups")
+    local total = listObj.childrenCount()
+    for(local i = 0; i < total; i++) {
+      local child = listObj.getChild(i)
+      if (!child.isValid() || !child.isHovered())
+        continue
+      listObj.setValue(i)
+      onGroupActivate(listObj)
+      return
+    }
+  }
+
   function onGroupActivate(obj)
   {
     selectItemInGroup(obj, true)
@@ -738,13 +751,13 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (curHoverObjId == "contacts_groups")
-      onGroupActivate(listObj)
+      selectHoveredGroup()
     else if (curHoverObjId == "search_edit_box")
       doSearch()
     else
     {
       local groupObj = scene.findObject("group_" + curGroup)
-      if (::checkObj(groupObj))
+      if (groupObj?.isValid())
         onPlayerMenu(groupObj)
     }
   }
@@ -1088,6 +1101,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     updateSearchList()
+    if (::show_console_buttons && curGroup == searchGroup && !::is_mouse_last_time_used() && checkScene())
+      ::move_mouse_on_child_by_value(scene.findObject("group_" + searchGroup))
   }
 
   function updateSearchList()

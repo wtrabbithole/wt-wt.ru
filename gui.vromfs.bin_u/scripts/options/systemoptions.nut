@@ -16,21 +16,28 @@ local mMaintainDone = false
 const mRowHeightScale = 1.0
 const mMaxSliderSteps = 50
 //-------------------------------------------------------------------------------
-/*
-  compMode=true - option is enabled in GUI in Compatibility Mode. Otherwise from graphicsPresets it will be disabled.
-  fullMode=false - option is disabled in GUI in not Compatibility Mode. Otherwise from graphicsPresets it will be enabled.
-*/
 local mQualityPresets = ::DataBlock()
 mQualityPresets.load("config/graphicsPresets.blk")
 
+/*
+compMode - When TRUE, option is enabled in GUI when Compatibility Mode is ON.
+           Defaults to FALSE for qualityPresetsOptions, and TRUE for standaloneOptions.
+fullMode - When TRUE, Оption is enabled in GUI when Compatibility Mode is OFF.
+           Defaults to TRUE for both qualityPresetsOptions and standaloneOptions.
+*/
 local compModeGraphicsOptions = {
-  texQuality        = { compMode=true }
-  anisotropy        = { compMode=true }
-  dirtSubDiv        = { compMode=true }
-  tireTracksQuality = { compMode=true }
-  msaa              = { compMode=true, fullMode=false }
-  lastClipSize      = { compMode=true }
-  compatibilityMode = { compMode=true }
+  qualityPresetsOptions = {
+    texQuality        = { compMode = true }
+    anisotropy        = { compMode = true }
+    dirtSubDiv        = { compMode = true }
+    tireTracksQuality = { compMode = true }
+    msaa              = { compMode = true, fullMode = false }
+    lastClipSize      = { compMode = true }
+    compatibilityMode = { compMode = true }
+  }
+  standaloneOptions = {
+    dlss              = { compMode = false }
+  }
 }
 //------------------------------------------------------------------------------
 local mUiStruct = [
@@ -382,14 +389,19 @@ mShared = {
     if (getGuiValue("compatibilityMode")) {
       setGuiValue("backgroundScale",2)
       foreach (k, v in mQualityPresets) {
-        local enabled = compModeGraphicsOptions?[k].compMode ?? false
+        local enabled = compModeGraphicsOptions.qualityPresetsOptions?[k].compMode ?? false
         mShared.enableByCompMode(k, enabled)
       }
-    } else {
+      foreach (id, v in compModeGraphicsOptions.standaloneOptions)
+        mShared.enableByCompMode(id, v?.compMode ?? true)
+    }
+    else {
       foreach (k, v in mQualityPresets) {
-        local enabled = compModeGraphicsOptions?[k].fullMode ?? true
+        local enabled = compModeGraphicsOptions.qualityPresetsOptions?[k].fullMode ?? true
         mShared.enableByCompMode(k, enabled)
       }
+      foreach (id, v in compModeGraphicsOptions.standaloneOptions)
+        mShared.enableByCompMode(id, v?.fullMode ?? true)
       setGuiValue("compatibilityMode", false)
     }
   }
@@ -448,6 +460,11 @@ mShared = {
 
     local markup = getListOption(id, desc, "onSystemOptionChanged", false)
     mContainerObj.getScene().replaceContentFromText(obj, markup, markup.len(), mHandler)
+  }
+
+  dlssClick = function() {
+    foreach (id in [ "antialiasing", "ssaa" ])
+      enableGuiOption(id, getOptionDesc(id)?.enabled() ?? true)
   }
 
   cloudsQualityClick = function() {
@@ -651,6 +668,7 @@ mSettings = {
     init = function(blk, desc) {
       desc.values <- getAvailableDlssModes()
     }
+    onChanged = "dlssClick"
     getFromBlk = function(blk, desc) {
       local quality = get_blk_value_by_path(blk, desc.blk, -1)
       return (quality == 0) ? "performance" : (quality == 1) ? "balanced" : (quality == 2) ? "quality" : "off"
@@ -684,9 +702,11 @@ mSettings = {
   }
   antialiasing = { widgetType="list" def="none" blk="video/postfx_antialiasing" restart=false
     values = ::is_opengl_driver() ? [ "none", "fxaa", "high_fxaa"] : [ "none", "fxaa", "high_fxaa", "low_taa", "high_taa" ]
+    enabled = @() !getGuiValue("compatibilityMode") && getGuiValue("dlss", "off") == "off"
   }
   ssaa = { widgetType="list" def="none" blk="graphics/ssaa" restart=false
     values = [ "none", "4X" ]
+    enabled = @() !getGuiValue("compatibilityMode") && getGuiValue("dlss", "off") == "off"
     onChanged = "ssaaClick"
     getFromBlk = function(blk, desc) {
       local val = get_blk_value_by_path(blk, desc.blk, 1.0)

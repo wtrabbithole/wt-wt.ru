@@ -1,5 +1,6 @@
 local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
 local { setColoredDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
+local mkHoverHoldAction = require("sqDagui/timer/mkHoverHoldAction.nut")
 
 class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -39,6 +40,7 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   needWaitIcon = false
   isLoadingInProgress = false
+  hoverHoldAction = null
 
   function initScreen()
   {
@@ -47,6 +49,7 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
     ::show_obj(getTabsListObj(), false)
     ::show_obj(getSheetsListObj(), false)
+    hoverHoldAction = mkHoverHoldAction(scene.findObject("hover_hold_timer"))
 
     fillItemsList()
     moveMouseToMainList()
@@ -183,7 +186,7 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillPage()
   {
-    local view = { items = [] }
+    local view = { items = [], hasFocusBorder = true, onHover = "onItemHover" }
 
     if (!isLoadingInProgress)
     {
@@ -510,6 +513,7 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   onItemPreview = @(obj) null
   onOpenCraftTree = @(obj) null
   onShowSpecialTasks = @(obj) null
+  onShowBattlePass = @(obj) null
 
   getTabsListObj = @() scene.findObject("tabs_list")
   getSheetsListObj = @() scene.findObject("nav_list")
@@ -544,5 +548,15 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
       ::move_mouse_on_obj(getCurItemObj())
     else
       ::move_mouse_on_obj(containerObj)
+  }
+
+  function onItemHover(obj) {
+    hoverHoldAction(obj, function(focusObj) {
+      local idx = focusObj.holderId.tointeger()
+      local value = idx - curPage * itemsPerPage
+      local listObj = getItemsListObj()
+      if (listObj.getValue() != value && value >= 0 && value < listObj.childrenCount())
+        listObj.setValue(value)
+    }.bindenv(this))
   }
 }

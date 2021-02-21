@@ -167,9 +167,7 @@ global enum itemType { //bit values for easy multitype search
   ENTITLEMENT     = 0x01000000
   WARPOINTS       = 0x02000000
   UNLOCK          = 0x04000000
-  //
-
-
+  BATTLE_PASS     = 0x08000000
   RENTED_UNIT     = 0x10000000
 
   //workshop
@@ -883,7 +881,6 @@ local isFullScriptsLoaded = false
     "matching/serviceNotifications/mpresense.nut"
     "matching/serviceNotifications/msquad.nut"
     "matching/serviceNotifications/mrooms.nut"
-    "matching/serviceNotifications/newClientVersionNotify.nut"
 
     "gamepadSceneSettings.nut"
   ])

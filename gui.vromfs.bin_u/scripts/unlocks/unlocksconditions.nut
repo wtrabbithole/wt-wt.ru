@@ -26,6 +26,7 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
 local { getRoleText } = require("scripts/unit/unitInfoTexts.nut")
+local { processUnitTypeArray } = require("scripts/unit/unitClassType.nut")
 
 local missionModesList = [
   "missionsWon",
@@ -191,6 +192,7 @@ local function getOverrideCondType(condBlk, unlockMode) {
   formatParamsDefault = {
     rangeStr = "%s"
     itemStr = "%s"
+    valueStr = "%.1f"
     maxOnlyStr = "%s"
     minOnlyStr = "%s"
     bothStr = "%s"+ ::loc("ui/mdash") + "%s"
@@ -204,24 +206,25 @@ local function getOverrideCondType(condBlk, unlockMode) {
       return ""
 
     formatParams = formatParamsDefault.__merge(formatParams)
-    local a = val.x.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.x) : ::format("%.1f", val.x) : ""
-    local b = val.y.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.y) : ::format("%.1f", val.y) : ""
+    local { rangeStr, itemStr, valueStr, maxOnlyStr, minOnlyStr, bothStr } = formatParams
+    local a = val.x.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.x) : ::format(valueStr, val.x) : ""
+    local b = val.y.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.y) : ::format(valueStr, val.y) : ""
     if (a == "" && b == "")
       return ""
 
     local range = ""
     if (a != "" && b != "")
       range = a == b
-        ? ::format(formatParams.itemStr, a)
-        : ::format(formatParams.bothStr,
-          ::format(formatParams.itemStr, a),
-          ::format(formatParams.itemStr, b))
+        ? ::format(itemStr, a)
+        : ::format(bothStr,
+          ::format(itemStr, a),
+          ::format(itemStr, b))
     else if (a == "")
-      range = ::format(formatParams.maxOnlyStr, ::format(formatParams.itemStr, b))
+      range = ::format(maxOnlyStr, ::format(itemStr, b))
     else
-      range = ::format(formatParams.minOnlyStr, ::format(formatParams.itemStr, a))
+      range = ::format(minOnlyStr, ::format(itemStr, a))
 
-    return ::format(formatParams.rangeStr, range)
+    return ::format(rangeStr, range)
   }
 
   function getRangeString(val1, val2, formatStr = "%s")
@@ -382,19 +385,17 @@ UnlockConditions.loadMainProgressCondition <- function loadMainProgressCondition
     res.unlockType <- blk?.unlockType ?? ""
   else if (modeType == "unlockOpenCount" || modeType == "unlockStageCount")
   {
-    local unlock = ::g_unlocks.getUnlockById(blk?.unlock)
-    if (unlock == null)
-    {
-      res.values = []
-      local debugUnlockData = blk?.unlock ?? ::toString(blk) // warning disable: -declared-never-used
-      ::dagor.assertf(false, "ERROR: Unlock does not exist")
-    }
-    else if (!res.hasCustomUnlockableList)
-    {
-      res.values = ("mode" in unlock) ? unlock.mode % "unlock" : []
-      if( ! res.values.len())
+    res.values = res.values ?? []
+    if (!res.hasCustomUnlockableList)
+      foreach (unlockId in (blk % "unlock")) {
+        local unlock = ::g_unlocks.getUnlockById(unlockId)
+        if (unlock == null) {
+          local debugUnlockData = blk?.unlock ?? ::toString(blk) // warning disable: -declared-never-used
+          ::dagor.assertf(false, "ERROR: Unlock does not exist")
+          continue
+        }
         res.values.append(unlock.id)
-    }
+      }
   }
   else if (modeType == "landings")
     res.carrierOnly <- blk?.carrierOnly ?? false
@@ -937,21 +938,7 @@ UnlockConditions._addUsualConditionsText <- function _addUsualConditionsText(gro
   if (typeof values != "array")
     values = [values]
 
-  local boatCondIdx = values.indexof("boat")
-  local shipCondIdx = values.indexof("ship")
-  if (boatCondIdx != null && shipCondIdx != null) {
-    values.remove(boatCondIdx)
-    values.remove(shipCondIdx)
-    values.append("ship_and_boat")
-  }
-  else if (boatCondIdx == null && shipCondIdx != null) {
-    values.remove(shipCondIdx)
-    values.append("ship_only")
-  }
-  else if (boatCondIdx != null && shipCondIdx == null) {
-    values.remove(boatCondIdx)
-    values.append("boat_only")
-  }
+  values = processUnitTypeArray(values)
 
   foreach (v in values)
   {

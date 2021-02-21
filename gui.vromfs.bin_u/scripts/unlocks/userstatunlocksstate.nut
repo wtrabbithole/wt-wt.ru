@@ -152,6 +152,35 @@ local function clampStage(unlockDesc, stage) {
 
 local getStageByIndex = @(unlockDesc, stage) unlockDesc?.stages[clampStage(unlockDesc, stage)]
 
+local function getUnlockReward(userstatUnlock) {
+  local rewardMarkUp = { rewardText = "", itemMarkUp = ""}
+  local { lastRewardedStage = 0, stages = [] } = userstatUnlock
+  local stage = stages?[lastRewardedStage] ?? stages?[lastRewardedStage-1]
+  if (stage == null)
+    return rewardMarkUp
+
+  local itemId = stage?.rewards.keys()[0]
+  if (itemId != null) {
+    local item = ::ItemsManager.findItemById(::to_integer_safe(itemId, itemId, false))
+    rewardMarkUp.itemMarkUp = item?.getNameMarkup(stage.rewards[itemId]) ?? ""
+  }
+
+  rewardMarkUp.rewardText = "\n".join((stage?.updStats ?? [])
+    .map(@(stat) ::loc($"updStats/{stat.name}", { amount = stat.value }, "")))
+
+  return rewardMarkUp
+}
+
+local function getUnlockRewardMarkUp(userstatUnlock) {
+  local rewardMarkUp = getUnlockReward(userstatUnlock)
+  if (rewardMarkUp.rewardText == "" && rewardMarkUp.itemMarkUp == "")
+    return {}
+
+  local rewardLoc = (userstatUnlock?.isCompleted ?? false) ? ::loc("rewardReceived") : ::loc("reward")
+  rewardMarkUp.rewardText <- $"{rewardLoc}{::loc("ui/colon")}{rewardMarkUp.rewardText}"
+  return rewardMarkUp
+}
+
 return {
   activeUnlocks
   unlockProgress
@@ -159,4 +188,6 @@ return {
   servUnlockProgress
   receiveRewards
   getStageByIndex
+  getUnlockRewardMarkUp
+  getUnlockReward
 }

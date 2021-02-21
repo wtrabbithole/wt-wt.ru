@@ -565,6 +565,10 @@ class ::ChatHandler
     makeChatTextFromLog()
   }
 
+  function onEventContactsBlockStatusUpdated(params) {
+    makeChatTextFromLog()
+  }
+
   function makeChatTextFromLog()
   {
     local log = ingame_chat.getLog()

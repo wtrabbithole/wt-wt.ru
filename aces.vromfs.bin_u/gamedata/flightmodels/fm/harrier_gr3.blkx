@@ -502,7 +502,7 @@
         "Velocity_7": 1400.0,
         "Velocity_8": 1600.0,
         "Velocity_9": 1800.0,
-        "ThrustMax0": 9298.0,
+        "ThrustMax0": 9071.0,
         "ThrustMaxCoeff_0_0": 1.0,
         "ThrAftMaxCoeff_0_0": 1.0,
         "TorqueMaxCoeff_0_0": 1.0,
@@ -751,9 +751,9 @@
         "TurbineTimeConstantMult": 1.0
       },
       "Mode4": {
-        "Throttle": 0.8,
-        "RPM": 0.94,
-        "ThrustMult": 0.8,
+        "Throttle": 0.85,
+        "RPM": 0.95,
+        "ThrustMult": 0.825,
         "TorqueMultMinRpm": 2.46,
         "TorqueMultMaxRpm": 0.82,
         "ConsumptionMult": 1.0,
@@ -817,8 +817,8 @@
       "DegradationTime_10_5": [180.0,171.0],
       "HalfHealthWaterTemperatureToleranceDecrease": 600.0,
       "HalfHealthOilTemperatureToleranceDecrease": 35.5,
-      "WaterAirDensityPower": -2.3978,
-      "OilAirDensityPower": -0.9777,
+      "WaterAirDensityPower": -3.0,
+      "OilAirDensityPower": -1.5,
       "WaterFlowEffectPower": 1.0,
       "OilFlowEffectPower": 1.0,
       "WaterPropFlowSpeedCoeff": 1.0,
@@ -840,19 +840,19 @@
       "Mode2": {
         "Altitude": 1000.0,
         "RPM": 7000.0,
-        "WaterTemperature": 600.0,
+        "WaterTemperature": 640.0,
         "OilTemperature": 70.0
       },
       "Mode3": {
         "Altitude": 1000.0,
-        "RPM": 7460.0,
-        "WaterTemperature": 710.0,
+        "RPM": 7150.0,
+        "WaterTemperature": 690.0,
         "OilTemperature": 80.0
       },
       "Mode4": {
         "Altitude": 1000.0,
         "RPM": 7510.0,
-        "WaterTemperature": 740.0,
+        "WaterTemperature": 730.0,
         "OilTemperature": 90.0
       },
       "Load0": {
@@ -918,42 +918,42 @@
     },
     "Stages": {
       "Stage1": {
-        "minTime": 6.0,
-        "maxTime": 8.0,
+        "minTime": 3.0,
+        "maxTime": 4.0,
         "fromRPM": 0.0,
-        "toRPM": 500.0,
+        "toRPM": 300.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage2": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 300.0,
+        "toRPM": 350.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage3": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 350.0,
+        "toRPM": 400.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage4": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 450.0,
+        "toRPM": 500.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       },
       "Stage5": {
-        "minTime": 0.0,
-        "maxTime": 0.0,
-        "fromRPM": 0.0,
-        "toRPM": 0.0,
+        "minTime": 1.0,
+        "maxTime": 1.0,
+        "fromRPM": 500.0,
+        "toRPM": 550.0,
         "fromSuperchargerRPM": 0.0,
         "toSuperchargerRPM": 0.0
       }
@@ -1070,7 +1070,7 @@
   "Mass": {
     "EmptyMass": 5570.0,
     "MaxFuelMass0": 2335.0,
-    "FuelAccumulatorCapacity0": 38.0,
+    "FuelAccumulatorCapacity0": 28.0,
     "MinimalLoadFactor0": -0.3,
     "FuelAccumulatorFlowRate0": 18.3,
     "FuelEngineFlowRate0": 1000000.0,

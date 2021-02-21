@@ -257,12 +257,6 @@
       "timeLife": 33.0
     },
     {
-      "spinOffset": 0.4
-    },
-    {
-      "spinFreq": 1.6
-    },
-    {
       "advancedMissiles": false
     },
     {
@@ -300,6 +294,12 @@
     },
     {
       "iconType": "atgm_type1_x8"
+    },
+    {
+      "hasTracerTrail": true
+    },
+    {
+      "tracerTrailEmitter": [0.1,-0.01,0.0]
     },
     {
       "stabilityRicochetModifier": [
@@ -458,10 +458,11 @@
     },
     {
       "tracerTrail": {
+        "smokeEffect": "",
         "visual": {
           "traceFreq": 1,
-          "tracer": "100mmBlue",
-          "trail": "black"
+          "tracer": "100mmRed",
+          "trail": "noTrail"
         }
       }
     }

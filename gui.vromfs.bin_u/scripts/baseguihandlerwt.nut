@@ -537,6 +537,11 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
         return unitContextMenuState(null)
     }
 
+    if (unitContextMenuState.value?.unitObj.isValid()
+        && unitContextMenuState.value.unitObj.isEqual(unitObj)) {
+      unitContextMenuState(null)
+    }
+
     unitContextMenuState({
       unitObj = unitObj
       actionsNames = getSlotbarActions()
@@ -545,12 +550,6 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
       shouldCheckCrewsReady = shouldCheckCrewsReady
       slotbar = getSlotbar()
     }.__update(getParamsForActionsList()).__update(getUnitParamsFromObj(unitObj)))
-  }
-
-  function onUnitHover(obj)
-  {
-    if (!::show_console_buttons)
-      openUnitActionsList(obj)
   }
 
   function onOpenActionsList(obj)

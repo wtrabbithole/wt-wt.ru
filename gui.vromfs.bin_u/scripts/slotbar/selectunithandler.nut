@@ -722,14 +722,13 @@ local class SelectUnitHandler extends ::gui_handlers.BaseGuiHandlerWT
 ::gui_handlers.SelectUnitHandler <- SelectUnitHandler
 
 return {
-  open = function(crew, slotbar) {
-    local params = getParamsFromSlotbarConfig(crew, slotbar)
-    if (params == null)
-      return
-
-    ::get_cur_gui_scene().performDelayed({},
-      @() ::handlersManager.destroyPrevHandlerAndLoadNew(SelectUnitHandler, params))
-  }
+  open = @(crew, slotbar) ::get_cur_gui_scene().performDelayed({},
+    function() {
+      local params = getParamsFromSlotbarConfig(crew, slotbar)
+      if (params == null)
+        return
+      ::handlersManager.destroyPrevHandlerAndLoadNew(SelectUnitHandler, params)
+    })
   getParamsFromSlotbarConfig = getParamsFromSlotbarConfig
 }
 

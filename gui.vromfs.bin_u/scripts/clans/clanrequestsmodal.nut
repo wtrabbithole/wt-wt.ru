@@ -75,7 +75,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       headerRow.append({
         id = item.id,
         text = name,
-        tdAlign="center",
+        tdalign="center",
       });
     }
     data = buildTableRow("row_header", headerRow, null,

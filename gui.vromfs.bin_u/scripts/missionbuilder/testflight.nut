@@ -177,7 +177,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
         [::USEROPT_FLARES_PERIODS, "spinner"]
       )
 
-    if (unit?.isShip())
+    if (unit?.isShipOrBoat())
     {
       options.append(
         [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner"],

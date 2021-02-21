@@ -4,6 +4,7 @@ weaponryPreset {
   presetId:t='<<presetId>>'
   width:t='pw'
   padding:t='0, 1@blockInterval'
+  chosen:t='<<chosen>>'
   <<#isCollapsable>>
   height:t='@buttonHeight'
   collapse_header:t='yes'
@@ -60,7 +61,7 @@ weaponryPreset {
           width:t='pw<<^hideWarningIcon>>-1@cIco<</hideWarningIcon>>'
           position:t='relative'
           pos:t='0, 30@sf/@pf-0.5h'
-          text:t='<<nameText>>'
+          text:t='<<nameTextWithPrice>>'
           text-align:t='left'
           style:t='color:@<<itemTextColor>>;'
           smallFont:t='yes'

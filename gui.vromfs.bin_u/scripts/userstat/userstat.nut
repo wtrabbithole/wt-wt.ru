@@ -127,12 +127,17 @@ local function receiveUnlockRewards(unlockName, stage, cb = null, cbError = null
     ::json_to_string({ unlock = unlockName, stage = stage }, false),
     -1)
   ::g_tasker.addTask(taskId, taskOptions, resultCb, @(result) cbError?(result), TASK_CB_TYPE.REQUEST_DATA)
+}
 
+::userstatsDataUpdated <- function userstatsDataUpdated() {
+  unlocksUpdatable.forceRefresh()
+  statsUpdatable.forceRefresh()
 }
 
 return {
   userstatUnlocks = unlocksUpdatable.data
   userstatDescList = descListUpdatable.data
   userstatStats = statsUpdatable.data
+  refreshUserstatUnlocks = @() unlocksUpdatable.forceRefresh()
   receiveUnlockRewards
 }

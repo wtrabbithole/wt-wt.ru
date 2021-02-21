@@ -201,10 +201,25 @@ local function reversed_enumerate(obj) {
     yield [i, obj[i]]
 }
 
+//not recursive isEqual, for simple lists or tables
+local function isEqualSimple(list1, list2, compareFunc=null) {
+  compareFunc = compareFunc ?? @(a,b) a!=b
+  if (list1 == list2)
+    return true
+  if (::type(list1) != ::type(list2) || list1.len() != list2.len())
+    return false
+  foreach (val, key in list1) {
+    if (key not in list2 || compareFunc(val, list2[key]))
+      return false
+  }
+  return true
+}
+
 return {
   invert
   tablesCombine
   isEqual
+  isEqualSimple
   funcCheckArgsNum
   partition
   pluck

@@ -84,6 +84,7 @@ class ::BaseItem
   purchaseFeature = ""
   isDevItem = false
   isDisguised = false //used to override name, icon and some description for item.
+  isHideInShop = false
 
   locId = null
   showBoosterInSeparateList = false
@@ -114,6 +115,7 @@ class ::BaseItem
     purchaseFeature = blk?.purchase_feature ?? ""
     isDevItem = !isInventoryItem && purchaseFeature == "devItemShop"
     canBuy = canBuy && !isInventoryItem && getCost() > ::zero_money && checkPurchaseFeature()
+    isHideInShop = blk?.hideInShop ?? false
     iconStyle = blk?.iconStyle ?? id
     link = blk?.link ?? ""
     forceExternalBrowser = blk?.forceExternalBrowser ?? false
@@ -370,7 +372,7 @@ class ::BaseItem
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
       res.expireTime <- getTimeLeftText()
 
-    if (isRare())
+    if (isRare() && (params?.showRarity ?? true))
       res.rarityColor <- getRarityColor()
 
     if (isActive())

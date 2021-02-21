@@ -140,7 +140,7 @@ return {
     armyId = "boats"
     esUnitType = ::ES_UNIT_TYPE_BOAT
     fontIcon = ::loc("icon/unittype/boat")
-    testFlightIcon = "#ui/gameuiskin#slot_test_out_to_sea.svg"
+    testFlightIcon = "#ui/gameuiskin#slot_test_out_to_sea_boat.svg"
     testFlightName = "TestSail"
     bailoutName = "btnLeaveTheTank"
     bailoutQuestion = "questionLeaveTheTank"

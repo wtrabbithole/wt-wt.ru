@@ -581,7 +581,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       data.append(generateRowTableData(myClanLbData, clanByRow.len()))
       clanByRow.append(myClanLbData._id.tostring())
     }
-    local headerRow = [{text = "#multiplayer/place", width = "0.1@sf"}, {text = ""}, { text = "#clan/clan_name", tdAlign = "left",  width = "@clanNameTableWidth"}]
+    local headerRow = [{text = "#multiplayer/place", width = "0.1@sf"}, {text = ""}, { text = "#clan/clan_name", tdalign = "left",  width = "@clanNameTableWidth"}]
 
     local fieldList = clanLeaderboardsListByPage[curPage]
     foreach(item in fieldList)
@@ -643,12 +643,12 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       rowBlk.pos + 1
       {
         id = "tag"
-        tdAlign = "right"
+        tdalign = "right"
         textType = "textareaNoTab"
       }
       {
         id = "name"
-        tdAlign = "left"
+        tdalign = "left"
         textType = "textareaNoTab"
       }
     ]
@@ -946,7 +946,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         rowData.append({
           text = placeText,
           active = false,
-          tdAlign ="right"
+          tdalign ="right"
         })
 
         local rewardText = ::Cost(0, reward.gold).tostring()
@@ -1020,7 +1020,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     local rowData = []
     for (local i=1; i<=3; i++)
     {
-      rowData.append({text = ::loc("clan/battle_season/place_"+i), active = false, tdAlign="right"})
+      rowData.append({text = ::loc("clan/battle_season/place_"+i), active = false, tdalign="right"})
       rowData.append({
         needText=false,
         rawParam="text { text-align:t='right'; text:t='" +

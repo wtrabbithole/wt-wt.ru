@@ -1,7 +1,7 @@
 local enums = require("sqStdLibs/helpers/enums.nut")
 local screenInfo = require("scripts/options/screenInfo.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
-local { setFontDefHt, getFontInitialHt } = require("fonts")
+local { setFontDefHt, getFontDefHt, getFontInitialHt } = require("fonts")
 local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
 
 const FONTS_SAVE_PATH = "fonts_css"
@@ -45,8 +45,12 @@ local function update_font_heights(font)
   local fontsSh = getFontsSh(::screen_width(), ::screen_height())
   if (appliedFontsSh == fontsSh && appliedFontsScale == font.sizeMultiplier)
     return font;
+  ::dagor.debug("update_font_heights: screenHt={0} fontSzMul={1}".subst(fontsSh, font.sizeMultiplier))
   foreach(prefixId in daguiFonts.getRealFontNamePrefixesMap())
+  {
     setFontDefHt(prefixId, ::round(getFontInitialHt(prefixId) * font.sizeMultiplier).tointeger())
+    ::dagor.debug("  font <{0}> sz={1}".subst(prefixId, getFontDefHt(prefixId)))
+  }
   appliedFontsSh = fontsSh
   appliedFontsScale = font.sizeMultiplier
   return font;
@@ -271,6 +275,13 @@ g_font.validateSavedConfigFonts <- function validateSavedConfigFonts()
 {
   if (canChange())
     saveFontToConfig(getCurrent())
+}
+
+::reset_applied_fonts_scale <- function reset_applied_fonts_scale()
+{
+  ::dagor.debug("[fonts] Resetting appliedFontsSh, sizes of font will be set again")
+  appliedFontsSh = 0;
+  update_font_heights(g_font.getCurrent());
 }
 
 ::cross_call_api.getCurrentFontParams <- function() {

@@ -7,6 +7,7 @@ local menuChatRoom = require("scripts/chat/menuChatRoom.nut")
 local { topMenuBorders } = require("scripts/mainmenu/topMenuStates.nut")
 local { isChatEnabled, isChatEnableWithPlayer,
   isCrossNetworkMessageAllowed, chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
+local { updateContactsStatusByContacts } = require("scripts/contacts/updateContactsStatus.nut")
 
 const CHAT_ROOMS_LIST_SAVE_ID = "chatRooms"
 const VOICE_CHAT_SHOW_COUNT_SAVE_ID = "voiceChatShowCount"
@@ -508,6 +509,10 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventCrossNetworkChatOptionChanged(p)
   {
+    updateAllRoomTabs()
+  }
+
+  function onEventContactsBlockStatusUpdated(p) {
     updateAllRoomTabs()
   }
 
@@ -1370,6 +1375,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       important, !::g_chat.isRoomSquad(roomId), isMyActionInfo)
     if (!mBlock)
       return
+
+    updateContactsStatusByContacts([::getContact(mBlock.uid, mBlock.from, mBlock.clanTag)])
 
     if (::g_chat.rooms.len() == 0)
     {

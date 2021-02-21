@@ -45,8 +45,10 @@ local { checkTutorialsList } = require("scripts/tutorials/tutorialsData.nut")
   local curUnit = ::get_show_aircraft()
   if (curUnit?.isTank() && ::has_feature("Tanks"))
     tutorial = "lightTank"
-  else if (curUnit?.isShip() && ::has_feature("Ships"))
+  else if (curUnit?.isBoat() && ::has_feature("Ships"))
     tutorial = "boat"
+  else if (curUnit?.isShip() && ::has_feature("Ships"))
+    tutorial = "ship"
 
   if (!tryOpenNextTutorialHandler(tutorial))
   {

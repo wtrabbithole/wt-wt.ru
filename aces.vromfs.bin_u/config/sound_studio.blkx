@@ -325,6 +325,9 @@
       },
       {
         "name": "sounds/outside/fx/taken_hits"
+      },
+      {
+        "volLimits": [50.0,100.0]
       }
     ],
     "music": {
@@ -350,6 +353,9 @@
       },
       {
         "name": "sounds/outside/engines"
+      },
+      {
+        "volLimits": [50.0,100.0]
       }
     ],
     "master": {
@@ -367,6 +373,9 @@
       },
       {
         "name": "sounds/outside/fx/weapon_common"
+      },
+      {
+        "volLimits": [50.0,100.0]
       }
     ],
     "tinnitus": []
@@ -796,12 +805,14 @@
   "tank_engines": {
     "lods": {
       "lod_0": {
-        "radius": 10.0,
-        "maxSounds": 4
+        "radius": 20.0,
+        "maxSounds": 4,
+        "updInterval": 0.05
       },
       "lod_1": {
-        "radius": 200.0,
-        "maxSounds": 8
+        "radius": 300.0,
+        "maxSounds": 8,
+        "updInterval": 0.2
       }
     }
   },

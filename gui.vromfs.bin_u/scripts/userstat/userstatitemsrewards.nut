@@ -1,9 +1,6 @@
 local { addListenersWithoutEnv } = require("sqStdLibs/helpers/subscriptions.nut")
 
-local userstatRewardTitleLocId = ""
-//
-
-
+local userstatRewardTitleLocId = "battlePass/rewardsTitle"
 local userstatItemsListLocId = "mainmenu/rewardsList"
 
 local waitingToShowRewardsArray = persist("waitingToShowRewardsArray", @() [])

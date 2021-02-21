@@ -97,7 +97,7 @@ local reDateYmdAtStart = regexp2(@"^\d+-\d+-\d+")
 local reTimeHmsAtEnd = regexp2(@"\d+:\d+:\d+$")
 local reNotNumeric = regexp2(@"\D+")
 
-local getTimeFromString = function(str, fillMissedByTimeTable = null) {
+local function getTimeTblFromStringImpl(str) {
   local timeOrderLen = timeOrder.len()
   local timeArray = ::split(str, ":- ").filter(@(v) v != "")
   if (timeArray.len() < timeOrderLen)
@@ -123,29 +123,41 @@ local getTimeFromString = function(str, fillMissedByTimeTable = null) {
     }
   }
 
-  if ("month" in res) {
+  if ("month" in res)
     res.month -= 1
-  }
+ return res
+}
 
-  local timeTbl = getFullTimeTable(res, fillMissedByTimeTable)
+local strToTimeCache = {}
+local function getTimeTblFromString(str) {
+  if (str not in strToTimeCache)
+    strToTimeCache[str] <- getTimeTblFromStringImpl(str)
+  return strToTimeCache[str]
+}
+
+local function getTimeFromString(str, fillMissedByTimeTable = null) {
+  local timeTbl = getTimeTblFromString(str)
+  if (timeTbl == null)
+    return null
+
+  timeTbl = getFullTimeTable(timeTbl, fillMissedByTimeTable)
   if (fillMissedByTimeTable) {
     validateTime(timeTbl)
   }
   return timeTbl
 }
 
-
-local getTimestampFromStringUtc = function(str) {
+local function getTimestampFromStringUtc(str) {
   return utc_timetbl_to_unixtime(getTimeFromString(str, unixtime_to_utc_timetbl(::get_charserver_time_sec())))
 }
 
-local getTimestampFromStringLocal = function(str, fillMissedByTimestamp) {
+local function getTimestampFromStringLocal(str, fillMissedByTimestamp) {
   local fillMissedTimeTbl = unixtime_to_local_timetbl(fillMissedByTimestamp + charToLocalUtcDiff())
   return local_timetbl_to_unixtime(getTimeFromString(str, fillMissedTimeTbl)) - charToLocalUtcDiff()
 }
 
 
-local isInTimerangeByUtcStrings = function(beginDateStr, endDateStr) {
+local function isInTimerangeByUtcStrings(beginDateStr, endDateStr) {
   if (!::u.isEmpty(beginDateStr) &&
     getTimestampFromStringUtc(beginDateStr) > ::get_charserver_time_sec())
     return false
@@ -156,7 +168,7 @@ local isInTimerangeByUtcStrings = function(beginDateStr, endDateStr) {
 }
 
 
-local processTimeStamps = function(text) {
+local function processTimeStamps(text) {
   foreach (idx, time in ["{time=", "{time_countdown="]) {
     local startPos = 0
     local startTime = time

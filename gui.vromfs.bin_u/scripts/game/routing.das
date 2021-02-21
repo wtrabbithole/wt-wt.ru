@@ -63,21 +63,9 @@ def way_point_on_arrived_es(evt : ArrivedToWayPoint;
 [es (tag=server, no_order)]
 def routing_update_es(act : ecs::UpdateStageInfoAct;
                       eid, unit_current_route_dot_curWayPoint, unit_current_route_dot_routeEid : EntityId;
-                      uid : int; move_sys_dot_maxDecel : float)
+                      uid : int)
   if (unit_current_route_dot_curWayPoint != INVALID_ENTITY_ID &&
    unit_current_route_dot_routeEid != INVALID_ENTITY_ID)
-    ecs::query(unit_current_route_dot_curWayPoint) <| $ [es] (way_point_dot_transform : float3x4)
-      let vel = length_sq(get_move_sys_vel(uid))
-      let dist = length_sq(way_point_dot_transform[3] - get_unit_pos(uid))
-      let recDecel = move_sys_dot_maxDecel != 0.f ? 1.f / move_sys_dot_maxDecel : 1.f;
-      let timeToDecel = dist < square(vel * recDecel * 0.5)
-      if timeToDecel
-        ecs::query(unit_current_route_dot_routeEid) <| $ [es] (route_dot_wayPoints : EidList;
-                                                              route_dot_isLooped : bool)
-          let nextWp = get_next_way_point(unit_current_route_dot_curWayPoint, route_dot_wayPoints, route_dot_isLooped)
-          ecs::query(nextWp) <| $ [es] (way_point_dot_moveType : string)
-            if way_point_dot_moveType == "USE_SPLINE"
-              set_move_sys_state(uid, int(MoveSysState ST_HALT))
     let state = get_move_sys_state(uid)
     if (state == int(MoveSysState ST_HALT))
       sendEvent(unit_current_route_dot_routeEid, [[ArrivedToWayPoint uId=uid, uEid=eid, wpEid=unit_current_route_dot_curWayPoint ]])

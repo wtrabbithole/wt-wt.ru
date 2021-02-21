@@ -267,6 +267,7 @@ local agmTrackZone = function(line_style, width, height, isBackground) {
     size = [width, height]
     opacity = AtgmTrackerRadius.value > 0.0 ? 100 : 0
     color = getColor(isBackground)
+    fillColor = Color(0, 0, 0, 0)
     lineWidth = max(LINE_WIDTH, hdpx(LINE_WIDTH))
     watch = [IsAgmEmpty, IsATGMOutOfTrackerSector, AtgmTrackerRadius]
     commands = !IsAgmEmpty.value && IsATGMOutOfTrackerSector.value ?
@@ -396,7 +397,7 @@ local function helicopterMainHud(elemStyle, isBackground) {
       helicopterGunDirection(elemStyle, isBackground, false)
       helicopterFixedGunsDirection(elemStyle, isBackground)
       helicopterCCRP(elemStyle, isBackground)
-      hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
+      hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(325), sh(42.5), isBackground)
       hudElems.horSpeed(elemStyle, isBackground)
       helicopterParamsTable(elemStyle, isBackground)
       azimuth
@@ -414,7 +415,7 @@ local function helicopterSightHud(elemStyle, isBackground) {
     pos = [0, 0]
     children = IsSightHudVisible.value ?
     [
-      hudElems.vertSpeed(elemStyle, sh(4.0), sh(30), sw(50) + hdpx(384), sh(35), isBackground)
+      hudElems.vertSpeed(elemStyle, sh(4.0), sh(30), sw(50) + hdpx(325), sh(35), isBackground)
       hudElems.turretAngles(elemStyle, hdpx(150), hdpx(150), sw(50), sh(90), isBackground)
       hudElems.agmLaunchZone(elemStyle, sw(100), sh(100), isBackground)
       hudElems.launchDistanceMax(elemStyle, hdpx(150), hdpx(150), sw(50), sh(90), isBackground)
@@ -448,7 +449,7 @@ local function gunnerHud(elemStyle, isBackground) {
       helicopterGunDirection(elemStyle, isBackground, false)
       helicopterFixedGunsDirection(elemStyle, isBackground)
       helicopterCCRP(elemStyle, isBackground)
-      hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
+      hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(325), sh(42.5), isBackground)
       helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
@@ -462,7 +463,7 @@ local function pilotHud(elemStyle, isBackground) {
     pos = [0, 0]
     children = IsPilotHudVisible.value ?
     [
-      hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
+      hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(325), sh(42.5), isBackground)
       helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
@@ -471,9 +472,9 @@ local function pilotHud(elemStyle, isBackground) {
 
 local rwrPic = Picture("!ui/gameuiskin#rwr_stby_icon")
 local function mkTws(colorStyle){
-  local twsPosX = IsTwsActivated.value ? sw(6) : sw(81)
-  local twsPosY = IsTwsActivated.value ? sh(6) : sh(35)
+  local twsPosY = IsTwsActivated.value ? sh(50) : safeAreaSizeHud.value.size[1] * 0.05
   local twsSize = IsTwsActivated.value ? sh(20) : sh(5)
+  local twsPosX = IsTwsActivated.value ? safeAreaSizeHud.value.size[0] - twsSize - sw(1.5) : safeAreaSizeHud.value.size[0] - safeAreaSizeHud.value.size[1] * 0.40
   if (IsTwsActivated.value || !CollapsedIcon.value){
     return @(){
     children = (!IsMlwsLwsHudVisible.value && !IsRwrHudVisible.value) ? null :
@@ -487,7 +488,7 @@ local function mkTws(colorStyle){
   }
   else if (IsMlwsLwsHudVisible.value || IsRwrHudVisible.value){
     return @() colorStyle.__merge({
-      pos = [sw(90), sh(33)]
+      pos = [safeAreaSizeHud.value.size[0] - safeAreaSizeHud.value.size[1] * 0.35, safeAreaSizeHud.value.size[1] * 0.05]
       size = [sh(5), sh(5)]
       rendObj = ROBJ_IMAGE
       image = rwrPic
@@ -500,9 +501,9 @@ local function mkTws(colorStyle){
 local radarPic = Picture("!ui/gameuiskin#radar_stby_icon")
 local function mkRadar(colorStyle) {
   local radarVisible = radarComponent.state.IsRadarVisible.value || radarComponent.state.IsRadar2Visible.value
-  local radarPosY = radarVisible ? sh(68) : sh(35)
+  local radarPosY = radarVisible ? sh(6) : safeAreaSizeHud.value.size[1] * 0.25
+  local radarPosX = radarVisible ? sw(6) : safeAreaSizeHud.value.size[0] - safeAreaSizeHud.value.size[1] * 0.40
   local radarSize = radarVisible ? sh(28) : sh(8)
-  local radarPosX = radarVisible ? safeAreaSizeHud.value.size[0] - radarSize - sw(1.5) : sw(91)
   if (radarVisible || !CollapsedIcon.value){
     return {
       children = radarComponent.radar(false, radarPosX, radarPosY, radarSize, true, colorStyle.color)
@@ -510,7 +511,7 @@ local function mkRadar(colorStyle) {
   }
   else if (radarComponent.state.IsRadarHudVisible.value){
     return colorStyle.__merge({
-      pos = [sw(95), sh(33)]
+      pos = [safeAreaSizeHud.value.size[0] - safeAreaSizeHud.value.size[1] * 0.35, safeAreaSizeHud.value.size[1] * 0.25]
       size = [sh(5), sh(5)]
       rendObj = ROBJ_IMAGE
       image = radarPic

@@ -1,4 +1,5 @@
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { saveProfile, forceSaveProfile } = require("scripts/clientState/saveProfile.nut")
 
 class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -92,7 +93,10 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    ::save_profile_offline_limited(forcedSave)
+    if (forcedSave)
+      forceSaveProfile()
+    else
+      saveProfile()
     forcedSave = false
     return true
   }

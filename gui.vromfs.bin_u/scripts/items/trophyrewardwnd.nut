@@ -381,12 +381,6 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     })
   }
 
-  function onUnitHover(obj)
-  {
-    if (!::show_console_buttons)
-      openUnitActionsList(obj, true)
-  }
-
   function updateButtons()
   {
     if (!::checkObj(scene))

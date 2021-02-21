@@ -64,7 +64,7 @@ local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
 
     if (unit?.isSubmarine())
       return "ID_SUBMARINE_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
-    if (unit?.isShip())
+    if (unit?.isShipOrBoat())
       return "ID_SHIP_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     //
 
@@ -82,7 +82,7 @@ local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
       unit = ::getAircraftByName(::get_action_bar_unit_name())
     if (unit?.isSubmarine())
       return "ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
-    if (unit?.isShip())
+    if (unit?.isShipOrBoat())
       return "ID_SHIP_KILLSTREAK_WHEEL_MENU"
     //
 
@@ -188,7 +188,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     {
       if (unit?.isSubmarine())
         return "ID_SUBMARINE_WEAPON_ROCKETS"
-      if (unit?.isShip())
+      if (unit?.isShipOrBoat())
         return "ID_SHIP_WEAPON_ROCKETS"
       if (unit?.isTank())
         return "ID_FIRE_GM_SPECIAL_GUN"
@@ -216,11 +216,11 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     isForWheelMenu = @() true
     _icon = "#ui/gameuiskin#smoke_screen"
     getTitle = @(killStreakTag = null)
-      !::getAircraftByName(::get_action_bar_unit_name())?.isShip()
+      !::getAircraftByName(::get_action_bar_unit_name())?.isShipOrBoat()
         ? ::loc("hotkeys/ID_SMOKE_SCREEN")
         : ::loc("hotkeys/ID_SHIP_SMOKE_GRENADE")
     getShortcut = @(actionItem, unit = null)
-      !unit?.isShip()
+      !unit?.isShipOrBoat()
         ? "ID_SMOKE_SCREEN"
         : "ID_SHIP_SMOKE_GRENADE"
   }
@@ -235,7 +235,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     {
       if (unit?.isSubmarine())
         return "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"
-      if (unit?.isShip())
+      if (unit?.isShipOrBoat())
         return "ID_SHIP_SMOKE_SCREEN_GENERATOR"
       return "ID_SMOKE_SCREEN_GENERATOR"
     }
@@ -296,28 +296,28 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
 
   EXTINGUISHER = {
     code = ::EII_EXTINGUISHER
-    isForWheelMenu = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShip()
-    canSwitchAutomaticMode = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShip()
+    isForWheelMenu = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShipOrBoat()
+    canSwitchAutomaticMode = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShipOrBoat()
     _name = "extinguisher"
     _icon = "#ui/gameuiskin#extinguisher"
     _title = ::loc("hotkeys/ID_ACTION_BAR_ITEM_6")
     needAnimOnIncrementCount = true
     getIcon = function(killStreakTag = null, unit = null) {
       unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
-      return unit?.isShip() ? "#ui/gameuiskin#manual_ship_extinguisher" : "#ui/gameuiskin#extinguisher"
+      return unit?.isShipOrBoat() ? "#ui/gameuiskin#manual_ship_extinguisher" : "#ui/gameuiskin#extinguisher"
     }
   }
 
   TOOLKIT = {
     code = ::EII_TOOLKIT
-    isForWheelMenu = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShip()
-    canSwitchAutomaticMode = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShip()
+    isForWheelMenu = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShipOrBoat()
+    canSwitchAutomaticMode = @() ::getAircraftByName(::get_action_bar_unit_name())?.isShipOrBoat()
     _name = "toolkit"
     _icon = "#ui/gameuiskin#tank_tool_kit"
     _title = ::loc("hotkeys/ID_SHIP_ACTION_BAR_ITEM_11")
     getIcon = function(killStreakTag = null, unit = null) {
       unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
-      return unit?.isShip() ? "#ui/gameuiskin#ship_tool_kit" : "#ui/gameuiskin#tank_tool_kit"
+      return unit?.isShipOrBoat() ? "#ui/gameuiskin#ship_tool_kit" : "#ui/gameuiskin#tank_tool_kit"
     }
   }
 

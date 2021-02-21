@@ -87,7 +87,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         slotbarBehavior = "posNavigator"
         needFullSlotBlock = true
 
-        afterSlotbarSelect = onChangeUnit
+        applySlotSelectionOverride = @(_, __) onChangeUnit()
         onSlotDblClick = ::Callback(onApplyCrew, this)
         onSlotActivate = ::Callback(onApplyCrew, this)
       },

@@ -48,7 +48,6 @@ return [
   {
     id = "ship_main_engine"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     checkGroup = ctrlGroups.SHIP
     showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, false)
     axisDirection = AxisDirection.Y
@@ -57,7 +56,6 @@ return [
   {
     id = "ship_port_engine"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     checkGroup = ctrlGroups.SHIP
     showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, true)
     checkAssign = false
@@ -65,7 +63,6 @@ return [
   {
     id = "ship_star_engine"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     checkGroup = ctrlGroups.SHIP
     showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, true)
     checkAssign = false
@@ -405,7 +402,6 @@ return [
   {
     id = "ship_sight_distance"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     isAbsOnlyWhenRealAxis = true
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
@@ -413,7 +409,6 @@ return [
   {
     id = "ship_shoot_direction"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     isAbsOnlyWhenRealAxis = true
     checkGroup = ctrlGroups.SHIP
     checkAssign = false

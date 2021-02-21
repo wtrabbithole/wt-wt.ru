@@ -78,6 +78,7 @@ EditBox[select="yes"]
   foreground-repeat: expand;
   behavior:focusFrameTarget;
   focusImageSource:foreground;
+  focusAnimColor:@gamepadFocusFrameColor;
 }
 
 EditBox[multiline] {
@@ -104,6 +105,7 @@ EditBox:hover, EditBox:focus, EditBox[select="yes"]
   border:no;
   behavior:focusFrameTarget;
   focusImageSource:background;
+  focusAnimColor:@gamepadFocusFrameColor;
 }
 
 EditBox:disabled {

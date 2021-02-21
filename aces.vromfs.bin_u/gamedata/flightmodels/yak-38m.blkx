@@ -34,9 +34,6 @@
   "autopilotImpl": "Full",
   "fullAutopilotIndSpeedTransition": [180.0,220.0],
   "fullAutopilotVtolTransition": [0.7,0.3],
-  "customClassIco": "!#ui/gameuiskin#image_in_progress_ico",
-  "customImage": "!#ui/unitskin#image_in_progress",
-  "customTooltipImage": "ui/aircrafts/image_in_progress",
   "DamageParts": {
     "armor10": {
       "cannon1_dm": {
@@ -2163,6 +2160,9 @@
       "rpm": [0.0,9300.0],
       "rpm1": [0.0,12000.0],
       "rpm2": [0.0,12000.0],
+      "nozzle_pressure": [0.0,4000.0],
+      "nozzle_angle": [0.0,-90.0],
+      "vtol_fixed": false,
       "oil_pressure": [0.0,120.0],
       "oil_temperature": [0.0,150.0],
       "water_temperature_min": [0.0,100.0],
@@ -2189,6 +2189,12 @@
       }
     ]
   },
+  "propellers": {
+    "prop0": -1,
+    "prop1": -1,
+    "engine0": 1,
+    "engine1": 2
+  },
   "sensors": {
     "sensor": {
       "blk": "gameData/sensors/su_spo-10.blk"
@@ -2211,7 +2217,24 @@
     {
       "preset": {
         "name": "yak_38m_default",
-        "blk": "gameData/FlightModels/weaponPresets/yak_38_2x_upk23.blk"
+        "blk": "gameData/FlightModels/weaponPresets/yak_38_2x_upk23.blk",
+        "weaponConfig": {
+          "Weapon": [
+            {
+              "blk": "gameData/Weapons/cannonGSh_23L.blk"
+            },
+            {
+              "tier": {
+                "idx": 4
+              }
+            },
+            {
+              "tier": {
+                "idx": 8
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -2267,7 +2290,30 @@
       "preset": {
         "name": "yak_38m_2x_ofab250",
         "blk": "gameData/FlightModels/weaponPresets/yak_38_2x_ofab250.blk",
-        "reqModification": "mi_24_fab_250"
+        "reqModification": "mi_24_fab_250",
+        "weaponConfig": {
+          "Weapon": [
+            {
+              "blk": "gameData/Weapons/BombGuns/su_ofab250.blk"
+            },
+            {
+              "amountPerTier": 1.0
+            },
+            {
+              "iconType": "bombs_middle"
+            },
+            {
+              "tier": {
+                "idx": 4
+              }
+            },
+            {
+              "tier": {
+                "idx": 8
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -2281,7 +2327,30 @@
       "preset": {
         "name": "yak_38m_2x_ofab500",
         "blk": "gameData/FlightModels/weaponPresets/yak_38_2x_ofab500.blk",
-        "reqModification": "mi_24_fab_500"
+        "reqModification": "mi_24_fab_500",
+        "weaponConfig": {
+          "Weapon": [
+            {
+              "blk": "gameData/Weapons/BombGuns/su_fab500_m54.blk"
+            },
+            {
+              "amountPerTier": 1.0
+            },
+            {
+              "iconType": "bombs_large"
+            },
+            {
+              "tier": {
+                "idx": 4
+              }
+            },
+            {
+              "tier": {
+                "idx": 8
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -2297,6 +2366,56 @@
         },
         {
           "reqModification": "mi_24_fab_500"
+        },
+        {
+          "weaponConfig": [
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/BombGuns/su_fab500_m54.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "bombs_large"
+                },
+                {
+                  "tier": {
+                    "idx": 4
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 8
+                  }
+                }
+              ]
+            },
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/BombGuns/su_ofab250.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "bombs_middle"
+                },
+                {
+                  "tier": {
+                    "idx": 5
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 7
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -2358,12 +2477,12 @@
             },
             {
               "tier": {
-                "idx": 5
+                "idx": 4
               }
             },
             {
               "tier": {
-                "idx": 7
+                "idx": 8
               }
             }
           ]
@@ -2441,12 +2560,12 @@
             },
             {
               "tier": {
-                "idx": 5
+                "idx": 4
               }
             },
             {
               "tier": {
-                "idx": 7
+                "idx": 8
               }
             }
           ]
@@ -2457,7 +2576,30 @@
       "preset": {
         "name": "yak_38m_2x_s24",
         "blk": "gameData/FlightModels/weaponPresets/yak_38_2x_s24.blk",
-        "reqModification": "il_28sh_s24"
+        "reqModification": "il_28sh_s24",
+        "weaponConfig": {
+          "Weapon": [
+            {
+              "blk": "gameData/Weapons/rocketGuns/su_s_24b_rocket.blk"
+            },
+            {
+              "amountPerTier": 1.0
+            },
+            {
+              "iconType": "rockets_he_large"
+            },
+            {
+              "tier": {
+                "idx": 4
+              }
+            },
+            {
+              "tier": {
+                "idx": 8
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -2576,6 +2718,53 @@
         },
         {
           "reqModification": "mi_24_r_60"
+        },
+        {
+          "weaponConfig": [
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/rocketGuns/su_r_60.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "missile_type_b_air_to_air"
+                },
+                {
+                  "tier": {
+                    "idx": 5
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 7
+                  }
+                }
+              ]
+            },
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/cannonGSh_23L.blk"
+                },
+                {
+                  "iconType": "doublebarreled_box"
+                },
+                {
+                  "tier": {
+                    "idx": 4
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 8
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -2608,6 +2797,56 @@
         },
         {
           "reqModification": "mi_24_r_60"
+        },
+        {
+          "weaponConfig": [
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/rocketGuns/su_r_60.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "missile_type_b_air_to_air"
+                },
+                {
+                  "tier": {
+                    "idx": 5
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 7
+                  }
+                }
+              ]
+            },
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/BombGuns/su_ofab250.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "bombs_middle"
+                },
+                {
+                  "tier": {
+                    "idx": 4
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 8
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -2756,6 +2995,56 @@
         },
         {
           "reqModification": "mi_24_r_60"
+        },
+        {
+          "weaponConfig": [
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/rocketGuns/su_r_60.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "missile_type_b_air_to_air"
+                },
+                {
+                  "tier": {
+                    "idx": 5
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 7
+                  }
+                }
+              ]
+            },
+            {
+              "Weapon": [
+                {
+                  "blk": "gameData/Weapons/rocketGuns/su_s_24b_rocket.blk"
+                },
+                {
+                  "amountPerTier": 1.0
+                },
+                {
+                  "iconType": "rockets_he_large"
+                },
+                {
+                  "tier": {
+                    "idx": 4
+                  }
+                },
+                {
+                  "tier": {
+                    "idx": 8
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -3176,21 +3465,15 @@
     "chuteFallSpeed": 1.0
   },
   "cutting": {
-    "_emtr_break_wing0_l_from": [-0.343103,-0.182894,0.841526],
-    "_emtr_break_wing0_l_to": [-0.343103,-0.182894,1.20743],
-    "emtr_break_wing1_l_from": [-0.343103,-0.182894,1.75628],
-    "emtr_break_wing1_l_to": [-0.343103,-0.182894,2.17795],
-    "emtr_break_wing2_l_from": [-0.343103,-0.182894,2.81046],
-    "emtr_break_wing2_l_to": [-0.343103,-0.182894,3.42408],
-    "_emtr_break_wing0_r_from": [-0.343103,-0.182894,-0.841526],
-    "_emtr_break_wing0_r_to": [-0.343103,-0.182894,-1.20743],
-    "emtr_break_wing1_r_from": [-0.343103,-0.182894,-1.75628],
-    "emtr_break_wing1_r_to": [-0.343103,-0.182894,-2.17795],
-    "emtr_break_wing2_r_from": [-0.343103,-0.182894,-2.81046],
-    "emtr_break_wing2_r_to": [-0.343103,-0.182894,-3.42408],
-    "emtr_break_wing_tail": [-3.65068,0.0,0.0],
-    "finCut": true,
-    "emtr_break_tail_from": [-2.18424,-0.0298361,0.0],
-    "emtr_break_tail_to": [-4.25613,-0.0298361,0.0]
+    "emtr_break_wing2_l_from": [-0.291576,0.0677612,2.67578],
+    "emtr_break_wing2_l_to": [-0.291576,0.0677612,3.00525],
+    "emtr_break_wing2_r_from": [-0.291576,0.0677612,-2.67578],
+    "emtr_break_wing2_r_to": [-0.291576,0.0677612,-3.00525],
+    "emtr_break_wing_tail": [-2.20875,0.0,0.0],
+    "finCut": false,
+    "emtr_break_stab_l_from": [-5.77066,0.418217,0.455143],
+    "emtr_break_stab_l_to": [-5.77066,0.418217,1.29884],
+    "emtr_break_stab_r_from": [-5.77066,0.418217,-0.455143],
+    "emtr_break_stab_r_to": [-5.77066,0.418217,-1.29884]
   }
 }

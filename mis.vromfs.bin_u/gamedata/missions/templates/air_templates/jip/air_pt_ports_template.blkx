@@ -66,6 +66,22 @@
           "triggerEnable": {
             "target": "pt_generate_size_t1_start"
           }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "object": "all_port_defenders_squad",
+            "targetAir": false,
+            "checkVisibilityTarget": true
+          }
         }
       ],
       "else_actions": []
@@ -1217,6 +1233,7 @@
               "canCaptureByGM": true,
               "onlyPlayersCanCapture": false,
               "captureNoPenalty": true,
+              "useHUDMarkers": true,
               "zoneDefenders": {
                 "defender": "@pt_generate_defenders_name"
               },
@@ -1275,6 +1292,7 @@
               "canCaptureByGM": true,
               "onlyPlayersCanCapture": false,
               "captureNoPenalty": true,
+              "useHUDMarkers": true,
               "zoneDefenders": {
                 "defender": "@pt_generate_defenders_name"
               },

@@ -1109,6 +1109,7 @@ local HelicopterTATarget = function(line_style, w, h, isBackground) {
       rendObj = ROBJ_VECTOR_CANVAS
       size = [w, h]
       color = AlertColor.value
+      fillColor = Color(0, 0, 0, 0)
       commands =
       [
         [VECTOR_LINE, -10, -10, 10, -10],
@@ -1122,6 +1123,7 @@ local HelicopterTATarget = function(line_style, w, h, isBackground) {
       rendObj = ROBJ_VECTOR_CANVAS
       size = [w, h]
       color = AlertColor.value
+      fillColor = Color(0, 0, 0, 0)
       watch = IsTargetTracked
       commands = IsTargetTracked.value ?
       [
@@ -1136,6 +1138,7 @@ local HelicopterTATarget = function(line_style, w, h, isBackground) {
       rendObj = ROBJ_VECTOR_CANVAS
       size = [w, h]
       color = AlertColor.value
+      fillColor = Color(0, 0, 0, 0)
       watch = IsLaserDesignatorEnabled
       commands = IsLaserDesignatorEnabled.value ?
       [

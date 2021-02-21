@@ -104,6 +104,7 @@ frame {
       pos:t='50%pw-50%w, 0'
       width:t='pw - 3@warbondShopLevelItemHeight'
       height:t='1@warbondShopLevelProgressHeight'
+      display:t='hide'
     }
 
     tdiv {

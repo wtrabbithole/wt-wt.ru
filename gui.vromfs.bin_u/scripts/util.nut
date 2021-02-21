@@ -1,12 +1,10 @@
 //ATTENTION! this file is coupling things to much! Split it!
 //shouldDecreaseSize, allowedSizeIncrease = 100
 
-local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalty = ::require_native("penalty")
 local { isPlatformSony, getPlayerName } = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
-local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 local { isCrossPlayEnabled } = require("scripts/social/crossplay.nut")
 local { startLogout } = require("scripts/login/logout.nut")
 local { set_blk_value_by_path, get_blk_value_by_path, blkOptFromPath } = require("sqStdLibs/helpers/datablockUtils.nut")
@@ -455,63 +453,6 @@ foreach (i, v in ::cssColorsMapDark)
 {
   local mode = ::get_mp_mode();
   return mode == ::GM_DOMINATION || mode == ::GM_TOURNAMENT;
-}
-
-::skip_crew_unlock_assert <- false
-::setCrewUnlockTime <- function setCrewUnlockTime(obj, air)
-{
-  if(!::checkObj(obj))
-    return
-
-  SecondsUpdater(obj, (@(air) function(obj, params) {
-    local crew = air && ::getCrewByAir(air)
-    local lockTime = ::getTblValue("lockedTillSec", crew, 0)
-    local show = lockTime > 0 && ::isInMenu()
-    if(show)
-    {
-      local waitTime = lockTime - ::get_charserver_time_sec()
-      show = waitTime > 0
-
-      local tObj = obj.findObject("time")
-      if(show && ::checkObj(tObj))
-      {
-        local wpBlk = ::get_warpoints_blk()
-        if (wpBlk?.lockTimeMaxLimitSec && waitTime > wpBlk.lockTimeMaxLimitSec)
-        {
-          waitTime = wpBlk.lockTimeMaxLimitSec
-          ::dagor.debug("crew.lockedTillSec " + lockTime)
-          ::dagor.debug("::get_charserver_time_sec() " + ::get_charserver_time_sec())
-          if (!::skip_crew_unlock_assert)
-            ::debugTableData(::g_crews_list.get())
-          ::dagor.assertf(::skip_crew_unlock_assert, "Too big locked crew wait time")
-          ::skip_crew_unlock_assert = true
-        }
-        local timeStr = time.secondsToString(waitTime)
-        tObj.setValue(timeStr)
-
-        local showButtons = ::has_feature("EarlyExitCrewUnlock")
-        local crewCost = ::shop_get_unlock_crew_cost(crew.id)
-        local crewCostGold = ::shop_get_unlock_crew_cost_gold(crew.id)
-
-        if (showButtons)
-        {
-          placePriceTextToButton(obj, "btn_unlock_crew", ::loc("mainmenu/btn_crew_unlock"), crewCost, 0)
-          placePriceTextToButton(obj, "btn_unlock_crew_gold", ::loc("mainmenu/btn_crew_unlock"), 0, crewCostGold)
-        }
-        ::showBtn("btn_unlock_crew", showButtons && crewCost, obj)
-        ::showBtn("btn_unlock_crew_gold", showButtons && crewCostGold, obj)
-        ::showBtn("crew_unlock_buttons", showButtons && (crewCost || crewCostGold), obj)
-      }
-    }
-    obj.show(show)
-    if (!show && ::getTblValue("wasShown", params, false))
-    {
-      ::g_crews_list.invalidate()
-      obj.getScene().performDelayed(this, function() { ::reinitAllSlotbars() })
-    }
-    params.wasShown <- show
-    return !show
-  })(air))
 }
 
 ::fillCountryInfo <- function fillCountryInfo(scene, country, expChange=0, showMedals = false, profileData=null)

@@ -396,14 +396,14 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     local params = []
     params.append({
                     text = clusterNameLoc
-                    tdAlign = "center"
+                    tdalign = "center"
                  })
 
     for(local i = 1; i <= ::max_country_rank; i++)
     {
       params.append({
         text = ::getTblValue(i.tostring(), queueStatData, 0).tostring()
-        tdAlign = "center"
+        tdalign = "center"
       })
     }
     return params
@@ -417,7 +417,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     {
       headerData.append({
         text = ::get_roman_numeral(i)
-        tdAlign = "center"
+        tdalign = "center"
       })
     }
     return ::buildTableRow("", headerData, 0, "inactive:t='yes'; commonTextColor:t='yes';", "0")

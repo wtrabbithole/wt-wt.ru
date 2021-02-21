@@ -10,7 +10,7 @@
 @const listboxHoverTextColor:       @textInWhiteBlockColor;
 @const listboxHoverOptionLineColor: #e8e8e8;
 
-@const listboxSelOptionColor:       #28333c;
+@const listboxSelOptionColor:       #ff313a41;
 @const listboxSelTextColor:         #e0e0e0;
 @const listboxSelOptionLineColor:   #96b1b1;
 
@@ -247,7 +247,7 @@ HorizontalListBox[type=transparent] {
 }
 
 [type=transparent] > shopFilter[selected=yes]{
-  background-color:@listboxSelOptionColor;
+  background-color:@buttonColor;
   foreground-color:@headerOptionSelectedColor;
   background-position:0, 0, 0, 2@listboxItemsInterval;
   foreground-position:0, h-2@listboxItemsInterval, 0, 0;
@@ -439,15 +439,12 @@ shopFilterImg {
   height: @shopFilterTextCountryHeight;
 }
 
-.countries_small shopFilterImg {
-  pos:50%pw-50%w, 50%ph-50%h;
-  size:@cIco, @cIco;
-  background-svg-size:@cIco, @cIco;
+.countries_small > shopFilter {
+  padding:0.75@listboxHPadding, 0;
 }
 
 .countryChoice :hover shopFilterImg,
 .countries :hover shopFilterImg,
-.countries_small :hover shopFilterImg,
 [type=transparent] > shopFilter:hover > shopFilterImg {
   background-color:@imageHoverCountryColor;
 }
@@ -594,7 +591,7 @@ CountriesCrews > massTransp {
 }
 
 CountriesCrews[hasBackground=yes] {
-  background-color:@slotbarBgColor;
+  background-color:@listboxSelOptionColor;
 }
 
 shopFilter.slotsHeader:hover {

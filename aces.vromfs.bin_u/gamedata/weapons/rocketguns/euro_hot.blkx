@@ -80,10 +80,7 @@
       "autoAimTrackingSensitivity": 0.4
     },
     {
-      "WdK": [0.1,0.1,0.1]
-    },
-    {
-      "maxAxisValues": 0.35
+      "rotationRocketX": 10.0
     },
     {
       "explosionEffect": "explosion_midair_medium"
@@ -287,6 +284,12 @@
       "iconType": "atgm_type1x1"
     },
     {
+      "hasTracerTrail": true
+    },
+    {
+      "tracerTrailEmitter": [0.1,-0.01,0.0]
+    },
+    {
       "stabilityRicochetModifier": [
         {
           "mod1": [0.0,0.0]
@@ -437,10 +440,11 @@
     },
     {
       "tracerTrail": {
+        "smokeEffect": "",
         "visual": {
           "traceFreq": 1,
-          "tracer": "100mmBlue",
-          "trail": "black"
+          "tracer": "100mmRed",
+          "trail": "noTrail"
         }
       }
     }

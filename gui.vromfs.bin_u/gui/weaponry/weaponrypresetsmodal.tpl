@@ -71,10 +71,6 @@ root {
           tooltip:t='<<altBtnTooltip>>'
           btnName:t='X'
           on_click:t='onAltModAction'
-          visualStyle:t='purchase'
-          skip-navigation:t='yes'
-          buttonWink {}
-          buttonGlance{}
           ButtonImg {}
         }
         Button_text{

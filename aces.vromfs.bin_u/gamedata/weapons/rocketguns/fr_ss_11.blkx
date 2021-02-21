@@ -86,6 +86,8 @@
     "aiSpeedViscosity": 3.0,
     "aiSpeedPrediction": 1.0,
     "aiAccelPrediction": 0.5,
+    "hasTracerTrail": true,
+    "tracerTrailEmitter": [0.1,-0.01,0.0],
     "amountPerTier": 1.0,
     "iconType": "missile_air_to_uni",
     "stabilityRicochetModifier": [
@@ -226,6 +228,14 @@
       "distance": 7.5,
       "damage": 900.0,
       "onHitChanceMultFire": 25.0
+    },
+    "tracerTrail": {
+      "smokeEffect": "",
+      "visual": {
+        "traceFreq": 1,
+        "tracer": "100mmRed",
+        "trail": "noTrail"
+      }
     }
   }
 }

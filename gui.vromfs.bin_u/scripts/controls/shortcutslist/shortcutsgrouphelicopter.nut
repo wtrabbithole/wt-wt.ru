@@ -121,7 +121,6 @@ return [
     id = "helicopter_cyclic_roll"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.HELICOPTER
-    def_relative = false
     reqInMouseAim = false
     needShowInHelp = true
   }
@@ -129,7 +128,6 @@ return [
     id = "helicopter_cyclic_pitch"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.HELICOPTER
-    def_relative = false
     checkAssign = false
     needShowInHelp = true
   }
@@ -137,7 +135,6 @@ return [
     id = "helicopter_pedals"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.HELICOPTER
-    def_relative = false
     checkAssign = false
     needShowInHelp = true
   }

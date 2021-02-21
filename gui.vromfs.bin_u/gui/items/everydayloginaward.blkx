@@ -500,6 +500,30 @@
                   ]
                 },
                 {
+                  "tdiv": {
+                    "id": "today_login_exp",
+                    "behaviour": "bhvUpdateByWatched",
+                    "pos": "50%pw-50%w, -1@buttonHeight - 2@blockInterval",
+                    "position": "absolute",
+                    "height": "1@buttonHeight + 1@frameFooterHeight + 3@blockInterval",
+                    "display": "hide",
+                    "tdiv": {
+                      "position": "absolute",
+                      "size": "pw, ph",
+                      "overflow": "hidden",
+                      "blur": [],
+                      "blur_foreground": []
+                    },
+                    "textareaNoTab": {
+                      "id": "today_login_exp_text",
+                      "min-width": "1@bigButtonWidth + 2@blockInterval",
+                      "background-color": "@battleTaskHeaderBgColor",
+                      "padding": "1@buttonTextPadding,1@buttonImgPadding",
+                      "text": ""
+                    }
+                  }
+                },
+                {
                   "Button_text": {
                     "id": "btn_open",
                     "class": "battle",
@@ -618,6 +642,21 @@
               "btnName": "Y",
               "_on_click": "onViewRewards",
               "ButtonImg": []
+            }
+          },
+          {
+            "tdiv": {
+              "id": "login_streak_exp",
+              "behaviour": "bhvUpdateByWatched",
+              "display": "hide",
+              "textareaNoTab": {
+                "id": "text",
+                "height": "1@buttonHeight",
+                "background-color": "@battleTaskHeaderBgColor",
+                "padding": "1@buttonTextPadding,1@buttonImgPadding",
+                "margin": "1@blockInterval",
+                "text": ""
+              }
             }
           }
         ],

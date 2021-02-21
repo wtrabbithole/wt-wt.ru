@@ -102,6 +102,7 @@ local allowed_mission_settings = { //only this settings are allowed in room
      useTankBots = false
      ranks = {}
      useShipBots = false
+     keepDead = true
      isLimitedAmmo = false
      isLimitedFuel = false
      optionalTakeOff = false

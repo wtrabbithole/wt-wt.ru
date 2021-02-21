@@ -84,6 +84,9 @@ local function requestWwLeaderboardData(modeName, dataParams, cb, headersParams 
 
 local function requestWwLeaderboardModes(modeName, cb)
 {
+  if (!::g_login.isLoggedIn())
+    return
+
   local mode = getModeByName(modeName)
   if (!mode)
     return

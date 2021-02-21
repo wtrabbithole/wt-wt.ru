@@ -1,6 +1,5 @@
 local callback = require("sqStdLibs/helpers/callback.nut")
 local Callback = callback.Callback
-local battleRating = require("scripts/battleRating.nut")
 local selectUnitHandler = require("scripts/slotbar/selectUnitHandler.nut")
 local { getWeaponsStatusName, checkUnitWeapons } = require("scripts/weaponry/weaponryInfo.nut")
 local { getNearestSelectableChildIndex } = require("sqDagui/guiBhv/guiBhvUtils.nut")
@@ -56,6 +55,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
   shouldCheckQueue = null //bool.  should check queue before select unit. !::is_in_flight by default.
   needActionsWithEmptyCrews = true //allow create crew and choose unit to crew while select empty crews.
+  applySlotSelectionOverride = null //full override slot selection instead of select_crew
   beforeSlotbarSelect = null //function(onContinueCb, onCancelCb) to do before apply slotbar select.
                              //must call one of listed callbacks on finidh.
                              //when onContinueCb will be called, slotbar will aplly unit selection
@@ -157,7 +157,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     //update callbacks
     foreach(funcName in ["beforeSlotbarSelect", "afterSlotbarSelect", "onSlotDblClick", "onCountryChanged",
-        "beforeFullUpdate", "afterFullUpdate", "onSlotBattleBtn"])
+        "beforeFullUpdate", "afterFullUpdate", "onSlotBattleBtn", "applySlotSelectionOverride"])
       if (this[funcName])
         this[funcName] = callback.make(this[funcName], ownerWeak)
   }
@@ -659,8 +659,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (curSlotCountryId == selSlot.countryId
         && curSlotIdInCountry == selSlot.crewIdInCountry)
       return
-    if (curSlotIdInCountry != selSlot.crewIdInCountry && curSlotCountryId == selSlot.countryId)
-      ::hangar_current_preset_changed(-1, selSlot.crewIdInCountry, -1)
 
     if (beforeSlotbarSelect)
     {
@@ -685,72 +683,71 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
       applySlotSelection(obj, selSlot)
-
-   battleRating.updateBattleRating()
   }
 
-  function applySlotSelection(obj, selSlot)
-  {
-    curSlotCountryId = selSlot.countryId
-    curSlotIdInCountry = selSlot.crewIdInCountry
-
-    if (::slotbar_oninit)
-    {
-      if (afterSlotbarSelect)
-        afterSlotbarSelect()
-      return
-    }
+  function applySlotSelectionDefault(prevSlot, restorePrevSelection) {
+    if (prevSlot.crewIdInCountry != curSlotIdInCountry && prevSlot.countryId == curSlotCountryId)
+      ::hangar_current_preset_changed(-1, curSlotIdInCountry, -1)
 
     local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    if (needActionsWithEmptyCrews && !crew && (curSlotCountryId in ::g_crews_list.get()))
-    {
-      local country = ::g_crews_list.get()[curSlotCountryId].country
-
-      local rawCost = ::get_crew_slot_cost(country)
-      local cost = rawCost? ::Cost(rawCost.cost, rawCost.costGold) : ::Cost()
-      if (::check_balance_msgBox(cost))
-      {
-        if (cost > ::zero_money)
-        {
-          local msgText = ::warningIfGold(
-            format(::loc("shop/needMoneyQuestion_purchaseCrew"),
-              cost.getTextAccordingToBalance()),
-            cost)
-          ignoreCheckSlotbar = true
-          msgBox("need_money", msgText,
-            [["ok", (@(country) function() {
-                      ignoreCheckSlotbar = false
-                      purchaseNewSlot(country)
-                    })(country) ],
-             ["cancel", (@(obj, curSlotCountryId) function() {
-                          ignoreCheckSlotbar = false
-                          selectTblAircraft(obj, ::selected_crews[curSlotCountryId])
-                        })(obj, curSlotCountryId) ]
-            ], "ok")
-        }
-        else
-          purchaseNewSlot(country)
-      }
-      else
-        selectTblAircraft(obj, ::selected_crews[curSlotCountryId])
-    }
-    else if (crew)
+    if (crew)
     {
       local unit = getCrewUnit(crew)
       if (unit)
         setCrewUnit(unit)
       else if (needActionsWithEmptyCrews)
         onSlotChangeAircraft()
+      return
     }
 
-    if (hasActions && !::show_console_buttons)
-    {
-      local slotItem = ::get_slot_obj(obj, curSlotCountryId, curSlotIdInCountry)
-      openUnitActionsList(slotItem)
+    if (!needActionsWithEmptyCrews || (curSlotCountryId not in ::g_crews_list.get()))
+      return
+
+    local country = ::g_crews_list.get()[curSlotCountryId].country
+
+    local rawCost = ::get_crew_slot_cost(country)
+    local cost = rawCost? ::Cost(rawCost.cost, rawCost.costGold) : ::Cost()
+    if (!::check_balance_msgBox(cost)) {
+      restorePrevSelection()
+      return
     }
 
-    if (afterSlotbarSelect)
-      afterSlotbarSelect()
+    if (cost <= ::zero_money) {
+      purchaseNewSlot(country)
+      return
+    }
+
+    local msgText = ::warningIfGold(
+      format(::loc("shop/needMoneyQuestion_purchaseCrew"),
+        cost.getTextAccordingToBalance()),
+      cost)
+    ignoreCheckSlotbar = true
+    msgBox("need_money", msgText,
+      [["ok",
+        function() {
+          ignoreCheckSlotbar = false
+          purchaseNewSlot(country)
+        }
+       ],
+       ["cancel", restorePrevSelection ]
+      ], "ok")
+  }
+
+  function applySlotSelection(obj, selSlot)
+  {
+    local prevSlot = { countryId = curSlotCountryId, crewIdInCountry = curSlotIdInCountry }
+    curSlotCountryId = selSlot.countryId
+    curSlotIdInCountry = selSlot.crewIdInCountry
+
+    if (!::slotbar_oninit)
+      (applySlotSelectionOverride ?? applySlotSelectionDefault)(prevSlot,
+        Callback(function() {
+          if (curSlotCountryId != selSlot.countryId)
+            return
+          ignoreCheckSlotbar = false
+          selectTblAircraft(obj, ::selected_crews[curSlotCountryId])
+        }, this))
+    afterSlotbarSelect?()
   }
 
   /**
@@ -978,7 +975,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ownerWeak.presetsListWeak.update()
     if (onCountryChanged)
       onCountryChanged()
-    battleRating.updateBattleRating()
     ::hangar_current_preset_changed(curSlotCountryId, curSlotIdInCountry, ::slotbarPresets.getCurrent())
   }
 

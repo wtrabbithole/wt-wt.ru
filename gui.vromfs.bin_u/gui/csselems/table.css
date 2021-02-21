@@ -282,8 +282,12 @@ tr[isLeaderBoardHeader=yes] {
 }
 
 .airInfoPanel > tr > td {
-  max-width:0.45pw;
+  width:0.48@airInfoPanelWidth;
   overflow:hidden;
+}
+
+.airInfoPanel > tr > td[hasIncreasedSize=yes] {
+  width:0.55@airInfoPanelWidth;
 }
 
 .airInfoPanel > tr > td > textarea {

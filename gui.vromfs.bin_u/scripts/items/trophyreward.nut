@@ -5,7 +5,7 @@
   rewardTypes = [ "multiAwardsOnWorthGold", "modsForBoughtUnit",
                   "unit", "rentedUnit",
                   "trophy", "item", "unlock", "unlockType", "resource", "resourceType",
-                  "entitlement", "gold", "warpoints", "exp", "warbonds"]
+                  "entitlement", "gold", "warpoints", "exp", "warbonds", "unlockAddProgress" ]
   iconsRequired = [ "trophy", "item", "unlock", "entitlement", "resource" ]
   specialPrizeParams = {
     rentedUnit = function(config, prize) {

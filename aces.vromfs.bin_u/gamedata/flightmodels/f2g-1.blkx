@@ -1405,22 +1405,38 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 2.0,
+          "cut": 4.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 2.0,
+          "cut": 4.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 2.0,
+          "cut": 4.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 2.0,
+          "cut": 4.0
+        }
       }
     },
     {
@@ -2791,7 +2807,7 @@
     {
       "dp": [
         {
-          "dm": "wing_l_dm"
+          "dm": "spar_l_dm"
         },
         {
           "separateDm": true
@@ -2890,6 +2906,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -2951,6 +2970,9 @@
         },
         {
           "dp": "gear_3c_dm"
+        },
+        {
+          "dm1": "wing_l_dm"
         },
         {
           "axis1": [0.0,0.0,1.0]
@@ -2999,7 +3021,7 @@
     {
       "dp": [
         {
-          "dm": "wing1_l_dm"
+          "dm": "spar1_l_dm"
         },
         {
           "separateDm": true
@@ -3101,6 +3123,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -3162,6 +3187,9 @@
         },
         {
           "dp": "gear_3c_dm"
+        },
+        {
+          "dm1": "wing1_l_dm"
         },
         {
           "axis1": [0.0,0.0,1.0]
@@ -3198,7 +3226,7 @@
     {
       "dp": [
         {
-          "dm": "wing2_l_dm"
+          "dm": "spar2_l_dm"
         },
         {
           "separateDm": true
@@ -3300,6 +3328,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -3363,6 +3394,9 @@
           "dp": "gear_3c_dm"
         },
         {
+          "dm1": "wing2_l_dm"
+        },
+        {
           "axis1": [0.0,0.0,1.0]
         },
         {
@@ -3397,7 +3431,7 @@
     {
       "dp": [
         {
-          "dm": "wing_r_dm"
+          "dm": "spar_r_dm"
         },
         {
           "separateDm": true
@@ -3496,6 +3530,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -3557,6 +3594,9 @@
         },
         {
           "dp": "gear_3c_dm"
+        },
+        {
+          "dm1": "wing_r_dm"
         },
         {
           "axis1": [0.0,0.0,-1.0]
@@ -3605,7 +3645,7 @@
     {
       "dp": [
         {
-          "dm": "wing1_r_dm"
+          "dm": "spar1_r_dm"
         },
         {
           "separateDm": true
@@ -3707,6 +3747,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -3768,6 +3811,9 @@
         },
         {
           "dp": "gear_3c_dm"
+        },
+        {
+          "dm1": "wing1_r_dm"
         },
         {
           "axis1": [0.0,0.0,-1.0]
@@ -3804,7 +3850,7 @@
     {
       "dp": [
         {
-          "dm": "wing2_r_dm"
+          "dm": "spar2_r_dm"
         },
         {
           "separateDm": true
@@ -3906,6 +3952,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -3967,6 +4016,9 @@
         },
         {
           "dp": "gear_3c_dm"
+        },
+        {
+          "dm1": "wing2_r_dm"
         },
         {
           "axis1": [0.0,0.0,-1.0]
@@ -4100,6 +4152,9 @@
         },
         {
           "dp": "tailcontrol_dm"
+        },
+        {
+          "dp": "engine%d_dm"
         },
         {
           "dp": "oil%d_dm"
@@ -4293,6 +4348,9 @@
         },
         {
           "dp": "tailcontrol_dm"
+        },
+        {
+          "dp": "engine%d_dm"
         },
         {
           "dp": "oil%d_dm"
@@ -4491,6 +4549,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -4685,6 +4746,9 @@
         },
         {
           "dp": "tailcontrol_dm"
+        },
+        {
+          "dp": "engine%d_dm"
         },
         {
           "dp": "oil%d_dm"
@@ -4883,6 +4947,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -5079,6 +5146,9 @@
           "dp": "tailcontrol_dm"
         },
         {
+          "dp": "engine%d_dm"
+        },
+        {
           "dp": "oil%d_dm"
         },
         {
@@ -5176,7 +5246,7 @@
     {
       "dp": [
         {
-          "dm": "wing_l_dm"
+          "dm": "spar_l_dm"
         },
         {
           "separateDm": true
@@ -5198,6 +5268,9 @@
         },
         {
           "dp": "engine%d_dm"
+        },
+        {
+          "dm1": "wing_l_dm"
         },
         {
           "axis1": [0.0,0.0,1.0]
@@ -5261,7 +5334,7 @@
     {
       "dp": [
         {
-          "dm": "wing1_l_dm"
+          "dm": "spar1_l_dm"
         },
         {
           "separateDm": true
@@ -5283,6 +5356,9 @@
         },
         {
           "dp": "engine%d_dm"
+        },
+        {
+          "dm1": "wing1_l_dm"
         },
         {
           "axis1": [0.0,0.0,1.0]
@@ -5334,7 +5410,7 @@
     {
       "dp": [
         {
-          "dm": "wing2_l_dm"
+          "dm": "spar2_l_dm"
         },
         {
           "separateDm": true
@@ -5356,6 +5432,9 @@
         },
         {
           "dp": "engine%d_dm"
+        },
+        {
+          "dm1": "wing2_l_dm"
         },
         {
           "axis1": [0.0,0.0,1.0]
@@ -5407,7 +5486,7 @@
     {
       "dp": [
         {
-          "dm": "wing_r_dm"
+          "dm": "spar_r_dm"
         },
         {
           "separateDm": true
@@ -5429,6 +5508,9 @@
         },
         {
           "dp": "engine%d_dm"
+        },
+        {
+          "dm1": "wing_r_dm"
         },
         {
           "axis1": [0.0,0.0,-1.0]
@@ -5492,7 +5574,7 @@
     {
       "dp": [
         {
-          "dm": "wing1_r_dm"
+          "dm": "spar1_r_dm"
         },
         {
           "separateDm": true
@@ -5514,6 +5596,9 @@
         },
         {
           "dp": "engine%d_dm"
+        },
+        {
+          "dm1": "wing1_r_dm"
         },
         {
           "axis1": [0.0,0.0,-1.0]
@@ -5565,7 +5650,7 @@
     {
       "dp": [
         {
-          "dm": "wing2_r_dm"
+          "dm": "spar2_r_dm"
         },
         {
           "separateDm": true
@@ -5587,6 +5672,9 @@
         },
         {
           "dp": "engine%d_dm"
+        },
+        {
+          "dm1": "wing2_r_dm"
         },
         {
           "axis1": [0.0,0.0,-1.0]
@@ -6475,21 +6563,45 @@
       "modClass": "weapon"
     }
   },
+  "user_skin": [
+    {
+      "name": "f2g_1"
+    },
+    {
+      "replace_tex": {
+        "from": "f2g_1_a*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f2g_1_a_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f2g_1_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f2g_1_n_dmg*"
+      }
+    }
+  ],
   "cutting": {
-    "_emtr_break_wing0_l_from": [-0.456011,-0.534612,0.885247],
-    "_emtr_break_wing0_l_to": [-0.456011,-0.534612,1.17584],
+    "emtr_break_wing0_l_from": [-0.456011,-0.534612,0.885247],
+    "emtr_break_wing0_l_to": [-0.456011,-0.534612,1.17584],
     "emtr_break_wing1_l_from": [-0.456011,-0.534612,1.67994],
     "emtr_break_wing1_l_to": [-0.456011,-0.534612,2.41382],
     "emtr_break_wing2_l_from": [-0.456011,-0.534612,3.51464],
     "emtr_break_wing2_l_to": [-0.456011,-0.534612,4.6098],
-    "_emtr_break_wing0_r_from": [-0.456011,-0.534612,-0.885248],
-    "_emtr_break_wing0_r_to": [-0.456011,-0.534612,-1.17584],
+    "emtr_break_wing0_r_from": [-0.456011,-0.534612,-0.885248],
+    "emtr_break_wing0_r_to": [-0.456011,-0.534612,-1.17584],
     "emtr_break_wing1_r_from": [-0.456011,-0.534612,-1.67994],
     "emtr_break_wing1_r_to": [-0.456011,-0.534612,-2.41382],
     "emtr_break_wing2_r_from": [-0.456011,-0.534612,-3.51464],
     "emtr_break_wing2_r_to": [-0.456011,-0.534612,-4.6098],
-    "emtr_break_wing_tail": [-5.65844,0.0,0.0],
-    "partKindTail": 2,
+    "emtr_break_wing_tail": [-3.61115,0.0,0.0],
     "finCut": false,
     "emtr_break_stab_l_from": [-6.36511,0.424587,0.493521],
     "emtr_break_stab_l_to": [-6.36511,0.424587,1.97408],

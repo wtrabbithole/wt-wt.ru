@@ -189,9 +189,35 @@ local function getTypesByEsUnitType(esUnitType = null) { //null if all unit type
     || t.unitTypeCode == esUnitType)
 }
 
+local function processUnitTypeArray(unitTypeArray) {
+  local processedArray = clone unitTypeArray
+  local boatIdx = processedArray.indexof("boat")
+  local shipIdx = processedArray.indexof("ship")
+
+  if (boatIdx == null && shipIdx == null)
+    return processedArray
+
+  if (boatIdx != null && shipIdx != null) {
+    processedArray.remove(boatIdx)
+    processedArray.remove(shipIdx)
+    processedArray.append("ship_and_boat")
+  }
+  else if (boatIdx == null && shipIdx != null) {
+    processedArray.remove(shipIdx)
+    processedArray.append("ship_only")
+  }
+  else if (boatIdx != null && shipIdx == null) {
+    processedArray.remove(boatIdx)
+    processedArray.append("boat_only")
+  }
+
+  return processedArray
+}
+
 return {
   getUnitClassTypesFromCodeMask = getTypesFromCodeMask
   getUnitClassTypeByExpClass = getTypeByExpClass
   getUnitClassTypesByEsUnitType = getTypesByEsUnitType
   unitClassType = unitClassType
+  processUnitTypeArray
 }

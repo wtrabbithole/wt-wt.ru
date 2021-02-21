@@ -3555,6 +3555,15 @@
         "mulHorsePowers": 0.96
       }
     },
+    "air_extinguisher": {
+      "image": "#ui/gameuiskin#extinguisher",
+      "tier": 3,
+      "modClass": "armor",
+      "invertEnableLogic": true,
+      "effects": {
+        "extinguisherNum": 1
+      }
+    },
     "new_compressor_mi_4": {
       "image": "#ui/gameuiskin#compressor",
       "tier": 1,
@@ -8654,6 +8663,20 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "120mm_M829A_APDS_FS": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "120mm_M829A_APDS_FS_ammo_pack",
+      "group": "120mm_NATO",
+      "effects": {
+        "additiveBulletMod": "120mm_M829A_APDS_FS"
+      }
+    },
+    "120mm_M829A_APDS_FS_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 4,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "105mm_NATO_APDS_FS": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "105mm_NATO_APDS_FS_ammo_pack",
@@ -10310,6 +10333,20 @@
       "deactivationIsAllowed": false,
       "modClass": "firepower"
     },
+    "305mm_uk_4crh_mk7a_navy_cpc": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "305mm_uk_4crh_mk7a_navy_cpc_ammo_pack",
+      "group": "305mm_AP",
+      "effects": {
+        "additiveBulletMod": "305mm_uk_4crh_mk7a_navy_cpc"
+      }
+    },
+    "305mm_uk_4crh_mk7a_navy_cpc_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 2,
+      "deactivationIsAllowed": false,
+      "modClass": "firepower"
+    },
     "381mm_uk_bl_mk1_4crh_navy_cpc": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
@@ -10407,6 +10444,20 @@
       }
     },
     "120mm_britain_L26_APDSFS_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 4,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "120mm_britain_L27_APDSFS": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "120mm_britain_L27_APDSFS_ammo_pack",
+      "group": "120mm_AP",
+      "effects": {
+        "additiveBulletMod": "120mm_britain_L27_APDSFS"
+      }
+    },
+    "120mm_britain_L27_APDSFS_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "tier": 4,
       "modClass": "firepower",
@@ -10754,7 +10805,8 @@
       "invertEnableLogic": true,
       "effects": {
         "rcostMul": 0.961,
-        "mulHorsePowers": 0.9
+        "mulHorsePowers": 0.9,
+        "overloadSound": false
       }
     },
     "tank_camouflage": {
@@ -10981,6 +11033,35 @@
           {
             "sensor": {
               "blk": "gameData/sensors/it_ralm-101.blk"
+            }
+          }
+        ]
+      }
+    },
+    "laser_rangefinder_ircm_lws_t_90a": {
+      "image": "#ui/gameuiskin#counterMeasures",
+      "tier": 2,
+      "modClass": "firepower",
+      "effects": {
+        "rangefinderMounted": true,
+        "isLaser": true,
+        "distanceError": [25.0,25.0,25.0,25.0],
+        "distanceThresholdMin": [1000.0,3000.0,5000.0,9999.0],
+        "distanceThresholdMax": [1000.0,3000.0,5000.0,9999.0],
+        "distanceErrorRealistic": [25.0,25.0,25.0,25.0],
+        "distanceThresholdMinRealistic": [1000.0,3000.0,5000.0,9999.0],
+        "distanceThresholdMaxRealistic": [1000.0,3000.0,5000.0,9999.0],
+        "timeMeasurementRange": [0.5,0.5],
+        "rcostAddParam": 0.98,
+        "sensors": [
+          {
+            "sensor": {
+              "blk": "gameData/sensors/LaserDesignatorSensor.blk"
+            }
+          },
+          {
+            "sensor": {
+              "blk": "gameData/sensors/su_tshu_1_11.blk"
             }
           }
         ]
@@ -16949,6 +17030,12 @@
       "requiresModelReload": true,
       "group": "mi-24_EVU"
     },
+    "q_5b_ltc": {
+      "image": "#ui/gameuiskin#heli_false_thermal_targets",
+      "modClass": "weapon",
+      "requiresModelReload": true,
+      "group": "q_5b_group"
+    },
     "MAW_system_heli_false_thermal_targets": {
       "image": "#ui/gameuiskin#heli_false_thermal_targets",
       "modClass": "weapon",
@@ -16957,7 +17044,9 @@
     },
     "q_5b": {
       "image": "#ui/gameuiskin#radar_warning_receiver",
-      "modClass": "weapon"
+      "modClass": "weapon",
+      "requiresModelReload": true,
+      "group": "q_5b_group"
     },
     "Radar_warning_receiver_system": {
       "image": "#ui/gameuiskin#radar_warning_receiver",

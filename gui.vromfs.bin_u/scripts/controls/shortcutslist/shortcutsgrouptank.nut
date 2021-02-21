@@ -511,7 +511,6 @@ return [
   {
     id = "gm_sight_distance"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     isAbsOnlyWhenRealAxis = true
     checkGroup = ctrlGroups.TANK
     checkAssign = false

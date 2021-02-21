@@ -42,7 +42,6 @@ return [
   {
     id = "submarine_main_engine"
     type = CONTROL_TYPE.AXIS
-    def_relative = true
     checkGroup = ctrlGroups.SUBMARINE
     axisDirection = AxisDirection.Y
     checkAssign = false

@@ -68,7 +68,7 @@ local function mkBreadCrumpsMenu(breadcrumpsPathIds=null, lastVisitedMenuId=null
   local function removeBreadCrump(delta){
     for (local i=0; i<delta; i++) {
       local idx = breadcrumpsPath.value.len()-1
-      if (idx < 0)
+      if (idx < 1)
         return
       lastVisitedMenuId(breadcrumpsPathIds.value?[idx])
       lastVisitedMenu(breadcrumpsPath.value?[idx])
@@ -134,7 +134,9 @@ local function mkBreadCrumpsMenu(breadcrumpsPathIds=null, lastVisitedMenuId=null
 
   local curBreadCrump = Computed(@() curMenu.value?.id)
 
-  local returnBack = @() removeBreadCrump(1)
+  local function returnBack() {
+    removeBreadCrump(1)
+  }
 
 
   menuItems.subscribe(resolveBreadCrumpsByPath)

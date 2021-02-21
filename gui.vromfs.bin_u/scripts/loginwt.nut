@@ -122,8 +122,6 @@ g_login.initConfigs <- function initConfigs(cb)
       ::set_show_attachables(::has_feature("AttachablesUse"))
 
       ::g_font.validateSavedConfigFonts()
-      local value = clamp(::get_sound_volume(::SND_TYPE_MY_ENGINE), 0.2, 1.0)
-      ::set_sound_volume(::SND_TYPE_MY_ENGINE, value, true)
       if (::handlersManager.checkPostLoadCss(true))
         dagor.debug("Login: forced to reload waitforLogin window.")
       return null

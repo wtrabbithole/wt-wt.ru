@@ -1,8 +1,27 @@
 {
   "root": {
     "flow": "vertical",
-    "background-color": "@shadeBackgroundColor",
-    "type": "big",
+    "blur": [],
+    "blur_foreground": [],
+    "tdiv": {
+      "width": "pw",
+      "pos": "50%pw-50%w, 1@bh + 1@titleLogoPlateHeight +1@multiplayerScoreHeight + 0.03@scrn_tgt",
+      "position": "absolute",
+      "hudMessages": {
+        "id": "mission_result_nest",
+        "pos": "50%pw-50%w, 50%ph - 50%h",
+        "position": "absolute",
+        "display": "hide",
+        "message_style": "mission_result_notification"
+      },
+      "tdiv": {
+        "id": "mission_result_box_start",
+        "height": "0.3@sf",
+        "width": "10h",
+        "position": "absolute",
+        "pos": "50%pw-50%w, 50%ph - 50%h"
+      }
+    },
     "optionlist_container": {
       "id": "flight_menu_bgd",
       "flow": "vertical",

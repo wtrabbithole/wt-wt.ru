@@ -91,13 +91,13 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
         weaponItemParams.__merge({visualDisabled = !preset.isEnabled}) : {}
       params.__update({
           collapsable = true
-          selected = idx == chosenPresetIdx
           showButtons = true
           actionBtnText = onChangeValueCb != null ? ::loc("mainmenu/btnSelect") : null
         })
       presetIdxToChildIdx[idx] <- res.len()
       res.append({
         presetId = idx
+        chosen = idx == chosenPresetIdx ? "yes" : "no"
         weaponryItem = getWeaponItemViewParams($"item_{idx}", unit, presetsList[idx], params)
           .__update({
             presetTextWidth = presetTextWidth
@@ -117,7 +117,10 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
 
   function selectPreset(presetIdx) {
     if (curPresetIdx == presetIdx)
+    {
+      updateDesc()
       return
+    }
 
     local nestObj = scene.findObject("presetNest")
     local childIdx = presetIdxToChildIdx?[curPresetIdx]

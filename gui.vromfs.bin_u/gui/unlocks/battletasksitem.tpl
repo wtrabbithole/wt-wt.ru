@@ -108,11 +108,13 @@ expandable {
       tdiv {
         left:t='pw-w'
         position:t='relative'
+        flow:t='vertical'
         textarea {
           max-width:t='fw'
           removeParagraphIndent:t='yes';
           text:t='<<rewardText>>'
           overlayTextColor:t='active'
+          text-align:t='right'
         }
         <<@itemMarkUp>>
       }

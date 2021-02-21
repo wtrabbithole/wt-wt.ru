@@ -19,15 +19,19 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
     showTitleLogo(scene, 128)
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
 
-    local data = ::handyman.renderCached("gui/commonParts/button", {
-      id = "authorization_button"
-      text = "#HUD_PRESS_A_CNT"
-      shortcut = "A"
-      funcName = "onOk"
-      delayed = true
-      isToBattle = true
-      titleButtonFont = true
-    })
+    local isAutologin = !(::getroottable()?.disable_autorelogin_once ?? false)
+
+    local data = isAutologin
+      ? ""
+      : ::handyman.renderCached("gui/commonParts/button", {
+          id = "authorization_button"
+          text = "#HUD_PRESS_A_CNT"
+          shortcut = "A"
+          funcName = "onOk"
+          delayed = true
+          isToBattle = true
+          titleButtonFont = true
+        })
     guiScene.prependWithBlk(scene.findObject("authorization_button_place"), data, this)
     scene.findObject("user_notify_text").setValue(::loc("ps4/reqInstantConnection"))
 
@@ -35,7 +39,7 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
       ::ps4_initial_check_settings()
     })
 
-    if ((::getroottable()?.disable_autorelogin_once ?? false) != true)
+    if (isAutologin)
       ::on_ps4_autologin()
   }
 

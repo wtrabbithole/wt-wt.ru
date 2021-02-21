@@ -6,6 +6,7 @@ local workshopCraftTreeWnd = require("scripts/items/workshop/workshopCraftTreeWn
 local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 local { canStartPreviewScene } = require("scripts/customization/contentPreview.nut")
 local { setDoubleTextToButton, setColoredDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
+local mkHoverHoldAction = require("sqDagui/timer/mkHoverHoldAction.nut")
 
 ::gui_start_itemsShop <- function gui_start_itemsShop(params = null)
 {
@@ -37,6 +38,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   visibleTabs = null //[]
   curSheet = null
   curItem = null //last selected item to restore selection after change list
+  hoverHoldAction = null
 
   isSheetsInUpdate = false
   isItemTypeChangeUpdate = false
@@ -45,6 +47,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   itemsList = null
   curPage = 0
   shouldSetPageByItem = false
+  needHoverSelect = false
 
   slotbarActions = [ "preview", "testflightforced", "sec_weapons", "weapons", "info" ]
   displayItemTypes = null
@@ -64,8 +67,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
+    needHoverSelect = ::show_console_buttons
     initNavigation()
     sheets.updateWorkshopSheets()
+    initSheetsOnce()
 
     local sheetData = curTab < 0 && curItem ? sheets.getSheetDataByItem(curItem) : null
     if (sheetData)
@@ -77,12 +82,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
     curSheet = sheetData ? sheetData.sheet
       : curSheet ? sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
-      : sheets.ALL
+      : sheetsArray.findvalue((@(s) s.isEnabled(curTab)).bindenv(this))
     initSubsetId = sheetData ? sheetData.subsetId : initSubsetId
 
     fillTabs()
 
     scene.findObject("update_timer").setUserData(this)
+    hoverHoldAction = mkHoverHoldAction(scene.findObject("hover_hold_timer"))
 
     // If items shop was opened not in menu - player should not
     // be able to navigate through sheets and tabs.
@@ -395,6 +401,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
             needShowActionButtonAlways = false
           }
           : null
+        showTooltip = !needHoverSelect
+        onHover = "onItemHover"
       }))
     }
     ::g_item_limits.requestLimits()
@@ -702,12 +710,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       item.doAltAction({ obj = obj, align = "top" })
   }
 
-  function onUnitHover(obj)
-  {
-    if (!::show_console_buttons)
-      openUnitActionsList(obj, true)
-  }
-
   function onJumpToDescPanelAccessKey(obj)
   {
     if (!::show_console_buttons)
@@ -863,6 +865,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   //dependence by blk
   onChangeSortOrder = @(obj) null
   onChangeSortParam = @(obj) null
+  onShowBattlePass = @(obj) null
 
   function onEventBeforeStartCustomMission(params)
   {
@@ -915,5 +918,17 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       cb = openCraftTree
     }]
     ::gui_modal_tutor(steps, this, true)
+  }
+
+  function onItemHover(obj) {
+    if (!needHoverSelect)
+      return
+    hoverHoldAction(obj, function(focusObj) {
+      local idx = focusObj.holderId.tointeger()
+      local value = idx - curPage * itemsPerPage
+      local listObj = getItemsListObj()
+      if (listObj.getValue() != value && value >= 0 && value < listObj.childrenCount())
+        listObj.setValue(value)
+    }.bindenv(this))
   }
 }

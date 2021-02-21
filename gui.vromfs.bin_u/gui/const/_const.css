@@ -50,14 +50,14 @@
 @const mainMenuButtonWidth: 0.26@sf;
 @const mainMenuButtonWideWidth: 0.34@sf;
 
-@const modIcoSize: 56*@sf/@pf_outdated;
+@const modIcoSize: (76@sf/@pf)\1;
 @const modArrowWidth: 19@dp;
 @const modLineWidth:  19@dp;
 @const modAngleWidth: 19@dp;
-@const modStatusHeight: 22*@sf/@pf_outdated;
-@const modStatusCheckboxHeight: 18@sf/@pf;
-@const modArrowLen: 15*@sf/@pf_outdated;
-@const modPadSize: (8@sf/@pf) \ 1;
+@const modStatusHeight: (30@sf/@pf)\1;
+@const modStatusCheckboxHeight: (18@sf/@pf)\1;
+@const modArrowLen: (20@sf/@pf)\1;
+@const modPadSize: (8@sf/@pf)\1;
 
 @const modBundlePopupBgPadW: 6@dp -1@modPadSize;
 @const modBundlePopupBgPadH: 4@dp +1@modPadSize;
@@ -103,7 +103,7 @@
 @const gcButtonsInterval:      ((((1@topGcPanelWidth - 0.6@sf) / 10 - 1@gcSeparatorSize) \ 2 * 2) $max 0) + 1@gcSeparatorSize;
 
 @const frameHeaderHeight:      (0.045@sf)/1 + 1@frameHeaderPad;
-@const frameHeaderPad:         2@dp;
+@const frameHeaderPad:         1@dp;
 @const frameTopPadding:        1@frameHeaderHeight + 1@blockInterval;
 @const navBarTopPadding:       1@blockInterval;
 @const unlocksListboxItemInterval: 2@sf/@pf;
@@ -236,9 +236,9 @@
 @const unlockBlockWidth: 0.55@sf\1;
 
 @const modWindowWidth: 6@modCellWidth + 1.5@modBlockTierNumHeight $min 1@rw;
-@const modItemHeight: 1@modIcoSize-2*@sf/@pf_outdated;
-@const modBlockTierNumHeight: (0.33@modCellHeight) \ 1;
-@const modBundleWidth: 1@modItemWidth + 16*@sf/@pf_outdated;
+@const modItemHeight: (1@modIcoSize-3@sf/@pf)\1;
+@const modBlockTierNumHeight: (0.33@modCellHeight)\1;
+@const modBundleWidth: 1@modItemWidth + (21@sf/@pf)\1;
 @const modCellWidth:  1@modItemWidth +2@modPadSize;
 @const modCellHeight: 1@modItemHeight +2@modPadSize;
 

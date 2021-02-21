@@ -254,16 +254,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     bindAxisNum = -1
 
     ::set_controls_preset("")
+    curJoyParams.resetAxis(setupAxisMode)
     local axis = curJoyParams.getAxis(setupAxisMode)
-    axis.inverse = false
-    axis.innerDeadzone = 0
-    axis.nonlinearity = 0
-    axis.kAdd = 0
-    axis.kMul = 0
-    axis.relSens = 0
-    axis.relStep = 0
-    axis.relative = false
-    axis.keepDisabledValue = false
 
     foreach (item in shortcutsAxisListModule.types)
     {

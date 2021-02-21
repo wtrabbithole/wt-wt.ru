@@ -2198,24 +2198,33 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         visible++
     }
 
+    local isSingleRow = visible < 3
     local gapMin = 1.0
-    local gapMax = gapMin * DEBR_MYSTATS_TOP_BAR_GAP_MAX
-    local gap = ::clamp(stdMath.lerp(total, 2, gapMin, gapMax, visible), gapMin, gapMax)
-    local pos = ::format("%.1f@debrPad, 0.5ph-0.5h", gap)
+    local debrTopBarGAPMax = isSingleRow ? 3 : DEBR_MYSTATS_TOP_BAR_GAP_MAX
+    local maxValue = isSingleRow ? 1 : 2
+    local contentPadStr = isSingleRow ? "debrBarContentPad" : "debrPad"
 
-    if (visible < 3)                  //Single row
-      topBarNestObj.flow = "horisontal"
-    else {                            //Two rows
-      topBarNestObj.flow = "vertical"
-      myPlaceObj.pos = "0.5pw-0.5w, 0"
-      containerObj.pos = "0.5pw-0.5w-0.5@debrPad, 0.5@debrPad"
-    }
+    local gapMax = gapMin * debrTopBarGAPMax
+    local gap = ::clamp(stdMath.lerp(total, maxValue, gapMin, gapMax, visible), gapMin, gapMax)
+    local pos = $"{gap}@{contentPadStr}, 0.5ph-0.5h"
 
     for (local i = 0; i < containerObj.childrenCount(); i++)
     {
       local obj = containerObj.getChild(i)
       if (::check_obj(obj))
         obj["pos"] = pos
+    }
+
+    if (isSingleRow)                  //Single row
+    {
+      topBarNestObj.flow = "horisontal"
+      local totalWidth = 0.5*(myPlaceObj.getSize()[0] + containerObj.getSize()[0])
+      myPlaceObj.pos = $"0.5pw-{totalWidth}, 0.5ph-0.5h"
+    }
+    else {                            //Two rows
+      topBarNestObj.flow = "vertical"
+      myPlaceObj.pos = "0.5pw-0.5w, 0"
+      containerObj.pos = "0.5pw-0.5w-0.5@debrPad, 0.5@debrPad"
     }
   }
 

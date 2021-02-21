@@ -12,13 +12,6 @@ local viewIdx        = persist("viewIdx", @() ::Watched(0))
 
 local curData        = ::Computed(@() pickedList.value?[viewIdx.value])
 
-shown.subscribe(function(v) {
-  pickerActive(false)
-  pickedList([])
-  highlight(null)
-})
-
-pickedList.subscribe(@(v) viewIdx(0))
 
 local cursors = {
   normal = null
@@ -243,6 +236,7 @@ local elementPicker = @() {
         componentDesc  = d.componentDesc
         locationText = elemLocationText(d.elem, d.builder)
       }))
+    viewIdx(0)
     pickerActive(false)
   }
   onChange = @(hl) highlight(hl)
@@ -270,9 +264,16 @@ local function inspectorRoot() {
   return res
 }
 
+local function toggle() {
+  shown(!shown.value)
+  pickerActive(false)
+  pickedList([])
+  viewIdx(0)
+  highlight(null)
+}
 
 return {
-  shown
+  toggle
   root = inspectorRoot
   cursors
 }

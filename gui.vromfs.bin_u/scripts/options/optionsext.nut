@@ -15,6 +15,7 @@ local { setUnitLastBullets,
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { reloadDargUiScript } = require("reactiveGuiCommand")
 local {bombNbr} = require("scripts/unit/unitStatus.nut")
+local { saveProfile } = require("scripts/clientState/saveProfile.nut")
 local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
 //
 
@@ -1308,6 +1309,9 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_MASTER) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_MASTER)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_MUSIC:
       descr.id = "volume_music"
@@ -1315,30 +1319,45 @@ local isWaitMeasureEvent = false
       descr.title = ::loc(::has_feature("Radio") ? "options/volume_music/and_radio" : "options/volume_music")
       descr.value = (::get_sound_volume(::SND_TYPE_MUSIC) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_MUSIC)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_MENU_MUSIC:
       descr.id = "volume_menu_music"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_MENU_MUSIC) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_MENU_MUSIC)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_SFX:
       descr.id = "volume_sfx"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_SFX) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_SFX)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_GUNS:
       descr.id = "volume_guns"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_GUNS) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_GUNS)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_TINNITUS:
       descr.id = "volume_tinnitus"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_TINNITUS) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_TINNITUS)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_HANGAR_SOUND:
       descr.id = "hangar_sound"
@@ -1351,26 +1370,36 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_RADIO) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_RADIO)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_ENGINE:
       descr.id = "volume_engine"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_ENGINE) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_ENGINE)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_MY_ENGINE:
       descr.id = "volume_my_engine"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_MY_ENGINE) * 100).tointeger()
       descr.cb = "onVolumeChange"
-      descr.min <- 20
-      descr.max <- 100
+      local limits = ::get_volume_limits(::SND_TYPE_MY_ENGINE)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_DIALOGS:
       descr.id = "volume_dialogs"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_DIALOGS) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_DIALOGS)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
 
     case ::USEROPT_VOLUME_VOICE_IN:
@@ -1378,12 +1407,18 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_VOICE_IN) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_VOICE_IN)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
     case ::USEROPT_VOLUME_VOICE_OUT:
       descr.id = "volume_voice_out"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_VOICE_OUT) * 100).tointeger()
       descr.cb = "onVolumeChange"
+      local limits = ::get_volume_limits(::SND_TYPE_VOICE_OUT)
+      descr.min <- limits.x.tointeger()
+      descr.max <- limits.y.tointeger()
       break
 
     case ::USEROPT_CONTROLS_PRESET:
@@ -1581,6 +1616,15 @@ local isWaitMeasureEvent = false
       defaultValue = true
       if (::SessionLobby.isInRoom())
         prevValue = ::SessionLobby.getMissionParam("useShipBots", null)
+      break
+
+    case ::USEROPT_KEEP_DEAD:
+      descr.id = "keepDead"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      if (::SessionLobby.isInRoom())
+        prevValue = ::SessionLobby.getMissionParam("keepDead", null)
       break
 
     case ::USEROPT_BOTS_RANKS:
@@ -4465,7 +4509,7 @@ local isWaitMeasureEvent = false
         if (cdb?[::cur_aircraft_name] != ::getTblValue(value, descr.values, ""))
         {
           cdb[::cur_aircraft_name] = ::getTblValue(value, descr.values, "")
-          ::save_profile_offline_limited()
+          saveProfile()
         }
       }
       else
@@ -4781,6 +4825,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_IS_BOTS_ALLOWED:
     case ::USEROPT_USE_TANK_BOTS:
     case ::USEROPT_USE_SHIP_BOTS:
+    case ::USEROPT_KEEP_DEAD:
     case ::USEROPT_DEDICATED_REPLAY:
     case ::USEROPT_AUTOBALANCE:
     case ::USEROPT_MAX_PLAYERS:

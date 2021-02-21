@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 local { disableSeenUserlogs } = require("scripts/userLog/userlogUtils.nut")
+local { stashBhvValueConfig } = require("sqDagui/guiBhv/guiBhvValueConfig.nut")
+local { todayLoginExp,loginStreak, getExpRangeTextOfLoginStreak } = require("scripts/battlePass/seasonState.nut")
 
 ::gui_start_show_login_award <- function gui_start_show_login_award(blk)
 {
@@ -46,6 +48,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     updateAwards()
     updateDaysProgressBar()
     fillOpenedChest()
+    initExpTexts()
 
     ::move_mouse_on_obj(getObj("btn_nav_open"))
   }
@@ -401,6 +404,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_rewards_list", isOpened && rouletteAnimationFinished && (rewardsArray.len() > 1 || haveItems))
 
     ::show_facebook_screenshot_button(scene, isOpened && rouletteAnimationFinished)
+    updateExpTexts()
   }
 
   function onOpenAnimFinish()
@@ -686,5 +690,50 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       objId == "btn_open" ? "main_get_reward"
         : objId == "btn_nav_open" ? "navbar_get_reward"
         : "exit")
+  }
+
+  function initExpTexts() {
+    if (!::has_feature("BattlePass") || !::g_battle_tasks.isAvailableForUser())
+      return
+
+    scene.findObject("today_login_exp").setValue(stashBhvValueConfig([{
+      watch = todayLoginExp
+      updateFunc = ::Callback(@(obj, value) updateTodayLoginExp(obj, value), this)
+    }]))
+    scene.findObject("login_streak_exp").setValue(stashBhvValueConfig([{
+      watch = loginStreak
+      updateFunc = ::Callback(@(obj, value) updateLoginStreakExp(obj, value), this)
+    }]))
+  }
+
+  function updateExpTexts() {
+    if (!::has_feature("BattlePass") || !::g_battle_tasks.isAvailableForUser())
+      return
+
+    updateTodayLoginExp(scene.findObject("today_login_exp"), todayLoginExp.value)
+    updateLoginStreakExp(scene.findObject("login_streak_exp"), loginStreak.value)
+  }
+
+  function updateTodayLoginExp(obj, value) {
+    local isVisible = value > 0 && !isOpened
+    obj.show(isVisible)
+    if (!isVisible)
+      return
+
+    obj.findObject("today_login_exp_text").setValue(
+      ::loc("updStats/battlepass_exp", { amount = value }))
+  }
+
+  function updateLoginStreakExp(obj, value) {
+    local isVisible = value > 0
+      && (rouletteAnimationFinished || (isOpened && useSingleAnimation))
+    obj.show(isVisible)
+    if (!isVisible)
+      return
+
+    local rangeExpText = ::loc("ui/parentheses/space", {
+      text = getExpRangeTextOfLoginStreak() })
+    obj.findObject("text").setValue("".concat(::loc("battlePass/seasonLoginStreak",
+      { amount = value }), rangeExpText))
   }
 }

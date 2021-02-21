@@ -257,12 +257,6 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     unitActions.buy(unit, "show_unlock")
   }
 
-  function onUnitHover(obj)
-  {
-    if (!::show_console_buttons)
-      openUnitActionsList(obj, true)
-  }
-
   function onEventCrewTakeUnit(params)
   {
     if (needShowUnitTutorial)

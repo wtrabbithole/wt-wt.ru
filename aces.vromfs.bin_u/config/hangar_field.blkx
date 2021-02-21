@@ -99,10 +99,10 @@
     "mouseDecalSizeSpeed": 0.001
   },
   {
-    "dof_near_proc_cam_settings": [3.0,0.1,0.01]
+    "dof_near_proc_cam_settings": [0.7,0.1,0.003]
   },
   {
-    "dof_far_proc_cam_settings": [40.0,10000.0,0.001]
+    "dof_far_proc_cam_settings": [15.0,35.0,0.008]
   },
   {
     "dof_near_settings": [3.0,0.1,0.1]
@@ -114,10 +114,10 @@
     "dof_far_base_radius": 20.0
   },
   {
-    "dof_far_settings_unzoom": [100.0,10000.0,0.0]
+    "dof_far_settings_unzoom": [50.0,1000.0,0.0]
   },
   {
-    "dof_far_settings_zoom": [20.0,10000.0,0.001]
+    "dof_far_settings_zoom": [10.0,40.0,0.001]
   },
   {
     "timeForMouselookCamera": 90.0
@@ -154,6 +154,26 @@
   },
   {
     "modelPos": [72.0,74.0,-696.0]
+  },
+  {
+    "nuclearEvent": {
+      "fx": "explosion_event_background",
+      "posForShip": [-1371.92,120.0,2164.12],
+      "posForTank": [-1371.92,120.0,2164.12],
+      "posForAircraft": [-1371.92,120.0,2164.12],
+      "posForHydroplane": [-1371.92,120.0,2164.12],
+      "cameraShakingDelay": 5.0,
+      "backTransitionAfterTime": 10.0,
+      "cameraOffset": [0.0,10.0,0.0],
+      "offsetViscosity": 0.9,
+      "lookViscosity": 0.9,
+      "impulse": {
+        "duration": 7.0,
+        "delay": 1.0,
+        "shakingSpeed": 2.0,
+        "shakingRange": [30.0,100.0]
+      }
+    }
   },
   {
     "unitPos": {
@@ -1330,7 +1350,7 @@
   {
     "premiumVehicle": {
       "unitName": "ussr_m4a2_76w_sherman",
-      "weapon": "ussr_m4a2_76w_sherman_default",
+      "weapon": "us_m4a2_76w_sherman_default",
       "type": "tank",
       "skin": "",
       "country": "country_ussr",
@@ -1894,7 +1914,7 @@
       "country_germany": "germ_leopard_I",
       "country_ussr": "ussr_t_55a",
       "country_britain": "uk_centurion_mk_10",
-      "country_japan": "jp_st_b1",
+      "country_japan": "jp_type_74",
       "country_italy": "it_b1_centauro",
       "country_france": "fr_amx_13_90",
       "country_china": "cn_type_59",

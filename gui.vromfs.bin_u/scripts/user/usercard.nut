@@ -974,10 +974,10 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local nameWidth = "0.2@scrn_tgt"
     local headerRow = [
       { width=posWidth }
-      { id="rank", width=rcWidth, text="#sm_rank", tdAlign="split", cellType="splitRight", callback = "onStatsCategory", active = statsSortBy=="rank" }
+      { id="rank", width=rcWidth, text="#sm_rank", tdalign="split", cellType="splitRight", callback = "onStatsCategory", active = statsSortBy=="rank" }
       { id="rank", width=rcWidth, cellType="splitLeft", callback = "onStatsCategory" }
       { id="locName", width=rcWidth, cellType="splitRight", callback = "onStatsCategory" }
-      { id="locName", width=nameWidth, text="#options/unit", tdAlign="left", cellType="splitLeft", callback = "onStatsCategory", active = statsSortBy=="locName" }
+      { id="locName", width=nameWidth, text="#options/unit", tdalign="left", cellType="splitLeft", callback = "onStatsCategory", active = statsSortBy=="locName" }
     ]
     foreach(item in ::air_stats_list)
     {
@@ -1009,7 +1009,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       local rowName = "row_"+idx
       local rowData = [
         { text = (idx+1).tostring(), width=posWidth }
-        { id="rank", width=rcWidth, text = airData.rank.tostring(), tdAlign="right", cellType="splitRight", active = statsSortBy=="rank" }
+        { id="rank", width=rcWidth, text = airData.rank.tostring(), tdalign="right", cellType="splitRight", active = statsSortBy=="rank" }
         { id="country", width=rcWidth, image=::get_country_icon(airData.country), cellType="splitLeft", needText = false }
         {
           id="unit",
@@ -1019,7 +1019,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
           cellType="splitRight",
           needText = false
         }
-        { id="name", text = ::getUnitName(airData.name, true), tdAlign="left", active = statsSortBy=="name", cellType="splitLeft", tooltipId = unitTooltipId }
+        { id="name", text = ::getUnitName(airData.name, true), tdalign="left", active = statsSortBy=="name", cellType="splitLeft", tooltipId = unitTooltipId }
       ]
       foreach(item in ::air_stats_list)
       {
@@ -1124,7 +1124,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach (row in rows)
     {
       local rowName = "row_" + rowIdx
-      local rowData = [{ text = row.text, tdAlign="left" }]
+      local rowData = [{ text = row.text, tdalign="left" }]
       local res = {}
 
       foreach(lbCategory in ::leaderboards_list)
@@ -1324,7 +1324,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
 ::build_profile_summary_rowData <- function build_profile_summary_rowData(config, summary, diffCode, textId = "")
 {
-  local row = [{ id = textId, text = "#" + config.name, tdAlign = "left" }]
+  local row = [{ id = textId, text = "#" + config.name, tdalign = "left" }]
   local modeList = (typeof config.mode == "array") ? config.mode : [config.mode]
   local diff = ::g_difficulty.getDifficultyByDiffCode(diffCode)
   if (diff == ::g_difficulty.UNKNOWN)

@@ -826,7 +826,7 @@
       },
       "cover": {
         "fireParamsPreset": "ship_cover_cruiser",
-        "stopChanceOnDeadPart": 0.9,
+        "stopChanceOnDeadPart": 0.95,
         "armorClass": "ship_structural_steel",
         "armorThickness": 25.4,
         "hidableInViewer": true,
@@ -871,7 +871,7 @@
         "stopChanceOnDeadPart": 0.7,
         "fireParamsPreset": "ship_superstructure",
         "armorClass": "ship_structural_steel",
-        "armorThickness": 12.0,
+        "armorThickness": 16.0,
         "oneSided": true,
         "superstructure_back_dm": {
           "hp": 3500.0
@@ -889,7 +889,7 @@
       "hull_construction": {
         "stopChanceOnDeadPart": 0.3,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 25.4,
+        "armorThickness": 38.1,
         "fireDamageMult": 0.1,
         "stern_bottom_dm": {
           "hp": 50000.0
@@ -904,7 +904,7 @@
       "bulkheads": {
         "stopChanceOnDeadPart": 0.7,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 36.0,
+        "armorThickness": 38.1,
         "fireDamageMult": 0.1,
         "bulkhead_01_dm": {
           "hp": 5500.0
@@ -1028,27 +1028,6 @@
         },
         "fuel_tank_03_dm": {
           "hp": 10000.0
-        },
-        "fuel_tank_04_dm": {
-          "hp": 9751.0
-        },
-        "fuel_tank_05_dm": {
-          "hp": 10000.0
-        },
-        "fuel_tank_06_dm": {
-          "hp": 10000.0
-        },
-        "fuel_tank_07_dm": {
-          "hp": 9640.0
-        },
-        "fuel_tank_08_dm": {
-          "hp": 10000.0
-        },
-        "fuel_tank_09_dm": {
-          "hp": 10000.0
-        },
-        "fuel_tank_10_dm": {
-          "hp": 8901.0
         }
       },
       "coal_bunkers": {
@@ -1093,12 +1072,6 @@
           "hp": 15000.0
         },
         "coal_bunker_12_dm": {
-          "hp": 15000.0
-        },
-        "coal_bunker_13_dm": {
-          "hp": 15000.0
-        },
-        "coal_bunker_14_dm": {
           "hp": 15000.0
         }
       },
@@ -1275,70 +1248,78 @@
       "turret_armor": {
         "fireProtectionHp": 120.0,
         "stopChanceOnDeadPart": 1.0,
-        "armorClass": "ship_RHA",
+        "armorClass": "ship_RGA",
         "armorThickness": 15.0,
         "turret_01_front_dm": {
-          "armorThickness": 203.0,
+          "armorThickness": 250.0,
           "hp": 10000.0
         },
         "turret_01_top_dm": {
-          "armorThickness": 152.0,
+          "armorClass": "ship_RGA",
+          "armorThickness": 76.0,
           "hp": 10000.0
         },
         "turret_01_back_dm": {
+          "armorClass": "ship_RGA",
           "armorThickness": 305.0,
           "hp": 10000.0
         },
         "turret_01_bottom_dm": {
-          "armorThickness": 100.0,
+          "armorThickness": 76.2,
           "hp": 10000.0
         },
         "turret_02_front_dm": {
-          "armorThickness": 203.0,
+          "armorThickness": 250.0,
           "hp": 10000.0
         },
         "turret_02_top_dm": {
-          "armorThickness": 152.0,
+          "armorClass": "ship_RGA",
+          "armorThickness": 76.0,
           "hp": 10000.0
         },
         "turret_02_back_dm": {
+          "armorClass": "ship_RGA",
           "armorThickness": 305.0,
           "hp": 10000.0
         },
         "turret_02_bottom_dm": {
-          "armorThickness": 100.0,
+          "armorThickness": 76.2,
           "hp": 10000.0
         },
         "turret_03_front_dm": {
-          "armorThickness": 203.0,
+          "armorThickness": 250.0,
           "hp": 10000.0
         },
         "turret_03_top_dm": {
-          "armorThickness": 152.0,
+          "armorClass": "ship_RGA",
+          "armorThickness": 76.0,
           "hp": 10000.0
         },
         "turret_03_back_dm": {
+          "armorClass": "ship_RGA",
           "armorThickness": 305.0,
           "hp": 10000.0
         },
         "turret_03_bottom_dm": {
-          "armorThickness": 100.0,
+          "armorThickness": 76.2,
           "hp": 10000.0
         },
         "turret_04_front_dm": {
-          "armorThickness": 203.0,
+          "armorThickness": 250.0,
           "hp": 10000.0
         },
         "turret_04_top_dm": {
-          "armorThickness": 152.0,
+          "armorClass": "ship_RGA",
+          "armorThickness": 76.0,
           "hp": 10000.0
         },
         "turret_04_back_dm": {
+          "armorClass": "ship_RGA",
           "armorThickness": 305.0,
           "hp": 10000.0
         },
         "turret_04_bottom_dm": {
-          "armorThickness": 100.0,
+          "armorThickness": 76.2,
           "hp": 10000.0
         },
         "turret_05_front_dm": {
@@ -1638,7 +1619,7 @@
       },
       "gun_masks": {
         "armorClass": "ship_RHA",
-        "armorThickness": 50.0,
+        "armorThickness": 152.0,
         "gun_mask_01_dm": {
           "hp": 200.0
         },
@@ -2408,134 +2389,6 @@
         }
       },
       {
-        "part": {
-          "name": "ammunition_storage_charges_01_dm",
-          "onKill": {
-            "main_caliber_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_02_dm",
-          "onKill": {
-            "main_caliber_turret_02_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_03_dm",
-          "onKill": {
-            "main_caliber_turret_03_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_04_dm",
-          "onKill": {
-            "main_caliber_turret_04_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_05_dm",
-          "onKill": {
-            "main_caliber_turret_05_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_06_dm",
-          "onKill": {
-            "main_caliber_turret_06_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_07_dm",
-          "onKill": {
-            "main_caliber_turret_07_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_08_dm",
-          "onKill": {
-            "main_caliber_turret_08_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_09_dm",
-          "onKill": {
-            "main_caliber_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_09_dm",
-          "onKill": {
-            "main_caliber_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_10_dm",
-          "onKill": {
-            "main_caliber_turret_10_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_11_dm",
-          "onKill": {
-            "main_caliber_turret_11_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_12_dm",
-          "onKill": {
-            "main_caliber_turret_12_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_13_dm",
-          "onKill": {
-            "main_caliber_turret_13_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_14_dm",
-          "onKill": {
-            "main_caliber_turret_14_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_15_dm",
-          "onKill": {
-            "main_caliber_turret_15_dm": 1.0
-          }
-        }
-      },
-      {
         "part": [
           {
             "name": "fuel_tank_dm"
@@ -3132,7 +2985,7 @@
       "mass": {
         "Empty": 21000000.0,
         "momentOfInertia": [90.0,1950.0,1200.0],
-        "CenterOfGravity": [-1.0,2.0,0.0]
+        "CenterOfGravity": [-1.0,1.0,0.0]
       },
       "engines": [
         {
@@ -3263,11 +3116,13 @@
   {
     "sound": {
       "EngineName": "engine_shipmid01",
-      "EngineNameAi": "engine_shiplight_ai",
+      "EngineNameAi": "engine_shipmid_ai",
       "TrackSoundPath": "ships/engines_ships",
+      "TrackSoundPathStudio": "naval/engines",
       "TrackSoundName": "tracks_mid",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundNameCockpit": "tracks_mid_interior",
+      "TrackSoundNameAi": "tracks_ai_mid",
+      "turret_turn": "turret_turn_big"
     }
   },
   {

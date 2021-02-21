@@ -1,6 +1,6 @@
 local enums = require("sqStdLibs/helpers/enums.nut")
 local platformModule = require("scripts/clientState/platform.nut")
-local { isCrossNetworkMessageAllowed } = require("scripts/chat/chatStates.nut")
+local { isCrossNetworkMessageAllowed, isChatEnableWithPlayer } = require("scripts/chat/chatStates.nut")
 
 enum chatRoomCheckOrder {
   CUSTOM
@@ -117,7 +117,7 @@ enums.addTypesByGlobalName("g_chat_room_type", {
       return ""
     }
 
-    isConcealed = @(roomId) !isCrossNetworkMessageAllowed(roomId)
+    isConcealed = @(roomId) !isCrossNetworkMessageAllowed(roomId) || !isChatEnableWithPlayer(roomId)
   }
 
   SQUAD = { //param - random

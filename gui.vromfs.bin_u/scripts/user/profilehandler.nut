@@ -1330,7 +1330,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getStatRowData(name, func, mode, fm_idx=null, timeFormat = false)
   {
-    local row = [{ text = name, tdAlign = "left"}]
+    local row = [{ text = name, tdalign = "left"}]
     for (local diff=0; diff < 3; diff++)
     {
       local value = 0

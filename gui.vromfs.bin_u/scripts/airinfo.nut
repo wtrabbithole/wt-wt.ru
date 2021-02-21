@@ -17,6 +17,8 @@ local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 local { isModResearched,
         getModificationByName } = require("scripts/weaponry/modificationInfo.nut")
+local { getCrewUnlockTimeByUnit } = require("scripts/crew/crewInfo.nut")
+
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -571,7 +573,7 @@ local function fillProgressBar(obj, curExp, newExp, maxExp, isPaused = false)
   else if (!forceUpdate && air.modificators)
     return true
 
-  if (air.isShip())
+  if (air.isShipOrBoat())
   {
     air.modificatorsRequestTime = ::dagor.getCurTime()
     calculate_ship_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
@@ -949,7 +951,7 @@ local function fillProgressBar(obj, curExp, newExp, maxExp, isPaused = false)
 
 ::fillAirInfoTimers <- function fillAirInfoTimers(holderObj, air, needShopInfo)
 {
-  SecondsUpdater(holderObj, (@(air, needShopInfo) function(obj, params) {
+  SecondsUpdater(holderObj, function(obj, params) {
     local isActive = false
 
     // Unit repair cost
@@ -1008,8 +1010,15 @@ local function fillProgressBar(obj, curExp, newExp, maxExp, isPaused = false)
         discountObj.setValue(::colorize("goodTextColor", ::loc("specialOffer/TillTime", { time = expireTimeText })))
     }
 
+    local unlockTime = ::isInMenu() ? getCrewUnlockTimeByUnit(air) : 0
+    local needShowUnlockTime = unlockTime > 0
+    local lockObj = ::showBtn("aircraft-lockedCrew", needShowUnlockTime, obj)
+    if (needShowUnlockTime && lockObj)
+      lockObj.findObject("time").setValue(time.secondsToString(unlockTime))
+    isActive = isActive || needShowUnlockTime
+
     return !isActive
-  })(air, needShopInfo))
+  })
 }
 
 ::get_show_aircraft_name <- function get_show_aircraft_name()
@@ -1539,9 +1548,12 @@ local function fillProgressBar(obj, curExp, newExp, maxExp, isPaused = false)
     local wpMuls = air.getWpRewardMulList(difficulty)
     if (showAsRent)
       wpMuls.premMul = 1.0
-    local wpMultText = ::format("%.1f", wpMuls.wpMul)
+
+    local wpMultText = [ ::format("%.1f", wpMuls.wpMul) ]
     if (wpMuls.premMul != 1.0)
-      wpMultText += ::colorize("fadedTextColor", ::loc("ui/multiply")) + ::colorize("yellow", ::format("%.1f", wpMuls.premMul))
+      wpMultText.append(::colorize("minorTextColor", ::loc("ui/multiply")),
+        ::colorize("yellow", ::format("%.1f", wpMuls.premMul)))
+    wpMultText = "".join(wpMultText)
 
     local rewardFormula = {
       rp = {
@@ -1948,10 +1960,7 @@ local function fillProgressBar(obj, curExp, newExp, maxExp, isPaused = false)
     obj.show(false)
 
   if (showLocalState)
-  {
-    ::setCrewUnlockTime(holderObj.findObject("aircraft-lockedCrew"), air)
     ::fillAirInfoTimers(holderObj, air, needShopInfo)
-  }
 }
 
 ::__types_for_coutries <- null //for avoid recalculations

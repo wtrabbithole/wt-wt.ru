@@ -1418,7 +1418,7 @@
       },
       "cover": {
         "fireParamsPreset": "ship_cover_cruiser",
-        "stopChanceOnDeadPart": 0.9,
+        "stopChanceOnDeadPart": 0.95,
         "armorClass": "ship_structural_steel",
         "armorThickness": 25.4,
         "hidableInViewer": true,
@@ -1454,7 +1454,7 @@
         "stopChanceOnDeadPart": 0.7,
         "fireParamsPreset": "ship_superstructure",
         "armorClass": "ship_structural_steel",
-        "armorThickness": 12.0,
+        "armorThickness": 16.0,
         "oneSided": true,
         "superstructure_back_dm": {
           "hp": 6000.0
@@ -1478,7 +1478,7 @@
       "hull_construction": {
         "stopChanceOnDeadPart": 0.3,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 25.4,
+        "armorThickness": 38.1,
         "fireDamageMult": 0.1,
         "body_bottom_dm": {
           "hp": 50000.0
@@ -1496,7 +1496,7 @@
       "bulkheads": {
         "stopChanceOnDeadPart": 0.7,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 36.0,
+        "armorThickness": 38.1,
         "fireDamageMult": 0.1,
         "bulkhead_01_dm": {
           "hp": 5500.0
@@ -3179,134 +3179,6 @@
         }
       },
       {
-        "part": {
-          "name": "ammunition_storage_charges_01_dm",
-          "onKill": {
-            "main_caliber_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_02_dm",
-          "onKill": {
-            "main_caliber_turret_02_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_03_dm",
-          "onKill": {
-            "main_caliber_turret_03_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_04_dm",
-          "onKill": {
-            "main_caliber_turret_04_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_05_dm",
-          "onKill": {
-            "main_caliber_turret_05_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_06_dm",
-          "onKill": {
-            "main_caliber_turret_06_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_07_dm",
-          "onKill": {
-            "main_caliber_turret_07_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_08_dm",
-          "onKill": {
-            "main_caliber_turret_08_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_09_dm",
-          "onKill": {
-            "main_caliber_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_09_dm",
-          "onKill": {
-            "main_caliber_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_10_dm",
-          "onKill": {
-            "main_caliber_turret_10_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_11_dm",
-          "onKill": {
-            "main_caliber_turret_11_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_12_dm",
-          "onKill": {
-            "main_caliber_turret_12_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_13_dm",
-          "onKill": {
-            "main_caliber_turret_13_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_14_dm",
-          "onKill": {
-            "main_caliber_turret_14_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "ammunition_storage_charges_15_dm",
-          "onKill": {
-            "main_caliber_turret_15_dm": 1.0
-          }
-        }
-      },
-      {
         "part": [
           {
             "name": "fuel_tank_dm"
@@ -4547,11 +4419,11 @@
           },
           "limitsTable": {
             "lim1": [-148.0,-73.0,-5.0,15.0],
-            "lim2": [-73.0,-43.0,8.0,15.0],
+            "lim2": [-73.0,-43.0,0.0,15.0],
             "lim3": [-43.0,-24.0,-2.0,15.0],
             "lim4": [-24.0,24.0,8.0,15.0],
             "lim5": [24.0,43.0,-2.0,15.0],
-            "lim6": [43.0,73.0,8.0,15.0],
+            "lim6": [43.0,73.0,0.0,15.0],
             "lim7": [73.0,148.0,-5.0,15.0]
           },
           "limitsDeadzone": {
@@ -4622,11 +4494,11 @@
           },
           "limitsTable": {
             "lim1": [-148.0,-73.0,-5.0,15.0],
-            "lim2": [-73.0,-43.0,8.0,15.0],
+            "lim2": [-73.0,-43.0,0.0,15.0],
             "lim3": [-43.0,-24.0,-2.0,15.0],
             "lim4": [-24.0,24.0,8.0,15.0],
             "lim5": [24.0,43.0,-2.0,15.0],
-            "lim6": [43.0,73.0,8.0,15.0],
+            "lim6": [43.0,73.0,0.0,15.0],
             "lim7": [73.0,148.0,-5.0,15.0]
           },
           "limitsDeadzone": {
@@ -4696,13 +4568,13 @@
             "pitch": [-10.0,15.0]
           },
           "limitsTable": {
-            "lim1": [-148.0,-139.0,4.0,15.0],
+            "lim1": [-148.0,-139.0,0.0,15.0],
             "lim2": [-139.0,-37.0,-5.0,15.0],
-            "lim3": [-37.0,-21.0,7.0,15.0],
+            "lim3": [-37.0,-21.0,0.0,15.0],
             "lim4": [-21.0,21.0,-2.0,15.0],
-            "lim5": [21.0,37.0,7.0,15.0],
+            "lim5": [21.0,37.0,0.0,15.0],
             "lim6": [37.0,139.0,-5.0,15.0],
-            "lim7": [139.0,148.0,4.0,15.0]
+            "lim7": [139.0,148.0,0.0,15.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": true,
@@ -4767,13 +4639,13 @@
             "pitch": [-10.0,15.0]
           },
           "limitsTable": {
-            "lim1": [-148.0,-139.0,4.0,15.0],
+            "lim1": [-148.0,-139.0,0.0,15.0],
             "lim2": [-139.0,-37.0,-5.0,15.0],
-            "lim3": [-37.0,-21.0,7.0,15.0],
+            "lim3": [-37.0,-21.0,0.0,15.0],
             "lim4": [-21.0,21.0,-2.0,15.0],
-            "lim5": [21.0,37.0,7.0,15.0],
+            "lim5": [21.0,37.0,0.0,15.0],
             "lim6": [37.0,139.0,-5.0,15.0],
-            "lim7": [139.0,148.0,4.0,15.0]
+            "lim7": [139.0,148.0,0.0,15.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": true,

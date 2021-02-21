@@ -29,7 +29,7 @@ shopSheets.template <- {
 
   getItemFilterFunc = @(shopTab)
     shopTab == itemsTab.SHOP ? (@(item) item.isCanBuy() && isDevItemsTab == item.isDevItem
-      && !item.isHiddenItem() && !item.isVisibleInWorkshopOnly())
+      && !item.isHiddenItem() && !item.isVisibleInWorkshopOnly() && !item.isHideInShop)
     : (@(item) !item.isHiddenItem() && !item.isVisibleInWorkshopOnly())
 
   getItemsList = function(shopTab, subsetId = null)

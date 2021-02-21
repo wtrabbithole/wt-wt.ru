@@ -481,7 +481,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
         fontIcon      = paramType.fontIcon
         fontIconType  = "fontIcon32"
         text          = paramType.fontIcon ? null : tooltip
-        tdAlign       = "center"
+        tdalign       = "center"
         active        = false
       })
     }
@@ -499,7 +499,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
         data.rowHeader[name][0] = {
           image   = isMyTeam ? "#ui/gameuiskin#mp_logo_allies.svg" : "#ui/gameuiskin#mp_logo_axis.svg"
           tooltip = isMyTeam ? "#multiplayer/teamA" : "#multiplayer/teamB"
-          tdAlign = "center"
+          tdalign = "center"
           active  = false
         }
 

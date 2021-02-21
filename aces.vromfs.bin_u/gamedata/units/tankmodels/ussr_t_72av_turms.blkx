@@ -102,15 +102,6 @@
     "type": "typeMediumTank"
   },
   {
-    "irProjectorNode": "ex_decor_02"
-  },
-  {
-    "irBeamRadius": [1400.0,100.0]
-  },
-  {
-    "irProjectorPower": [0.02,0.07]
-  },
-  {
     "rearmSmokeTimeOnField": 60.0
   },
   {
@@ -145,7 +136,7 @@
         "superstructure_front_dm": {
           "armorThickness": 60.0,
           "createSecondaryShatters": false,
-          "genericArmorQuality": 1.2,
+          "genericArmorQuality": 1.4,
           "variableThickness": true
         },
         "turret_02_front_dm": {
@@ -162,7 +153,7 @@
         },
         "turret_01_bottom_dm": {
           "armorThickness": 50.0,
-          "genericArmorQuality": 1.2
+          "genericArmorQuality": 1.23
         }
       },
       "hull_ufp_armor": {
@@ -278,9 +269,8 @@
           "armorThickness": 30.0
         },
         "turret_08_front_dm": {
-          "armorThickness": 125.0,
-          "armorEffectiveThicknessMax": 140.0,
-          "createSecondaryShatters": false
+          "armorThickness": 5.0,
+          "armorClass": "RHA_tank"
         },
         "turret_09_front_dm": {
           "armorThickness": 115.0,
@@ -297,9 +287,6 @@
           "armorThickness": 90.0,
           "armorEffectiveThicknessMax": 200.0,
           "cumulativeArmorQuality": 0.0
-        },
-        "turret_05_side_dm": {
-          "armorThickness": 70.0
         },
         "turret_01_back_dm": {
           "armorThickness": 65.0
@@ -466,6 +453,7 @@
         "createSecondaryShatters": false,
         "hidableInViewer": true,
         "turret_08_back_dm": [],
+        "turret_05_side_dm": [],
         "ex_decor_04_dm": [],
         "ex_decor_12_dm": [],
         "ex_decor_13_dm": [],
@@ -1124,12 +1112,6 @@
       "armorArrayTurret": {
         "xrayDmPart": "composite_armor_turret_01_dm",
         "armorArrayText": [
-          {
-            "layer": {
-              "dmPart": "turret_08_front_dm",
-              "xrayTextThickness": [140.0,75.0]
-            }
-          },
           {
             "layer": {
               "dmPart": "composite_armor_turret_01_dm",

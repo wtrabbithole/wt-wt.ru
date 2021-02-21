@@ -1,10 +1,9 @@
 local { getStringWidthPx } = require("scripts/viewUtils/daguiFonts.nut")
-//
-
-
-
-
-
+local { openBattlePassWnd } = require("scripts/battlePass/battlePassWnd.nut")
+local { seasonLvlWatchObj, easyDailyTaskProgressWatchObj,
+  mediumDailyTaskProgressWatchObj, leftSpecialTasksBoughtCountWatchObj
+} = require("scripts/battlePass/watchObjInfoConfig.nut")
+local { stashBhvValueConfig } = require("sqDagui/guiBhv/guiBhvValueConfig.nut")
 
 ::dagui_propid.add_name_id("task_id")
 ::dagui_propid.add_name_id("difficultyGroup")
@@ -142,40 +141,38 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
     view.radioButtons <- difficultyGroupArray
     view.isShowNameInHeader <- true
     view.otherTasksNumText <- view.otherTasksNum > 0 ? "#mainmenu/battleTasks/OtherTasksCount" : ""
-    //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if (::has_feature("BattlePass")) {
+      scene.isBattlePass = "yes"
+      view.headerAction <- "showBattlePassWnd"
+      view.seasonLvlValue <- stashBhvValueConfig([{
+        watch = seasonLvlWatchObj.watch
+        updateFunc = seasonLvlWatchObj.updateFunc
+      }])
+      view.isShowNameInHeader = false
+      local isEmptyTask = view.taskId == null
+      if (isEmptyTask) {
+        view.title = ""
+        view.action <- "showBattlePassWnd"
+        view.otherTasksNumText = "#season/information"
+        view.isEmptyTask <- isEmptyTask
+        view.showAsUsualPromoButton = false
+        view.easyDailyTaskProgressValue <- stashBhvValueConfig([{
+          watch = easyDailyTaskProgressWatchObj.watch
+          updateFunc = easyDailyTaskProgressWatchObj.updateFunc
+        }])
+        view.mediumDailyTaskProgressValue <- stashBhvValueConfig([{
+          watch = mediumDailyTaskProgressWatchObj.watch
+          updateFunc = mediumDailyTaskProgressWatchObj.updateFunc
+        }])
+        if (::g_battle_tasks.canActivateHardTasks()) {
+          view.leftSpecialTasksBoughtCountValue <- stashBhvValueConfig([{
+            watch = leftSpecialTasksBoughtCountWatchObj.watch
+            updateFunc = leftSpecialTasksBoughtCountWatchObj.updateFunc
+          }])
+          view.newItemsAvailable <- leftSpecialTasksBoughtCountWatchObj.watch.value > 0
+        }
+      }
+    }
 
     local data = ::handyman.renderCached("gui/promo/promoBattleTasks",
       { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
@@ -250,12 +247,10 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
   onEventWarbondShopMarkSeenLevel             = @(p) updateHandler()
   onEventWarbondViewShowProgressBarFlagUpdate = @(p) updateHandler()
 
-  //
+  function showBattlePassWnd() {
+    if (!::has_feature("BattlePass"))
+      return
 
-
-
-
-
-
-
+    openBattlePassWnd()
+  }
 }

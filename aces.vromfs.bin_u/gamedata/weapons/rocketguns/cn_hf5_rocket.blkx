@@ -75,6 +75,8 @@
     "aiSpeedViscosity": 3.0,
     "aiSpeedPrediction": 1.0,
     "aiAccelPrediction": 0.5,
+    "hasTracerTrail": true,
+    "tracerTrailEmitter": [0.1,-0.01,0.0],
     "amountPerTier": 16.0,
     "iconType": "nar_ap_large",
     "stabilityRicochetModifier": [
@@ -114,6 +116,14 @@
       "distance": 6.0,
       "damage": 300.0,
       "onHitChanceMultFire": 15.0
+    },
+    "tracerTrail": {
+      "smokeEffect": "",
+      "visual": {
+        "traceFreq": 1,
+        "tracer": "100mmRed",
+        "trail": "noTrail"
+      }
     }
   }
 }

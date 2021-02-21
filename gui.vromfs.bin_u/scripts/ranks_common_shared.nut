@@ -313,21 +313,26 @@ global const EDIFF_SHIFT = 3
          ?? defaultNum
 }
 
-::get_unit_spawn_score_weapon_mul <- function get_unit_spawn_score_weapon_mul(unitname, weapon)
+::get_unit_spawn_score_weapon_mul <- function get_unit_spawn_score_weapon_mul(unitname, weapon, bulletArray)
 {
   local wpcost = ::get_wpcost_blk()
-
   local unitClass = wpcost?[unitname]?.unitClass
   if (unitClass == null)
     return 1.0
 
-  if (unitClass == "exp_helicopter" && wpcost?[unitname]?.weapons?[weapon]?.isATGM)
-    return get_spawn_score_param("spawnCostMulForHelicopterWithATGM", 1.0)
+  local bulletsMul = 1.0
+  if (get_spawn_score_param("useSpawnCostMulForBullet", false)) {
+    foreach (bullet in bulletArray) {
+      bulletsMul += ((wpcost?[unitname].modifications[bullet].spawnCostMul ?? 1.0) - 1.0)
+    }
+  }
 
-  if (unitClass == "exp_fighter" && wpcost?[unitname]?.weapons?[weapon]?.isAntiTankWeap)
-    return get_spawn_score_param("spawnCostMulForFighterWithBombs", 1.0)
+  local weaponMul = 1.0
+  if (get_spawn_score_param("useSpawnCostMulForWeapon", false)) {
+    weaponMul = wpcost?[unitname].weapons[weapon].spawnCostMul ?? 1.0
+  }
 
-  return 1.0
+  return 1.0 + (bulletsMul - 1.0) + (weaponMul - 1.0)
 }
 
 // return non-empty string for errors

@@ -106,9 +106,7 @@ foreach (fn in [
                  "itemEntitlement.nut"
                  "itemWarpoints.nut"
                  "itemUnlock.nut"
-                 //
-
-
+                 "itemBattlePass.nut"
                  "itemRentedUnit.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
@@ -523,9 +521,7 @@ ItemsManager.getInventoryItemType <- function getInventoryItemType(blkType)
       case "entitlement":         return itemType.ENTITLEMENT
       case "warpoints":           return itemType.WARPOINTS
       case "unlock":              return itemType.UNLOCK
-      //
-
-
+      case "battlePass":          return itemType.BATTLE_PASS
       case "rented_unit":         return itemType.RENTED_UNIT
     }
 

@@ -1415,6 +1415,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     openMenuForUnit(unit)
   }
 
+  function onUnitDblClick(obj) {
+    if (!::show_console_buttons) //to use for not console buttons need to divide events activate and dbl_click
+      onUnitMainFunc(obj)
+  }
+
   function checkSelectAirGroup(item, selectUnitName = "")
   {
     if (skipOpenGroup || groupChooseObj || !item || !::isUnitGroup(item))

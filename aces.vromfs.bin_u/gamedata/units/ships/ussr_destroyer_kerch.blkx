@@ -4911,7 +4911,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner9",
+          "trigger": "gunner6",
           "triggerGroup": "machinegun",
           "blk": "gameData/Weapons/navalModels_weapons/7_92mm_mg08_1908_naval_user_machinegun.blk",
           "emitter": "emtr_gun_flame_02",
@@ -4982,7 +4982,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner11",
+          "trigger": "gunner7",
           "triggerGroup": "machinegun",
           "blk": "gameData/Weapons/navalModels_weapons/7_92mm_mg08_1908_naval_user_machinegun.blk",
           "emitter": "emtr_gun_flame_03",
@@ -5227,6 +5227,12 @@
           "weaponTrigger": "gunner5"
         },
         {
+          "weaponTrigger": "gunner6"
+        },
+        {
+          "weaponTrigger": "gunner7"
+        },
+        {
           "fatalFire": false
         },
         {
@@ -5280,14 +5286,14 @@
           "shells": {
             "damageEffect": "ammunition_storage_aux",
             "ammunition_storage_aux_01_dm": {
-              "count": 4480
+              "count": 7480
             }
           }
         }
       ],
       "ammo6": [
         {
-          "weaponTrigger": "gunner6"
+          "weaponTrigger": "gunner8"
         },
         {
           "removeLoadedAmmo": false
@@ -5340,7 +5346,7 @@
       ],
       "ammo7": [
         {
-          "weaponTrigger": "gunner7"
+          "weaponTrigger": "gunner9"
         },
         {
           "removeLoadedAmmo": false
@@ -5393,7 +5399,7 @@
       ],
       "ammo8": [
         {
-          "weaponTrigger": "gunner8"
+          "weaponTrigger": "gunner10"
         },
         {
           "removeLoadedAmmo": false
@@ -5439,6 +5445,59 @@
           "shells": {
             "damageEffect": "ammunition_torpedoes",
             "torpedo_09_dm": {
+              "count": 1
+            }
+          }
+        }
+      ],
+      "ammo9": [
+        {
+          "weaponTrigger": "gunner11"
+        },
+        {
+          "removeLoadedAmmo": false
+        },
+        {
+          "fatalFire": false
+        },
+        {
+          "fatalExplosion": false
+        },
+        {
+          "fireEvent": "torpedo_fire"
+        },
+        {
+          "explosionEvent": "torpedo_explosion"
+        },
+        {
+          "fireParamsPreset": "ship_torpedo_fire"
+        },
+        {
+          "splashRadiusConstraint": 15.0
+        },
+        {
+          "shatterRadiusConstraint": 15.0
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_10_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_11_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "damageEffect": "ammunition_torpedoes",
+            "torpedo_12_dm": {
               "count": 1
             }
           }

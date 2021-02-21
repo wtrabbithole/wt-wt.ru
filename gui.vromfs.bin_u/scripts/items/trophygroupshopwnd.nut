@@ -32,6 +32,7 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
     fillTrophiesList()
     setDescription()
     updateHeader()
+    setupSelection()
   }
 
   function setDescription()
@@ -43,6 +44,18 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContent(obj, "gui/items/itemDesc.blk", this)
     obj.scrollToView(true)
     ::ItemsManager.fillItemDescr(trophy, obj, this)
+  }
+
+  function setupSelection()
+  {
+    for (local i = 0; i < trophy.numTotal; i++)
+      if (!isTrophyPurchased(i))
+      {
+        local listObj = getItemsListObj()
+        listObj.setValue(i)
+        ::move_mouse_on_child(listObj, i)
+        return
+      }
   }
 
   function updateTrophyInfo()
@@ -159,7 +172,7 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
       doAction(obj.holderId.tointeger())
   }
 
-  onSelectedItemAction = @() doAction(scene.findObject("items_list").getValue())
+  onSelectedItemAction = @() doAction(getItemsListObj().getValue())
 
   function doAction(index)
   {
@@ -176,6 +189,23 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateContent()
   }
 
+  function onItemsListFocusChange()
+  {
+    if (isValid())
+      updateButtonsBar()
+  }
+
+  function getItemsListObj()
+  {
+    return scene.findObject("items_list")
+  }
+
+  function updateButtonsBar()
+  {
+    local isButtonsBarVisible = !::show_console_buttons || getItemsListObj().isHovered()
+    showSceneBtn("item_actions_bar", isButtonsBarVisible)
+  }
+
   function updateButtons(obj = null)
   {
     if (!::checkObj(obj))
@@ -185,9 +215,9 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
     local mainActionData = trophy.getMainActionData()
     showSceneBtn("btn_main_action", !isPurchased)
     setDoubleTextToButton(scene,
-                            "btn_main_action",
-                            mainActionData?.btnName,
-                            mainActionData?.btnColoredName || mainActionData?.btnName)
+      "btn_main_action",
+      mainActionData?.btnName,
+      mainActionData?.btnColoredName || mainActionData?.btnName)
     showSceneBtn("warning_text", isPurchased)
   }
 }

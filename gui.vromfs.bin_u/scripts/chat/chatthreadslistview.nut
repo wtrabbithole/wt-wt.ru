@@ -140,6 +140,10 @@ class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
     updateInactiveList = true
   }
 
+  function onEventContactsBlockStatusUpdated(p) {
+    updateInactiveList = true
+  }
+
   function onUpdate(obj, dt)
   {
     if (isSceneActive())

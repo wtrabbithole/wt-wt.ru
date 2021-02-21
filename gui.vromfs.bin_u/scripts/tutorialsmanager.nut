@@ -48,8 +48,10 @@ local { tryOpenNextTutorialHandler } = require("scripts/tutorials/nextTutorialHa
 
     if (unit.isTank())
       return tryOpenNextTutorialHandler("lightTank")
-    else if (unit.isShip())
+    else if (unit.isBoat())
       return tryOpenNextTutorialHandler("boat")
+    else if (unit.isShip())
+      return tryOpenNextTutorialHandler("ship")
     else if (tryOpenNextTutorialHandler("fighter"))
       return true
 

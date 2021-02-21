@@ -1281,7 +1281,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
     noKeyLocId = "hints/ready_to_bailout_nokey"
     getShortcuts =  function(data)
     {
-      return ::get_player_cur_unit()?.isShip() ?
+      return ::get_player_cur_unit()?.isShipOrBoat() ?
         ::g_hud_action_bar_type.TOOLKIT.getVisualShortcut()
         //
 
@@ -1428,28 +1428,23 @@ enums.addTypesByGlobalName("g_hud_hints", {
     isHideOnDeath = true
   }
 
-  //
+  NUCLEAR_KILLSTREAK_REACH_AREA = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/reach_battlearea_to_activate_the_bomb"
+    showEvent = "hint:nuclear_killstreak_reach_area:show"
+    hideEvent = "hint:nuclear_killstreak_reach_area:hide"
+    isHideOnDeath = true
+    isHideOnWatchedHeroChanged = true
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  NUCLEAR_KILLSTREAK_DROP_BOMB = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/drop_the_bomb"
+    showEvent = "hint:nuclear_killstreak_drop_the_bomb:show"
+    hideEvent = "hint:nuclear_killstreak_drop_the_bomb:hide"
+    isHideOnDeath = true
+    isHideOnWatchedHeroChanged = true
+  }
 },
 function() {
   name = "hint_" + typeName.tolower()
