@@ -4095,11 +4095,22 @@
     "Changelog": {
       "condition": ""
     },
-    "BattlePass": [],
+    "BattlePass": {
+      "condition": ""
+    },
+    "BattlePassPurchased": {
+      "condition": "BattlePass;battlepass_season1_purchased"
+    },
+    "BattlePassAllowSkipAllStages": {
+      "condition": "BattlePass;battlepass_season1_purchased;battlepass_season1_allow_skip_all_stages"
+    },
     "Collection": {
       "condition": ""
     },
-    "ShowDropChanceInTrophy": [
+    "ShowDropChanceInTrophy": {
+      "condition": ""
+    },
+    "FpsCounterOverride": [
       {
         "condition": "role_GAIJIN"
       },
@@ -4109,6 +4120,10 @@
       {
         "condition": "role_TESTER"
       }
-    ]
+    ],
+    "physicalTracks": {
+      "condition": "",
+      "platform_lock": "ps5;xboxScarlett"
+    }
   }
 }

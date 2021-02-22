@@ -16,6 +16,7 @@ local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { reloadDargUiScript } = require("reactiveGuiCommand")
 local {bombNbr} = require("scripts/unit/unitStatus.nut")
 local { saveProfile } = require("scripts/clientState/saveProfile.nut")
+local { checkUnitSpeechLangPackWatch } = require("scripts/options/optionsManager.nut")
 local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
 //
 
@@ -621,7 +622,7 @@ local isWaitMeasureEvent = false
       break
 
 
-   case ::USEROPT_FLARES_PERIODS:
+    case ::USEROPT_FLARES_PERIODS:
        descr.id = "flares_periods"
        descr.values = [0.1,0.2,0.5,1.0]
        descr.items = []
@@ -638,7 +639,7 @@ local isWaitMeasureEvent = false
        defaultValue = 0.1
        break
 
-   case ::USEROPT_FLARES_SERIES:
+    case ::USEROPT_FLARES_SERIES:
        descr.id = "flares_series"
        descr.items = []
        descr.values = [1,2,3,4]
@@ -655,7 +656,7 @@ local isWaitMeasureEvent = false
        defaultValue = 5
        break
 
-   case ::USEROPT_FLARES_SERIES_PERIODS:
+    case ::USEROPT_FLARES_SERIES_PERIODS:
        descr.id = "flares_series_periods"
        descr.items = []
        descr.values = [1,2,5,10]
@@ -672,7 +673,7 @@ local isWaitMeasureEvent = false
        defaultValue = 1
        break
 
-   case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
+    case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       descr.id = "depthcharge_activation_time"
       descr.items = []
       descr.values = []
@@ -684,7 +685,7 @@ local isWaitMeasureEvent = false
       descr.value = ::find_in_array(descr.values, ::get_option_depthcharge_activation_time())
       break
 
-   case ::USEROPT_USE_PERFECT_RANGEFINDER:
+    case ::USEROPT_USE_PERFECT_RANGEFINDER:
       descr.id = "use_perfect_rangefinder"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
@@ -738,7 +739,16 @@ local isWaitMeasureEvent = false
         descr.items.append("#options/aerobaticsSmokeTriple");
         descr.values.append(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1);
       }
-      else if (localSmokeType > ::MAX_AEROBATICS_SMOKE_INDEX * 2)
+      else if (localSmokeType == (::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1))
+        localSmokeType = 1;
+
+      local unlockId = "aerobatics_smoke_winter" // temp hardcode for winter smoke, will be read from the config when the code for this is ready
+      if (::g_unlocks.getUnlockById(unlockId) && ::is_unlocked(-1, unlockId))
+      {
+        descr.items.append("#options/aerobaticsSmokeWinter");
+        descr.values.append(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 2);
+      }
+      else if (localSmokeType == (::MAX_AEROBATICS_SMOKE_INDEX * 2 + 2))
         localSmokeType = 1;
 
       descr.value = find_in_array(descr.values, localSmokeType);
@@ -1430,7 +1440,7 @@ local isWaitMeasureEvent = false
       if (!isPlatformSony && !isPlatformXboxOne)
         descr.values.insert(0, "") //custom preset
 
-      local p = ::g_controls_presets.getCurrentPreset()
+      local p = ::g_controls_manager.getCurPreset()?.getBasePresetInfo() ?? ::g_controls_presets.getCurrentPreset()
       for(local k = 0; k < descr.values.len(); k++)
       {
         local name = descr.values[k]
@@ -2045,6 +2055,13 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_option_use_rectangular_radar_indicator()
+      break
+
+    case ::USEROPT_ACTIVATE_AIRBORNE_WEAPON_SELECTION_ON_SPAWN:
+      descr.id = "activate_airborne_weapon_selection_on_spawn"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_gui_option(optionId)
       break
 
     case ::USEROPT_USE_RADAR_HUD_IN_COCKPIT:
@@ -3895,7 +3912,8 @@ local isWaitMeasureEvent = false
       break
 
     default:
-      ::dagor.logerr($"[ERROR] Options: Get: Unsupported type {optionId}")
+      local optionName = ::user_option_name_by_idx?[optionId] ?? ""
+      ::dagor.assertf(false, $"[ERROR] Options: Get: Unsupported type {optionId} ({optionName})")
       ::debugTableData(::aircraft_for_weapons)
       ::callstack()
   }
@@ -3994,7 +4012,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_SPEECH_TYPE:
       local curOption = ::get_option(::USEROPT_SPEECH_TYPE)
       ::set_option_speech_country_type(descr.values[value])
-      ::g_options.needCheckUnitSpeechLangPack = curOption.value != value && value == SPEECH_COUNTRY_UNIT_VALUE
+      checkUnitSpeechLangPackWatch(curOption.value != value && value == SPEECH_COUNTRY_UNIT_VALUE)
       break
     case ::USEROPT_GUN_TARGET_DISTANCE:
       ::set_option_gun_target_dist(descr.values[value])
@@ -4448,6 +4466,9 @@ local isWaitMeasureEvent = false
     case ::USEROPT_DEFAULT_AI_TARGET_TYPE:
       ::set_option_default_ai_target_type(value)
       break;
+    case ::USEROPT_ACTIVATE_AIRBORNE_WEAPON_SELECTION_ON_SPAWN:
+      ::set_gui_option(optionId, value)
+      break;
     case ::USEROPT_SHOW_INDICATORS_TYPE:
       local val = ::get_option_indicators_mode() & ~(::HUD_INDICATORS_SELECT|::HUD_INDICATORS_CENTER|::HUD_INDICATORS_ALL);
       if (descr.values[value] == 0)
@@ -4482,7 +4503,7 @@ local isWaitMeasureEvent = false
       else
         ::set_option_indicators_mode(::get_option_indicators_mode() & ~::HUD_INDICATORS_TEXT_DIST);
       break
-     case ::USEROPT_SAVE_ZOOM_CAMERA:
+    case ::USEROPT_SAVE_ZOOM_CAMERA:
       ::set_option_save_zoom_camera(value)
       break;
 
@@ -4825,6 +4846,8 @@ local isWaitMeasureEvent = false
     case ::USEROPT_IS_BOTS_ALLOWED:
     case ::USEROPT_USE_TANK_BOTS:
     case ::USEROPT_USE_SHIP_BOTS:
+    case ::USEROPT_SPAWN_AI_TANK_ON_TANK_MAPS:
+    case ::USEROPT_DISABLE_AIRFIELDS:
     case ::USEROPT_KEEP_DEAD:
     case ::USEROPT_DEDICATED_REPLAY:
     case ::USEROPT_AUTOBALANCE:
@@ -4949,7 +4972,7 @@ local isWaitMeasureEvent = false
       ::ps4_headtrack_set_enable(value)
       break
 
-      case ::USEROPT_HEADTRACK_SCALE_X:
+    case ::USEROPT_HEADTRACK_SCALE_X:
       ::ps4_headtrack_set_xscale(value)
       break
     case ::USEROPT_HEADTRACK_SCALE_Y:
@@ -5052,7 +5075,8 @@ local isWaitMeasureEvent = false
       break
 
     default:
-      ::dagor.logerr($"[ERROR] Options: Set: Unsupported type {optionId} - {value}")
+      local optionName = ::user_option_name_by_idx?[optionId] ?? ""
+      ::dagor.assertf(false, $"[ERROR] Options: Set: Unsupported type {optionId} ({optionName}) - {value}")
   }
   return true
 }

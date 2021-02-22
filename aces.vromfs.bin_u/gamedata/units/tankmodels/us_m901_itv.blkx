@@ -1439,8 +1439,27 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.8,
+              "fire": 0.7,
+              "expl": 0.1,
               "damage": 300.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.5,
+              "expl": 0.5,
+              "damage": 400.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.2,
+              "expl": 0.8,
+              "damage": 600.0,
               "fHitCritical": true
             }
           },
@@ -1452,8 +1471,9 @@
           },
           {
             "onKill": {
-              "fire": 0.3,
-              "nothing": 0.7,
+              "fire": 0.5,
+              "expl": 0.3,
+              "nothing": 0.2,
               "fHitCritical": true
             }
           }
@@ -1741,23 +1761,6 @@
             "kill": true,
             "killEffect": "hullBreak"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 750.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
         }
       ],
       "mount": [
@@ -1799,23 +1802,6 @@
             "kill": true,
             "killEffect": "hullBreak"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 750.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
         }
       ]
     }
@@ -1840,6 +1826,7 @@
         "readyToFireVar": "m901_itv_action",
         "readyToFireTime": 2.5,
         "maxSpeedForFire": 1.0,
+        "battlePositionSpeed": 20.0,
         "lagStopForFireTime": 1.0,
         "reloadAnimVar": "m901_reload_var",
         "createGunEffects": true,
@@ -2507,7 +2494,7 @@
         "event": {
           "name": "fuel_internal",
           "fx": {
-            "name": "tank_engine_fire",
+            "name": "tank_ex_fuel_explosion",
             "centerDmgPart": true
           }
         }
@@ -2580,6 +2567,7 @@
                 "readyToFireVar": "m901_itv_action",
                 "readyToFireTime": 2.5,
                 "maxSpeedForFire": 1.0,
+                "battlePositionSpeed": 20.0,
                 "lagStopForFireTime": 1.0,
                 "reloadAnimVar": "m901_reload_var",
                 "createGunEffects": true,

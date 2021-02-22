@@ -62,7 +62,7 @@
             "tdiv": {
               "size": "pw, 1@frameHeaderHeight",
               "position": "relative",
-              "pos": "0, 0.5sh-0.5@rh-1@blockInterval",
+              "pos": "0, 1@bh-1@blockInterval",
               "flow": "horizontal",
               "HorizontalListBox": {
                 "id": "tabs_list",
@@ -334,132 +334,12 @@
                     "chapterSeparator": []
                   },
                   {
-                    "div": [
-                      {
-                        "id": "item_info"
-                      },
-                      {
-                        "width": "pw"
-                      },
-                      {
-                        "padding": "1@itemSpacing"
-                      },
-                      {
-                        "flow": "vertical"
-                      },
-                      {
-                        "tdiv": {
-                          "width": "pw",
-                          "textAreaCentered": {
-                            "id": "item_name",
-                            "max-width": "pw",
-                            "overlayTextColor": "active",
-                            "pos": "50%pw-50%w, 50%ph-50%h",
-                            "position": "relative"
-                          },
-                          "cardImg": {
-                            "id": "item_type_help",
-                            "margin-left": "5@dp",
-                            "type": "tiny",
-                            "background-image": "#ui/gameuiskin#btn_help.svg",
-                            "tooltip": "",
-                            "display": "hide"
-                          }
-                        }
-                      },
-                      {
-                        "textAreaCentered": {
-                          "id": "item_desc_under_title",
-                          "max-width": "pw",
-                          "overlayTextColor": "active",
-                          "pos": "50%pw-50%w, 0",
-                          "position": "relative",
-                          "padding-bottom": "1@blockInterval"
-                        }
-                      },
-                      {
-                        "itemIconBlock": {
-                          "id": "item_icon",
-                          "pos": "50%pw-50%w, 0",
-                          "position": "relative",
-                          "doubleSize": "yes",
-                          "wideSize": "no",
-                          "overflow": "hidden",
-                          "margin-bottom": "1@blockInterval"
-                        }
-                      },
-                      {
-                        "textareaNoTab": {
-                          "id": "item_desc",
-                          "position": "relative",
-                          "width": "pw",
-                          "font-bold": "@fontMedium",
-                          "text": "",
-                          "hideEmptyText": "yes"
-                        }
-                      },
-                      {
-                        "div": {
-                          "id": "item_desc_div",
-                          "width": "pw",
-                          "flow": "vertical"
-                        }
-                      },
-                      {
-                        "textareaNoTab": {
-                          "id": "item_desc_under_div",
-                          "pos": "50%pw-50%w, 12@sf/@pf",
-                          "position": "relative",
-                          "width": "pw",
-                          "smallFont": "yes",
-                          "hideEmptyText": "yes"
-                        }
-                      },
-                      {
-                        "div": [
-                          {
-                            "id": "item_additional_desc_table"
-                          },
-                          {
-                            "width": "pw"
-                          },
-                          {
-                            "pos": "50%pw-50%w, 0"
-                          },
-                          {
-                            "position": "relative"
-                          },
-                          {
-                            "flow": "vertical"
-                          },
-                          {
-                            "margin-top": "0.01@scrn_tgt"
-                          },
-                          {
-                            "textareaNoTab": {
-                              "id": "item_desc_above_table",
-                              "width": "pw",
-                              "margin-bottom": "0.005*@scrn_tgt",
-                              "text": ""
-                            }
-                          },
-                          {
-                            "div": {
-                              "id": "item_table_container",
-                              "width": "pw"
-                            }
-                          },
-                          {
-                            "textareaNoTab": {
-                              "id": "item_desc_under_table",
-                              "width": "pw",
-                              "font-bold": "@fontMedium",
-                              "text": ""
-                            }
-                          }
-                        ]
-                      }
-                    ]
+                    "div": {
+                      "id": "item_info",
+                      "width": "pw",
+                      "padding": "1@itemSpacing",
+                      "flow": "vertical"
+                    }
                   },
                   {
                     "div": {
@@ -494,7 +374,7 @@
                       "pos": "1@framePadding +1@itemPadding, 1@framePadding +1@itemPadding",
                       "position": "absolute",
                       "size": "@mIco, @mIco",
-                      "btnName": "RT",
+                      "btnName": "R3",
                       "on_click": "onJumpToDescPanelAccessKey",
                       "ButtonImg": []
                     }
@@ -509,7 +389,7 @@
                 "id": "warbond_shop_progress_block"
               },
               {
-                "size": "pw, 2@battleTasksHardMedalWidth"
+                "size": "pw, 0.08@scrn_tgt"
               },
               {
                 "margin-top": "1@blockInterval"
@@ -554,14 +434,9 @@
               {
                 "tdiv": {
                   "id": "special_tasks_progress_block",
-                  "size": "fw, ph",
-                  "pos": "1@warbondShopLevelItemHeight, 0",
-                  "position": "relative",
+                  "position": "absolute",
                   "tdiv": {
-                    "id": "medal_icon",
-                    "pos": "pw-w-1@blockInterval, 50%ph-50%h",
-                    "position": "relative",
-                    "flow": "vertical"
+                    "id": "medal_icon"
                   }
                 }
               }
@@ -573,7 +448,6 @@
                 "Button_text": {
                   "id": "btn_open_craft_tree",
                   "text": "#mainmenu/btnAircraftInfo",
-                  "btnName": "R3",
                   "on_click": "onOpenCraftTree",
                   "display": "hide",
                   "enable": "no",
@@ -612,7 +486,7 @@
                   "Button_text": {
                     "id": "btn_preview",
                     "text": "#mainmenu/btnPreview",
-                    "btnName": "RT",
+                    "btnName": "L3",
                     "_on_click": "onItemPreview",
                     "display": "hide",
                     "enable": "no",

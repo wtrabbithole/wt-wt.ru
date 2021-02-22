@@ -98,6 +98,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     checkBombActivationTimeRow()
     checkBombSeriesRow()
     checkDepthChargeActivationTimeRow()
+    updateTorpedoDiveDepth()
     updateFlaresOptions()
   }
 
@@ -181,12 +182,9 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     {
       options.append(
         [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner"],
-        [::USEROPT_ROCKET_FUSE_DIST, "spinner"]
+        [::USEROPT_ROCKET_FUSE_DIST, "spinner"],
+        [::USEROPT_TORPEDO_DIVE_DEPTH, "spinner"]
       )
-      if (!get_option_torpedo_dive_depth_auto())
-        options.append(
-          [::USEROPT_TORPEDO_DIVE_DEPTH, "spinner"]
-        )
     }
 
     options.append(
@@ -283,6 +281,10 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
   function onApply(obj)
   {
+    local bulletsManager = weaponsSelectorWeak?.bulletsManager
+    if (!bulletsManager || !bulletsManager.checkChosenBulletsCount())
+      return
+
     ::broadcastEvent("BeforeStartTestFlight")
 
     if (::g_squad_manager.isNotAloneOnline())
@@ -385,30 +387,28 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     }
   }
 
-  function updateBulletCountOptions(updUnit)
-  {
+  function updateBulletCountOptions(updUnit) {
     local bulIdx = 0
     local bulletGroups = weaponsSelectorWeak ? weaponsSelectorWeak.bulletsManager.getBulletsGroups() : []
-    foreach(idx, bulGroup in bulletGroups)
-    {
-      local modName = bulGroup.active ? bulGroup.getBulletNameForCode(bulGroup.selectedName) : ""
-
-      if (bulGroup.canChangeBulletsCount() && bulGroup.bulletsCount <= 0)
-        continue
-
-      local count = bulGroup.bulletsCount * bulGroup.guns
-
-      ::set_unit_option(updUnit.name, ::USEROPT_BULLETS0 + bulIdx, modName)
-      ::set_option(::USEROPT_BULLETS0 + bulIdx, modName)
+    foreach(idx, bulGroup in bulletGroups) {
+      bulIdx = idx
+      local name = ""
+      local count = 0
+      if (bulGroup.active) {
+        name = bulGroup.getBulletNameForCode(bulGroup.selectedName)
+        count = bulGroup.bulletsCount * bulGroup.guns
+      }
+      ::set_unit_option(updUnit.name, ::USEROPT_BULLETS0 + bulIdx, name)
+      ::set_option(::USEROPT_BULLETS0 + bulIdx, name)
       ::set_gui_option(::USEROPT_BULLET_COUNT0 + bulIdx, count)
-      bulIdx++
     }
-    while(bulIdx < ::BULLETS_SETS_QUANTITY)
-    {
+    ++bulIdx
+
+    while(bulIdx < ::BULLETS_SETS_QUANTITY) {
       ::set_unit_option(updUnit.name, ::USEROPT_BULLETS0 + bulIdx, "")
       ::set_option(::USEROPT_BULLETS0 + bulIdx, "")
       ::set_gui_option(::USEROPT_BULLET_COUNT0 + bulIdx, 0)
-      bulIdx++
+      ++bulIdx
     }
   }
 
@@ -662,6 +662,16 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
     showOptionRow(option, unit?.isDepthChargeAvailable?()
       && unit.getAvailableSecondaryWeapons().hasDepthCharges)
+  }
+
+  function updateTorpedoDiveDepth() {
+    local option = findOptionInContainers(::USEROPT_TORPEDO_DIVE_DEPTH)
+    if (!option)
+      return
+
+    showOptionRow(option, !get_option_torpedo_dive_depth_auto()
+      && unit.isShipOrBoat()
+      && unit.getAvailableSecondaryWeapons().hasTorpedoes)
   }
 
   function updateVerticalTargetingOption()

@@ -27,7 +27,6 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 ::flight_menu_handler <- null
 ::postfx_settings_handler <- null
 ::credits_handler <- null
-::is_in_leaderboard_menu <- false
 ::gui_start_logout_scheduled <- false
 
 ::delayed_gblk_error_popups <- []
@@ -1710,8 +1709,8 @@ const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
     ::enable_dof(::getTblValue("nearFrom",   params, 0), // meters
                  ::getTblValue("nearTo",     params, 0), // meters
                  ::getTblValue("nearEffect", params, 0), // 0..1
-                 ::getTblValue("farFrom",    params, 1000000), // meters
-                 ::getTblValue("farTo",      params, 0), // meters
+                 ::getTblValue("farFrom",    params, 0), // meters
+                 ::getTblValue("farTo",      params, 0.1), // meters
                  ::getTblValue("farEffect",  params, 1)) // 0..1
   }
   else

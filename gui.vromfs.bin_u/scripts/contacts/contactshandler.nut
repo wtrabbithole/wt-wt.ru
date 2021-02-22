@@ -4,6 +4,8 @@ local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local { topMenuBorders } = require("scripts/mainmenu/topMenuStates.nut")
 local { isChatEnabled } = require("scripts/chat/chatStates.nut")
+local { checkAndShowMultiplayerPrivilegeWarning } = require("scripts/user/xboxFeatures.nut")
+local { showViralAcquisitionWnd } = require("scripts/user/viralAcquisition.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -707,7 +709,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onGroupSelect(obj)
   {
     onGroupSelectImpl(obj)
-    if (::show_console_buttons && prevGroup != obj.getValue()) {
+    if (!::is_mouse_last_time_used() && prevGroup != obj.getValue()) {
       guiScene.applyPendingChanges(false)
       selectCurContactGroup()
     }
@@ -738,7 +740,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     goBack()
   }
 
-  onPlayerCancel = @(obj) selectCurContactGroup()
+  onPlayerCancel = @(obj) ::is_mouse_last_time_used() ? goBack() : selectCurContactGroup()
 
   function onSearchButtonClick(obj)
   {
@@ -993,16 +995,21 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     updateCurPlayer(obj)
 
+    if (!checkAndShowMultiplayerPrivilegeWarning())
+      return
+
     if (curPlayer == null)
       return ::g_popups.add("", ::loc("msgbox/noChosenPlayer"))
 
     local uid = curPlayer.uid
+    if (!::g_squad_manager.canInviteMember(uid))
+      return
+
     local name = curPlayer.name
-    if (::g_squad_manager.canInviteMember(uid))
-      if (::g_squad_manager.hasApplicationInMySquad(uid.tointeger(), name))
-        ::g_squad_manager.acceptMembershipAplication(uid.tointeger())
-      else
-        ::g_squad_manager.inviteToSquad(uid, name)
+    if (::g_squad_manager.hasApplicationInMySquad(uid.tointeger(), name))
+      ::g_squad_manager.acceptMembershipAplication(uid.tointeger())
+    else
+      ::g_squad_manager.inviteToSquad(uid, name)
   }
 
   function onUsercard(obj)
@@ -1156,7 +1163,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onInviteFriend()
   {
-    ::show_viral_acquisition_wnd()
+    showViralAcquisitionWnd()
   }
 
   function onEventContactsUpdated(params)

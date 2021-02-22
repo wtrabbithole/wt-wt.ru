@@ -30,6 +30,7 @@ popup_actions_list[closeOnUnhover=yes]{
 }
 
 [popupMenuWithoutHover=yes] > popup_actions_list[closeOnUnhover=yes],
+popup_actions_list[closeOnUnhover=yes][_transp-direction=1],
 :hover > popup_actions_list[closeOnUnhover=yes],
 popup_actions_list:hover[closeOnUnhover=yes] {
   move_out: no;
@@ -230,10 +231,10 @@ popup_actions_list > itemsList > button > icon[background-image=""] {
 
 popup_actions_list > itemsList > actionListItem,
 popup_actions_list > itemsList > button {
-  shortcutActivate: "Space | J:A";
+  shortcutActivate: "Space | J:A | J:RT";
 }
 
 [swap_ab=yes] popup_actions_list > itemsList > actionListItem,
 [swap_ab=yes] popup_actions_list > itemsList > button {
-  shortcutActivate: "Space | J:B";
+  shortcutActivate: "Space | J:B | J:RT";
 }

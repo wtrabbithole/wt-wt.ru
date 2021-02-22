@@ -1,5 +1,10 @@
+local popupFilter = require("scripts/popups/popupFilter.nut")
+
 local MAX_SLOT_COUNT_X = 4
 local MAX_SLOT_COUNT_Y = 6
+
+const OPEN_RCLICK_UNIT_MENU_AFTER_SELECT_TIME = 500 // when select slot by right click button
+                                                    // then menu vehilce opened and close
 
 local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -12,9 +17,10 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
   lastSelectedUnit     = null
   needSkipFocus        = false
   sceneTplName         = "gui/unit/vehiclesModal"
-  sceneCheckBoxListTpl = "gui/commonParts/checkbox"
-  wndTitleLocId         = "itemTypes/vehicles"
-  slotbarActions        = [ "research", "buy", "take", "sec_weapons", "weapons", "showroom", "testflight", "info", "repair" ]
+  wndTitleLocId        = "itemTypes/vehicles"
+  slotbarActions       = [ "research", "buy", "take", "sec_weapons", "weapons", "showroom", "testflight", "info", "repair" ]
+
+  actionsListOpenTime  = 0
 
   function getSceneTplView()
   {
@@ -23,10 +29,6 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       slotCountX = MAX_SLOT_COUNT_X
       slotCountY = min( units.len() / MAX_SLOT_COUNT_X + 1, MAX_SLOT_COUNT_Y)
       hasScrollBar = MAX_SLOT_COUNT_X * MAX_SLOT_COUNT_Y < units.len()
-      filters = [
-        {id = "countries_boxes", boxes = getCountriesCheckBoxesData()},
-        {id = "units_boxes", isRightAlign = true, boxes = getUnitTypesCheckBoxesData()}
-      ]
       unitsList = getUnitsListData()
 
       wndTitle = getWndTitle()
@@ -39,6 +41,10 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
   {
     local listObj = scene.findObject("units_list")
     restoreLastUnitSelection(listObj)
+
+    local nestObj = scene.findObject("filter_nest")
+    local filter = popupFilter.open(nestObj, onChangeFilterItem.bindenv(this), getFiltersView())
+    nestObj.setUserData(filter)
   }
 
   getWndTitle = @() ::loc(wndTitleLocId)
@@ -68,55 +74,55 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       }
   }
 
-  function getCountriesCheckBoxesData()
+  function onChangeFilterItem(objId, typeName, value)
   {
-    local view = { checkbox = [] }
-    foreach(country in countries)
-      view.checkbox.append({
-        id = country.id
-        idx = country.idx
-        useImage = ::get_country_icon(country.id)
-        tooltip = "#" + country.id
-        value = country.value
-        funcName = "onCountryChange"
-      })
-
-    view.checkbox.sort(function (a, b){
-      if(a.idx != b.idx)
-        return a.idx > b.idx ? 1:-1
-      return 0
-    })
-
-    return ::handyman.renderCached(sceneCheckBoxListTpl, view)
+    local isTypeUnit = typeName == "unit"
+    local referenceArr = isTypeUnit ? unitsTypes : countries
+    if (objId == "all_items")
+      foreach (inst in referenceArr)
+        inst.value = value
+    else
+      referenceArr[isTypeUnit ? objId.split("_")[1] : objId].value = value
+    fillUnitsList()
   }
 
-  function getUnitTypesCheckBoxesData()
+  function getFiltersView()
   {
-    local view = { checkbox = [] }
-    foreach(inst in unitsTypes)
+    local res = []
+    foreach (tName in ["country", "unit"])
     {
-      if (!inst.unitType.isAvailable())
-        continue
+      local isUnitType = tName == "unit"
+      local responceArr = isUnitType ? unitsTypes : countries
+      local cbView = {
+        id = "all_items"
+        idx = -1
+        image = $"#ui/gameuiskin#{isUnitType ? "all_unit_types" : "flag_all_nations"}.svg"
+        text = $"#all_{isUnitType ? "units" : "countries"}"
+        value = true
+      }
+      local view = { checkbox = [cbView] }
+      foreach(inst in responceArr)
+      {
+        if (isUnitType && !inst.unitType.isAvailable())
+          continue
 
-      view.checkbox.append({
-        id = inst.unitType.esUnitType
-        useImage = inst.unitType.testFlightIcon
-        tooltip = inst.unitType.getArmyLocName()
-        value = inst.value
-        funcName = "onUnitTypesChange"
-      })
+        view.checkbox.append({
+          id = isUnitType ? $"unit_{inst.unitType.esUnitType}" : inst.id
+          idx = isUnitType ? inst.unitType.esUnitType : inst.idx
+          image = isUnitType ? inst.unitType.testFlightIcon : ::get_country_icon(inst.id)
+          text = isUnitType ? inst.unitType.getArmyLocName() : $"#{inst.id}"
+          value = inst.value
+        })
+      }
+
+      view.checkbox.sort(@(a,b) a.idx <=> b.idx)
+
+      if (view.checkbox.len() > 0)
+        view.checkbox[view.checkbox.len()-1].isLastCheckBox <- true
+
+      res.append(view)
     }
-
-    view.checkbox.sort(function (a, b){
-      if(a.id != b.id)
-        return a.id > b.id ? 1:-1
-      return 0
-    })
-
-    if (view.checkbox.len() > 0)
-      view.checkbox[view.checkbox.len()-1].isLastCheckBox <- true
-
-    return ::handyman.renderCached(sceneCheckBoxListTpl, view)
+    return res
   }
 
   function getUnitsListData()
@@ -231,53 +237,39 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     ::showAirExpWpBonus(placeObj.findObject(unit.name+"-bonus"), bonusData)
   }
 
-  function onCountryChange(obj)
-  {
-    if (!::check_obj(obj))
-      return
+  function getCurSlotObj() {
+    local listObj = scene.findObject("units_list")
+    local idx = ::get_obj_valid_index(listObj)
+    if (idx < 0)
+      return null
 
-    countries[obj.id].value = obj.getValue()
-    fillUnitsList()
-  }
-
-  function onUnitTypesChange(obj)
-  {
-    if (!::check_obj(obj))
-      return
-
-    unitsTypes[obj.id].value = obj.getValue()
-    fillUnitsList()
+    return listObj.getChild(idx).getChild(0)
   }
 
   function onUnitSelect(obj)
   {
-    if (!::check_obj(obj))
-      return
-
     lastSelectedUnit = null
-
-    local idx = obj.getValue()
-    if (idx >= 0 && idx < obj.childrenCount())
-    {
-      local slot = obj.getChild(idx)?.getChild(0) ?? null
-      if (::check_obj(slot))
-      {
-        if (!::show_console_buttons)
-          openUnitActionsList(slot, true)
-
-        lastSelectedUnit = ::getAircraftByName(slot.id)
-      }
-    }
+    local slotObj = getCurSlotObj()
+    if (::check_obj(slotObj))
+      lastSelectedUnit = ::getAircraftByName(slotObj.unit_name)
 
     updateButtons()
   }
 
-  function onOpenActionsList(obj)
-  {
-    if (!::check_obj(obj))
-      return
+  function onUnitAction(obj) {
+    openUnitActionsList(getCurSlotObj())
+  }
 
-    openUnitActionsList(obj.getParent().getParent(), true)
+  function onUnitClick(obj) {
+    actionsListOpenTime = ::dagor.getCurTime()
+    onUnitAction(obj)
+  }
+
+  function onUnitRightClick(obj) {
+    if (::dagor.getCurTime() - actionsListOpenTime
+        < OPEN_RCLICK_UNIT_MENU_AFTER_SELECT_TIME)
+      return
+    onUnitAction(obj)
   }
 
   function onEventUnitResearch(p)

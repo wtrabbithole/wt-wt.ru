@@ -200,7 +200,7 @@ local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
   local canHaveFriends = ::has_feature("Friends")
   local canChat = ::has_feature("Chat")
   local is_in_menu = ::isInMenu()
-  local skipNavigation = getObj("gamercard_div")?["gamercardSkipNavigation"] == "yes"
+  local skipNavigation = getObj("gamercard_div")?["gamercardSkipNavigation"] ?? "no"
 
   local hasPremiumAccount = ::entitlement_expires_in(premAccName) > 0
 
@@ -213,6 +213,7 @@ local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
                              gc_eagles = canSpendGold
                              gc_warpoints = ::has_feature("WarpointsInMenu")
                              gc_PremiumAccount = ::has_feature("showPremiumAccount") && ((canSpendGold && featureEnablePremiumPurchase) || hasPremiumAccount)
+                             gc_BattlePassProgress = ::has_feature("BattlePass") && ::g_battle_tasks.isAvailableForUser()
                              gc_dropdown_premium_button = featureEnablePremiumPurchase
                              gc_dropdown_shop_eagles_button = canSpendGold
                              gc_free_exp = ::has_feature("SpendGold") && ::has_feature("SpendFreeRP")
@@ -231,8 +232,8 @@ local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
       bObj.show(status)
       bObj.enable(status)
       bObj.inactive = status? "no" : "yes"
-      if (status && skipNavigation)
-        bObj["skip-navigation"] = "yes"
+      if (status)
+        bObj["skip-navigation"] = skipNavigation
     }
   }
 
@@ -244,6 +245,7 @@ local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
                                 gc_warpoints = canSpendGold && is_in_menu
                                 gc_eagles = canSpendGold && is_in_menu
                                 gc_PremiumAccount = canSpendGold && featureEnablePremiumPurchase && is_in_menu
+                                gc_BattlePassProgress = canSpendGold && is_in_menu
                               }
 
   foreach(id, status in buttonsEnableTable)
@@ -255,6 +257,9 @@ local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
       pObj.inactive = status? "no" : "yes"
     }
   }
+  local squadWidgetObj = getObj("gamercard_squad_widget")
+  if (squadWidgetObj?.isValid())
+    squadWidgetObj["gamercardSkipNavigation"] = skipNavigation
 
   ::g_discount.updateDiscountNotifications(scene)
   setVersionText(scene)

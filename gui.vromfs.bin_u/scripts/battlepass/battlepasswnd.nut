@@ -12,6 +12,7 @@ local { seasonLvlWatchObj, todayLoginExpWatchObj, loginStreakWatchObj,
   leftSpecialTasksBoughtCountWatchObj, levelExpWatchObj
 } = require("scripts/battlePass/watchObjInfoConfig.nut")
 local { openBattlePassShopWnd } = require("scripts/battlePass/progressShop.nut")
+local { isUserstatMissingData } = require("scripts/userstat/userstat.nut")
 
 local watchObjInfoConfigList = {
   season_lvl = seasonLvlWatchObj
@@ -91,9 +92,9 @@ local BattlePassWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
     local middleIdx = ::ceil(stagesPerPage.tofloat()/2) - 1
     stageIndexOffset = curStageIdx <= middleIdx ? 0
       : ((curStageIdx % stagesPerPage) - middleIdx)
-    local pageOffset = curStageIdx <= middleIdx || stageIndexOffset > 0 ? 0
-      : -1
-    curPage = ::ceil((curStageIdx.tofloat() - stageIndexOffset)/ stagesPerPage).tointeger() + pageOffset
+    local pageOffset = stageIndexOffset > 0 ? 0 : -1
+    curPage = curStageIdx <= middleIdx ? 0
+      : ::ceil((curStageIdx.tofloat() - stageIndexOffset)/ stagesPerPage).tointeger() + pageOffset
   }
 
   function goToPage(obj) {
@@ -171,10 +172,7 @@ local BattlePassWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
   function initBattlePassInfo() {
     updateChallenges()
     foreach (objId, config in watchObjInfoConfigList)
-      scene.findObject(objId).setValue(stashBhvValueConfig([{
-        watch = config.watch
-        updateFunc = config.updateFunc
-      }]))
+      scene.findObject(objId).setValue(stashBhvValueConfig(config))
 
     showSceneBtn("btn_warbondsShop", !::isHandlerInScene(::gui_handlers.WarbondsShop))
   }
@@ -408,6 +406,15 @@ local BattlePassWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
 
 ::gui_handlers.BattlePassWnd <- BattlePassWnd
 
+local function openBattlePassWnd() {
+  if (isUserstatMissingData.value) {
+    ::showInfoMsgBox(::loc("userstat/missingDataMsg"), "userstat_missing_data_msgbox")
+    return
+  }
+
+  ::handlersManager.loadHandler(BattlePassWnd)
+}
+
 return {
-  openBattlePassWnd = @() ::handlersManager.loadHandler(BattlePassWnd)
+  openBattlePassWnd
 }

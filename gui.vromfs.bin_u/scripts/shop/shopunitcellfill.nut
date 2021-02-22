@@ -68,6 +68,7 @@ local function updateCardStatus(obj, id, statusTbl) {
 
     shopStatus          = "",
     unitRankText        = "",
+    isInactive          = false,
     isViewDisabled      = false,
     isBroken            = false,
     isLocked            = false,
@@ -138,7 +139,7 @@ local function updateCardStatus(obj, id, statusTbl) {
     classObj.shopItemType = unitClass
   }
 
-  local hasMainButton = mainButtonText != "" || mainButtonIcon != ""
+  local hasMainButton = !isInactive && (mainButtonText != "" || mainButtonIcon != "")
   local mainBtnObj = obj.findObject("mainActionButton")
   setBool(mainBtnObj, "forceHide", !hasMainButton)
   if (hasMainButton) {
@@ -175,7 +176,7 @@ local function updateCardStatus(obj, id, statusTbl) {
 local function updateCellStatus(cell, statusTbl) {
   local { isInactive = false, isVisible = true } = statusTbl
   setBool(cell, "inactive", isInactive)
-  cell.enable(isVisible)
+  cell.enable(isVisible && !isInactive)
   cell.show(isVisible)
   if (!isVisible)
     return
@@ -462,8 +463,11 @@ local function updateCellTimedStatus(cell, getTimedStatus) {
   if (!timedStatus?.needUpdateByTime)
     return
 
-  local cardObj = cell.findObject(cell.holderId)
+  local holderId = cell.holderId
+  local cardObj = cell.findObject(holderId)
   SecondsUpdater(cardObj, function(obj, _) {
+    if (holderId != cell.holderId) //remove timer if cell show other vehicle
+      return true
     timedStatus = getTimedStatus()
     updateCellTimedStatusImpl(cell, timedStatus) //cell is valid while cardObj is valid
     return !timedStatus?.needUpdateByTime

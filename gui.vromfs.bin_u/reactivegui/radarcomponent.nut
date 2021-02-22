@@ -35,7 +35,7 @@ local function updateRadarComponentColor(radar_color) {
   styleText.__update({
     color = radar_color
   })
-  greenColorGrid = radar_color
+  greenColorGrid = radar_color //!!!it a very bad idea to override params come from outside. In different places they has different value after it
   greenColor = radar_color
 }
 
@@ -70,12 +70,12 @@ local selectedTarget = {
   y = 0.0
 }
 
-local radarPosSize = {
+local radarPosSize = Watched({
   x = 0.0
   y = 0.0
   w = 0.0
   h = 0.0
-}
+})
 
 local IsRadarHudVisible = Watched(false)
 local IsNoiseSignaVisible = Watched(false)
@@ -155,9 +155,10 @@ local AamLaunchZoneDistMax = Watched(0.0)
 
 local IndicationForCollapsedRadar = Watched(false)
 
-local AzimuthRange = Computed(@() AzimuthMax.value - AzimuthMin.value)
-local AzimuthRangeInv = Computed(@() AzimuthRange.value != 0.0 ? 1.0 / AzimuthRange.value : 1.0)
-local ElevationRange = Computed(@() ElevationMax.value - ElevationMin.value)
+local AzimuthRange = Computed(@() ::max(0.0, AzimuthMax.value - AzimuthMin.value))
+local AzimuthRangeInv = Computed(@() AzimuthRange.value != 0 ? 1.0 / AzimuthRange.value : 1.0)
+local ElevationRange = Computed(@() ::max(0.0, ElevationMax.value - ElevationMin.value))
+local ElevationRangeInv = Computed(@() ElevationRange.value != 0 ? 1.0 / ElevationRange.value : 1.0)
 local getBlinkOpacity = @() round(radarState.currentTime * 3) % 2 == 0 ? 1.0 : 0.2
 
 radarState.__update({
@@ -242,7 +243,7 @@ radarState.__update({
 }
 
 local ilsHdpx = @(px) MfdIlsEnabled.value ? (px * MfdIlsHeight.value / 1024) : hdpx(px)
-local radarHdpx = @(px) MfdRadarEnabled.value ? (px * radarPosSize.h / 1024) : hdpx(px)
+local radarHdpx = @(px) MfdRadarEnabled.value ? (px * radarPosSize.value.h / 1024) : hdpx(px)
 local radarSh = @(h) MfdIlsEnabled.value ? (h * MfdIlsHeight.value / 100) : sh(h)
 local radarSw = @(w) MfdIlsEnabled.value ? (w * MfdIlsHeight.value / 100) : sw(w)
 
@@ -391,10 +392,7 @@ const targetLifeTime = 5.0
 ::interop.updateLockZoneRotated <- function(x0, y0, x1, y1, x2, y2, x3, y3) {}
 
 ::interop.updateRadarPosSize <- function(x, y, w, h) {
-  radarPosSize.x = x
-  radarPosSize.y = y
-  radarPosSize.w = w
-  radarPosSize.h = h
+  radarPosSize({x, y, w, h})
 }
 
 interopGen({
@@ -424,14 +422,13 @@ local targetsComponent = function(radarWidth, radarHeight, createTargetFunc, is_
 local function B_ScopeSquareBackground(width, height, is_mfd) {
   local scanAzimuthMinRelW = Computed(@() ScanAzimuthMin.value * AzimuthRangeInv.value)
   local scanAzimuthMaxRelW = Computed(@() ScanAzimuthMax.value * AzimuthRangeInv.value)
-  local emptyGridSecondaryCommands = []
 
   local gridSecondaryCommandsW = Computed(function(){
     local scanAzimuthMinRel = scanAzimuthMinRelW.value
     local scanAzimuthMaxRel = scanAzimuthMaxRelW.value
     local azimuthRangeInv = AzimuthRangeInv.value
 
-    local gridSecondaryCommands = emptyGridSecondaryCommands
+    local gridSecondaryCommands = []
 
     if (HasDistanceScale.value)
       gridSecondaryCommands = [
@@ -1721,7 +1718,7 @@ local function C_ScopeSquareBackground(width, height) {
     ]
   }
 
-  local offsetW = Computed(@() 100 * (0.5 - (0.0 - ElevationMin.value) * (1.0 / ElevationRange.value)))
+  local offsetW = Computed(@() 100 * (0.5 - (0.0 - ElevationMin.value) * ElevationRangeInv.value))
   local function crosshair(){
     return {
       rendObj = ROBJ_VECTOR_CANVAS
@@ -1739,7 +1736,7 @@ local function C_ScopeSquareBackground(width, height) {
 
   return function() {
     local azimuthRangeInv   = AzimuthRangeInv.value
-    local elevationRangeInv = 1.0 / ElevationRange.value
+    local elevationRangeInv = ElevationRangeInv.value
 
     local scanAzimuthMinRel = ScanAzimuthMin.value * azimuthRangeInv
     local scanAzimuthMaxRel = ScanAzimuthMax.value * azimuthRangeInv
@@ -1826,7 +1823,7 @@ local function C_ScopeSquareAzimuthComponent(width, height, azimuthWatched, elev
   return function() {
     local azimuthRange = AzimuthRange.value
     local halfAzimuthWidth   = 100.0 * (azimuthRange > 0 ? halfAzimuthWidthWatched.value / azimuthRange : 0)
-    local halfElevationWidth = 100.0 * (azimuthRange > 0 ? halfElevationWidthWatched.value / ElevationRange.value : 0)
+    local halfElevationWidth = 100.0 * (azimuthRange > 0 ? halfElevationWidthWatched.value * ElevationRangeInv.value : 0)
 
     local children = {
       rendObj = ROBJ_VECTOR_CANVAS
@@ -1855,7 +1852,7 @@ local function C_ScopeSquareAzimuthComponent(width, height, azimuthWatched, elev
   }
 }
 
-local function createTargetOnRadarCScopeSquare(index, radius, radarWidth, radarHeight) {
+local function createTargetOnRadarCScopeSquare(index, radius, radarWidth, radarHeight, is_mfd) {
   local target = targets[index]
   local opacity = (1.0 - target.ageRel) * target.signalRel
 
@@ -1892,7 +1889,7 @@ local function createTargetOnRadarCScopeSquare(index, radius, radarWidth, radarH
     local azimuthGateLeftRel = azimuthRel - 0.5 * azimuthGateWidthRel
     local azimuthGateRightRel = azimuthRel + 0.5 * azimuthGateWidthRel
 
-    local elevationGateWidthRel = angularGateWidthMult * 2.0 * max(ElevationHalfWidth.value, angularGateBeamWidthMin) / ElevationRange.value
+    local elevationGateWidthRel = angularGateWidthMult * 2.0 * max(ElevationHalfWidth.value, angularGateBeamWidthMin) * ElevationRangeInv.value
     local elevationGateLowerRel = elevationRel - 0.5 * elevationGateWidthRel
     local elevationGateUpperRel = elevationRel + 0.5 * elevationGateWidthRel
 
@@ -1983,7 +1980,7 @@ local function createTargetOnRadarCScopeSquare(index, radius, radarWidth, radarH
 
 local C_ScopeSquareMarkers = function(radarWidth, radarHeight) {
   local offsetScaleFactor = 1.3
-  local elevationZeroHeightRel = (0.0 - ElevationMin.value) / ElevationRange.value
+  local elevationZeroHeightRel = (0.0 - ElevationMin.value) * ElevationRangeInv.value
   return {
     size = [offsetScaleFactor * radarWidth, offsetScaleFactor * radarHeight]
     children = [
@@ -2587,61 +2584,53 @@ local function azimuthMarkStrike() {
 }
 
 
-local function radar(posX, posY, size, isAir, mfd = false) {
-  return {
-    pos = [posX, posY]
-    size = SIZE_TO_CONTENT
-    halign = ALIGN_CENTER
-    valign = ALIGN_CENTER
-    children = function(){
-      local mode = mfd ? MfdViewMode.value : ViewMode.value
-      local isSquare = mode == RadarViewMode.B_SCOPE_SQUARE
-      local width = mfd && MfdRadarEnabled.value ? radarPosSize.w : size
-      local height = mfd && MfdRadarEnabled.value ? radarPosSize.h : width
-      local pos = mfd && MfdRadarEnabled.value ? radarPosSize.h * 0.3 : 0
+local mkRadarBase = @(posWatch, size, isAir, mfd = false) function() {
+  local mode = mfd ? MfdViewMode.value : ViewMode.value
+  local isSquare = mode == RadarViewMode.B_SCOPE_SQUARE
+  local width = mfd && MfdRadarEnabled.value ? radarPosSize.value.w : size
+  local height = mfd && MfdRadarEnabled.value ? radarPosSize.value.h : width
+  local pos = mfd && MfdRadarEnabled.value ? radarPosSize.value.h * 0.3 : 0
 
 
-      local scopeChild = null
-      local cScope = null
-      local azimuthRange = AzimuthRange.value
-      if (mode == RadarViewMode.B_SCOPE_SQUARE) {
-        if (azimuthRange > PI)
-          scopeChild = B_Scope(width, height)
-        else
-          scopeChild = B_ScopeSquare(HasAzimuthScale.value ? width : 0.2 * width, height, mfd)
-      }
-      else if (mode == RadarViewMode.B_SCOPE_ROUND) {
-        if (azimuthRange > PI)
-          scopeChild = B_Scope(width, height)
-        else
-          scopeChild = B_ScopeHalf(width, height, pos, mfd)
-      }
-      if (IsCScopeVisible.value && !isPlayingReplay.value && azimuthRange <= PI) {
-        cScope = {
-          pos = [0, isSquare ? width * 0.5 + hdpx(180) : height * 0.5 + hdpx(30)]
-          children = C_Scope(width, height * 0.42)
-        }
-      }
-      return {
-        size = SIZE_TO_CONTENT
-        watch = [ViewMode, MfdViewMode, MfdRadarEnabled, AzimuthMax, AzimuthMin, IsCScopeVisible, HasAzimuthScale,
-          IsRadarVisible, IsRadar2Visible]
-        children = [scopeChild, cScope]
-      }
+  local scopeChild = null
+  local cScope = null
+  local azimuthRange = AzimuthRange.value
+  if (mode == RadarViewMode.B_SCOPE_SQUARE) {
+    if (azimuthRange > PI)
+      scopeChild = B_Scope(width, height)
+    else
+      scopeChild = B_ScopeSquare(HasAzimuthScale.value ? width : 0.2 * width, height, mfd)
+  }
+  else if (mode == RadarViewMode.B_SCOPE_ROUND) {
+    if (azimuthRange > PI)
+      scopeChild = B_Scope(width, height)
+    else
+      scopeChild = B_ScopeHalf(width, height, pos, mfd)
+  }
+  if (IsCScopeVisible.value && !isPlayingReplay.value && azimuthRange <= PI) {
+    cScope = {
+      pos = [0, isSquare ? width * 0.5 + hdpx(180) : height * 0.5 + hdpx(30)]
+      children = C_Scope(width, height * 0.42)
     }
+  }
+  return {
+    watch = [ViewMode, MfdViewMode, MfdRadarEnabled, AzimuthMax, AzimuthMin, IsCScopeVisible, HasAzimuthScale,
+      IsRadarVisible, IsRadar2Visible, posWatch]
+    pos = posWatch.value
+    children = [scopeChild, cScope]
   }
 }
 
 local function radarMfdBackground() {
-  local backSize = [radarPosSize.w / RadarScale.value,
-    radarPosSize.h / RadarScale.value]
-  local backPos = [radarPosSize.x - (1.0 - RadarScale.value) * 0.5 * backSize[0],
-   radarPosSize.y - (1.0 - RadarScale.value) * 0.5 * backSize[1]]
+  local backSize = [radarPosSize.value.w / RadarScale.value,
+    radarPosSize.value.h / RadarScale.value]
+  local backPos = [radarPosSize.value.x - (1.0 - RadarScale.value) * 0.5 * backSize[0],
+   radarPosSize.value.y - (1.0 - RadarScale.value) * 0.5 * backSize[1]]
   return {
     pos = backPos
     size = backSize
     rendObj = ROBJ_SOLID
-    lineWidth = radarPosSize.h
+    lineWidth = radarPosSize.value.h
     color = Color(0, 0, 0, 255)
     fillColor = Color(0, 0, 0, 0)
     commands = [
@@ -2650,17 +2639,21 @@ local function radarMfdBackground() {
   }
 }
 
-local Root = function(for_mfd, radarPosX = sh(8), radarPosY = sh(32), radarSize = sh(28), isAir = false, radar_color = greenColor) {
+local function mkRadar(radarPosX = sh(8), radarPosY = sh(32), radarSize = sh(28), isAir = false, radar_color = greenColor) {
   updateRadarComponentColor(radar_color)
-  local mode = for_mfd ? MfdViewMode.value : ViewMode.value
-  local isSquare = mode == RadarViewMode.B_SCOPE_SQUARE
-  local posY = (isSquare && IsCScopeVisible.value && !for_mfd && isAir) ? (radarPosY - radarSize * 0.5) : (!for_mfd && !isSquare && !IsCScopeVisible.value && isAir) ? (radarPosY + radarSize * 0.5) : radarPosY
-  local radarMFDEnabled = radar(radarPosSize.x, radarPosSize.y, radarSize, isAir, true)
+  local radarPos = !isAir ? Watched([radarPosX, radarPosY])
+    : Computed(function() {
+        local isSquare = ViewMode.value == RadarViewMode.B_SCOPE_SQUARE
+        local offset = isSquare && IsCScopeVisible.value ? -radarSize * 0.5
+          : !isSquare && !IsCScopeVisible.value && isAir ? radarSize * 0.5
+          : 0
+        return [radarPosX, radarPosY + offset]
+      })
   local radarHudVisibleChildren = [
     targetsOnScreenComponent
     forestallComponent
     forestallTargetLine
-    radar(radarPosX, posY, radarSize, isAir)
+    mkRadarBase(radarPos, radarSize, isAir)
     scanZoneAzimuthComponent
     scanZoneElevationComponent
     lockZoneComponent
@@ -2668,28 +2661,33 @@ local Root = function(for_mfd, radarPosX = sh(8), radarPosY = sh(32), radarSize 
     azimuthMarkStrike
   ]
 
-  local RadarHudVisMfd = Computed(@() IsRadarHudVisible.value && !for_mfd)
-  local MfdRadarEnblRes = Computed(@() for_mfd && (MfdRadarEnabled.value || MfdIlsEnabled.value))
-  local Children = Computed(function(){
-    local radarMfd = MfdRadarEnabled.value ? radarMFDEnabled : null
-    return RadarHudVisMfd.value ? radarHudVisibleChildren
-      : MfdRadarEnblRes.value
-         ? [ radarMfdBackground, radarMfd ]
-         : null
-  })
-  return function(){
-    return {
-      halign = ALIGN_LEFT
-      valign = ALIGN_TOP
-      size = [sw(100), sh(100)]
-      watch = Children
-      children = Children.value
-    }
+  return @() {
+    watch = IsRadarHudVisible
+    halign = ALIGN_LEFT
+    valign = ALIGN_TOP
+    size = [sw(100), sh(100)]
+    children = IsRadarHudVisible.value ? radarHudVisibleChildren : null
+  }
+}
+
+local function mkRadarForMfd(radarPosX = sh(8), radarPosY = sh(32), radarColor = greenColor) {
+  updateRadarComponentColor(radarColor)
+  local radarMFDEnabled = mkRadarBase(Watched([radarPosX, radarPosY]), sh(28), true, true) //fix me: mfd radar size overrided inside
+  return @() {
+    watch = [MfdIlsEnabled, MfdRadarEnabled]
+    halign = ALIGN_LEFT
+    valign = ALIGN_TOP
+    size = [sw(100), sh(100)]
+    children = [
+      MfdRadarEnabled.value || MfdIlsEnabled.value ? radarMfdBackground : null,
+      MfdRadarEnabled.value ? radarMFDEnabled : null
+    ]
   }
 }
 
 
 return {
-  radar = Root
   state = radarState
+  mkRadar
+  mkRadarForMfd
 }

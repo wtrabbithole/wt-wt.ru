@@ -7,6 +7,8 @@ local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 local { getVideoModes } = require("scripts/options/systemOptions.nut")
 local { isWeaponAux, getWeaponNameByBlkPath } = require("scripts/weaponry/weaponryInfo.nut")
+local { userstatStats, userstatDescList, userstatUnlocks, refreshUserstatStats, refreshUserstatUnlocks
+} = require("scripts/userstat/userstat.nut")
 
 ::callstack <- dagor.debug_dump_stack
 
@@ -546,6 +548,16 @@ local { isWeaponAux, getWeaponNameByBlkPath } = require("scripts/weaponry/weapon
 
 
 
+
+local function consoleAndDebugTableData(text, data) {
+  console_print(text)
+  debugTableData(data)
+  return "Look in debug"
+}
+::userstat_debug_desc_list <- @() consoleAndDebugTableData("userstatDescList: ", userstatDescList.value)
+::userstat_debug_unlocks <- @() consoleAndDebugTableData("userstatUnlocks: ", userstatUnlocks.value)
+::userstat_debug_stats <- @() consoleAndDebugTableData("userstatStats: ", userstatStats.value)
+
 ::debug_load_anim_bg <- require("scripts/loading/animBg.nut").debugLoad
 
 local dbgFocusData = persist("dbgFocusData", @() { debugFocusTask = -1, prevSelObj = null })
@@ -578,4 +590,10 @@ local dbgFocusData = persist("dbgFocusData", @() { debugFocusTask = -1, prevSelO
   local text = $"Cur focused object = {prevSelObj?.tag} / {prevSelObj?.id}"
   dlog(text)
   return text
+}
+
+if (dbgFocusData.debugFocusTask != -1) {
+  dbgFocusData.debugFocusTask = -1
+  dbgFocusData.prevSelObj = null
+  debug_focus()
 }

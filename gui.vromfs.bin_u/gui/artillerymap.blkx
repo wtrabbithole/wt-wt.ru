@@ -305,7 +305,7 @@
               "enable": "no",
               "Button_text": {
                 "id": "game_mode_change_button",
-                "on_click": "onOpenGameModeSelect",
+                "_on_click": "onOpenGameModeSelect",
                 "noMargin": "yes",
                 "btnName": "Y",
                 "visualStyle": "noFrame",
@@ -739,6 +739,21 @@
                           "img": {
                             "id": "gc_prempic",
                             "background-image": ""
+                          },
+                          "gcBtnLine": []
+                        }
+                      },
+                      {
+                        "Button_text": {
+                          "id": "gc_BattlePassProgress",
+                          "class": "image",
+                          "isColoredImg": "yes",
+                          "tooltip": "#battlePass/btn_buy",
+                          "display": "hide",
+                          "enable": "no",
+                          "on_click": "::gcb.openBattlePassShopWnd",
+                          "img": {
+                            "background-image": "#ui/gameuiskin#item_type_bp.svg"
                           }
                         }
                       },

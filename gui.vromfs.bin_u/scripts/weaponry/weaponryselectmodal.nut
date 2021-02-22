@@ -26,7 +26,8 @@ local { updateModItem, createModItemLayout } = require("scripts/weaponry/weaponr
 local { getLastWeapon,
         setLastWeapon,
         isWeaponVisible,
-        isWeaponEnabled } = require("scripts/weaponry/weaponryInfo.nut")
+        isWeaponEnabled,
+        needSecondaryWeaponsWnd } = require("scripts/weaponry/weaponryInfo.nut")
 
 ::gui_start_weaponry_select_modal <- function gui_start_weaponry_select_modal(config)
 {
@@ -71,7 +72,7 @@ local CHOOSE_WEAPON_PARAMS = {
     })
   }
 
-  if ((unit.isAir() || unit.isHelicopter()) && ::has_feature("ShowWeapPresetsMenu"))
+  if (needSecondaryWeaponsWnd(unit))
     weaponryPresetsModal.open({ //open modal menu for air and helicopter only
         unit = unit
         chooseMenuList   = list
@@ -156,9 +157,9 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
       return goBack()
 
     align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame"))
-    ::move_mouse_on_child_by_value(scene.findObject("weapons_list"))
     updateItems()
     updateOpenAnimParams()
+    ::move_mouse_on_child_by_value(scene.findObject("weapons_list"))
   }
 
   function updateItems()
@@ -217,6 +218,9 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterModalDestroy()
   {
+    if (alignObj?.isValid())
+      ::move_mouse_on_obj(alignObj)
+
     if (selIdx == wasSelIdx
         || !(selIdx in list)
         || !onChangeValueCb)

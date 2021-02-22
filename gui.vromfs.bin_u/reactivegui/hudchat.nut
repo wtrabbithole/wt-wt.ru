@@ -10,6 +10,7 @@ local hudState = require("hudState.nut")
 local hudLog = require("components/hudLog.nut")
 local fontsState = require("style/fontsState.nut")
 local hints = require("hints/hints.nut")
+local JB = require("reactiveGui/control/gui_buttons.nut")
 
 local chatLog = state.log
 
@@ -55,6 +56,10 @@ local function chatInputCtor(field, send) {
     onChange = function (new_val) {
       ::chat_on_text_update(new_val)
     }
+    onImeFinish = function onImeFinish(applied) {
+      if (applied)
+        onReturn()
+    }
   }
   local options = {
     key = "chatInput"
@@ -67,8 +72,8 @@ local function chatInputCtor(field, send) {
     valignText = ALIGN_CENTER
     textmargin = [::fpx(5) , ::fpx(8)]
     hotkeys = [
-      [ "J:A", onReturn],
-      [ "J:B", onEscape],
+      [ $"{JB.A} | J:RT", onReturn ],
+      [ $"{JB.B}", onEscape ],
     ]
     colors = {
       backGroundColor = colors.hud.hudLogBgColor

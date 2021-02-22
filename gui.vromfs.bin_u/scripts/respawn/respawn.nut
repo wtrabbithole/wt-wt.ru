@@ -9,7 +9,8 @@ local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 local { getLastWeapon,
         setLastWeapon,
         isWeaponEnabled,
-        isWeaponVisible } = require("scripts/weaponry/weaponryInfo.nut")
+        isWeaponVisible,
+        getOverrideBullets } = require("scripts/weaponry/weaponryInfo.nut")
 local { getModificationName,
         getUnitLastBullets } = require("scripts/weaponry/bulletsInfo.nut")
 local { AMMO,
@@ -601,7 +602,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       beforeSlotbarSelect = beforeSlotbarSelect
       afterSlotbarSelect = onChangeUnit
       onSlotDblClick = ::Callback(@(crew) onApply(), this)
-      onSlotActivate = ::Callback(@(crew) onApply(), this)
       beforeFullUpdate = beforeRefreshSlotbar
       afterFullUpdate = afterRefreshSlotbar
       onSlotBattleBtn = onApply
@@ -802,15 +802,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     slotbarInited=true
     onAircraftUpdate()
-  }
-
-  function getOverrideBullets(unit)
-  {
-    if (!unit)
-      return null
-    local editSlotbarBlk = ::g_crews_list.getMissionEditSlotbarBlk(::get_current_mission_name())
-    local editSlotbarUnitBlk = editSlotbarBlk?[unit.shopCountry]?[unit.name]
-    return editSlotbarUnitBlk?["bulletsCount0"] != null ? editSlotbarUnitBlk : null
   }
 
   function updateWeaponsSelector(isUnitChanged)
@@ -1143,20 +1134,18 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     showOptionRow(depthChargeDescr.id, air.isDepthChargeAvailable()
       && air.getAvailableSecondaryWeapons().hasDepthCharges)
 
-    local torpedoDepthObj = scene.findObject("torpedo_dive_depth")
-    if (::checkObj(torpedoDepthObj))
-    {
-      local ship = air.isShipOrBoat()
-      torpedoDepthObj.show(ship)
-      if (ship)
-      {
-        local torpedoDepthDescr = ::get_option(::USEROPT_TORPEDO_DIVE_DEPTH)
-        local data = ""
-        foreach (idx, item in torpedoDepthDescr.items)
-          data += build_option_blk(item, "", idx == torpedoDepthDescr.value)
-        guiScene.replaceContentFromText(torpedoDepthObj, data, data.len(), this)
-      }
+    local torpedoDepthDescr = ::get_option(::USEROPT_TORPEDO_DIVE_DEPTH)
+    local isShipOrBoat = air.isShipOrBoat()
+    local torpedoDepthObj = scene.findObject(torpedoDepthDescr.id)
+    if (isShipOrBoat && needUpdateOptionItems && ::check_obj(torpedoDepthObj)) {
+      local data = []
+      foreach (idx, item in torpedoDepthDescr.items)
+        data.append(build_option_blk(item, "", idx == torpedoDepthDescr.value))
+      data = "".join(data)
+      guiScene.replaceContentFromText(torpedoDepthObj, data, data.len(), this)
     }
+    showOptionRow(torpedoDepthDescr.id, isShipOrBoat
+      && air.getAvailableSecondaryWeapons().hasTorpedoes)
   }
 
   function updateAircraftWeaponsOptions(unit, needUpdateOptionItems = true)
@@ -1775,43 +1764,14 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       doSelectAircraft()
   }
 
-  function checkChosenBulletsCount(applyFunc, bulletsManager)
-  {
-    if (getOverrideBullets(getCurSlotUnit()))
-      return true
-    local readyCounts = bulletsManager.checkBulletsCountReady()
-    if (readyCounts.status == bulletsAmountState.READY
-        || (readyCounts.status == bulletsAmountState.HAS_UNALLOCATED && ::get_gui_option(::USEROPT_SKIP_LEFT_BULLETS_WARNING)))
-      return true
-
-    local msg = ""
-    if (readyCounts.status == bulletsAmountState.HAS_UNALLOCATED)
-      msg = ::format(::loc("multiplayer/someBulletsLeft"), ::colorize("activeTextColor", readyCounts.unallocated.tostring()))
-    else //status == bulletsAmountState.LOW_AMOUNT
-      msg = ::format(::loc("multiplayer/notEnoughBullets"), ::colorize("activeTextColor", readyCounts.required.tostring()))
-
-    ::gui_start_modal_wnd(::gui_handlers.WeaponWarningHandler,
-      {
-        parentHandler = this
-        message = msg
-        list = ""
-        showCheckBoxBullets = false
-        ableToStartAndSkip = readyCounts.status != bulletsAmountState.LOW_AMOUNT
-        skipOption = ::USEROPT_SKIP_LEFT_BULLETS_WARNING
-        onStartPressed = applyFunc
-      })
-
-    return false
-  }
-
   function checkCurAirAmmo(applyFunc)
   {
-    local bulletsManager = weaponsSelectorWeak && weaponsSelectorWeak.bulletsManager
+    local bulletsManager = weaponsSelectorWeak?.bulletsManager
     if (!bulletsManager)
       return true
 
     if (bulletsManager.canChangeBulletsCount())
-      return checkChosenBulletsCount(applyFunc, bulletsManager)
+      return bulletsManager.checkChosenBulletsCount(true, ::Callback(@() applyFunc(), this))
 
     local air = getCurSlotUnit()
     if (!air)

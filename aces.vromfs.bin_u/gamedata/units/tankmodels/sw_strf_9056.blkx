@@ -1644,8 +1644,27 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.8,
+              "fire": 0.7,
+              "expl": 0.1,
               "damage": 300.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.5,
+              "expl": 0.5,
+              "damage": 400.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.2,
+              "expl": 0.8,
+              "damage": 600.0,
               "fHitCritical": true
             }
           },
@@ -1657,8 +1676,9 @@
           },
           {
             "onKill": {
-              "fire": 0.3,
-              "nothing": 0.7,
+              "fire": 0.5,
+              "expl": 0.3,
+              "nothing": 0.2,
               "fHitCritical": true
             }
           }
@@ -1993,23 +2013,6 @@
             "kill": true,
             "killEffect": "hullBreak"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 750.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
         }
       ],
       "mount": [
@@ -2045,23 +2048,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 250.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 750.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
             "kill": true,
             "killEffect": "hullBreak"
           }
@@ -2231,8 +2217,9 @@
           "stopForFire": true,
           "readyToFireVar": "strf_9056_action",
           "readyToFireTime": 5.0,
-          "maxSpeedForFire": 5.0,
-          "lagStopForFireTime": 2.0,
+          "maxSpeedForFire": 6.0,
+          "battlePositionSpeed": 20.0,
+          "lagStopForFireTime": 1.0,
           "barrelDP": "gun_barrel_01_dm",
           "brokenBarrelAllowShoot": false,
           "createGunEffects": true,
@@ -2891,7 +2878,7 @@
         "event": {
           "name": "fuel_internal",
           "fx": {
-            "name": "tank_engine_fire",
+            "name": "tank_ex_fuel_explosion",
             "centerDmgPart": true
           }
         }
@@ -3457,8 +3444,9 @@
                 "stopForFire": true,
                 "readyToFireVar": "strf_9056_action",
                 "readyToFireTime": 5.0,
-                "maxSpeedForFire": 5.0,
-                "lagStopForFireTime": 2.0,
+                "maxSpeedForFire": 6.0,
+                "battlePositionSpeed": 20.0,
+                "lagStopForFireTime": 1.0,
                 "barrelDP": "gun_barrel_01_dm",
                 "brokenBarrelAllowShoot": false,
                 "createGunEffects": true,

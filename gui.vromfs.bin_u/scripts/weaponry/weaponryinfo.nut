@@ -654,7 +654,7 @@ local function getSecondaryWeaponsList(unit)
 
     weaponsList.append(weapon)
     if(lastWeapon=="" && ::shop_is_weapon_purchased(unitName, weapon.name))
-      setLastWeapon(unitName, weapon.name)
+      setLastWeapon(unitName, weapon.name)  //!!FIX ME: remove side effect from getter
   }
 
   return weaponsList
@@ -753,6 +753,17 @@ local function checkBadWeapons()
   }
 }
 
+local function getOverrideBullets(unit)
+{
+  if (!unit)
+    return null
+  local editSlotbarBlk = ::g_crews_list.getMissionEditSlotbarBlk(::get_current_mission_name())
+  local editSlotbarUnitBlk = editSlotbarBlk?[unit.shopCountry]?[unit.name]
+  return editSlotbarUnitBlk?["bulletsCount0"] != null ? editSlotbarUnitBlk : null
+}
+
+local needSecondaryWeaponsWnd = @(unit) (unit.isAir() || unit.isHelicopter()) && ::has_feature("ShowWeapPresetsMenu")
+
 return {
   KGF_TO_NEWTON            = KGF_TO_NEWTON
   TRIGGER_TYPE             = TRIGGER_TYPE
@@ -782,4 +793,6 @@ return {
   isWeaponEnabled          = isWeaponEnabled
   isWeaponVisible          = isWeaponVisible
   checkBadWeapons          = checkBadWeapons
+  getOverrideBullets       = getOverrideBullets
+  needSecondaryWeaponsWnd  = needSecondaryWeaponsWnd
 }

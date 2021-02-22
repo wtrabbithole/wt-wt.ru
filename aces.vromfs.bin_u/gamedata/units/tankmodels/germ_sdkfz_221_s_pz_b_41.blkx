@@ -441,6 +441,38 @@
         "optic_gun_dm": {
           "armorThickness": 4.0,
           "hp": 50.0
+        },
+        "optic_turret_01_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_turret_02_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_turret_03_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_turret_04_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_body_01_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_body_02_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_body_03_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
+        },
+        "optic_body_04_dm": {
+          "armorThickness": 4.0,
+          "hp": 50.0
         }
       },
       "gun": {
@@ -938,6 +970,41 @@
               "damageType": "generic",
               "fire": 1.0,
               "damage": 100.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.4,
+              "damage": 200.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.7,
+              "expl": 0.2,
+              "damage": 300.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.5,
+              "expl": 0.5,
+              "damage": 400.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.1,
+              "expl": 0.9,
+              "damage": 600.0,
               "fHitCritical": true
             }
           },
@@ -1661,79 +1728,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "part": "body_01_bottom_dm"
-        },
-        {
-          "part": "body_02_bottom_dm"
-        },
-        {
-          "part": "body_bottom_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 250.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 180.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -1803,23 +1797,6 @@
             "kill": true,
             "killEffect": "hullBreak"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 700.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
         }
       ],
       "mount": [
@@ -1876,23 +1853,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 700.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
             "kill": true,
             "killEffect": "hullBreak"
           }
@@ -2684,7 +2644,7 @@
         "event": {
           "name": "fuel_internal",
           "fx": {
-            "name": "tank_engine_fire",
+            "name": "tank_ex_fuel_explosion",
             "centerDmgPart": true
           }
         }

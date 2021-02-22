@@ -18,7 +18,7 @@ local function Root() {
     valign = ALIGN_TOP
     size = [sw(100), sh(100)]
     children = [
-      radarComponent.radar(false)
+      radarComponent.mkRadar()
       aamAim(styleAamAim, getColor)
     ]
   }
@@ -36,7 +36,8 @@ local function tankTws() {
           colorStyle = styleAamAim,
           pos = [0, 0],
           size = [pw(80), ph(80)],
-          relativCircleSize = 49
+          relativCircleSize = 49,
+          needDrawCentralIcon = false
         })
   }
 }

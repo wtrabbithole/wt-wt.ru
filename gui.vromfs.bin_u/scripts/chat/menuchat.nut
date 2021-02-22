@@ -792,11 +792,18 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       checkNewMessages()
       updateRoomsList()
       updateSquadInfo()
-      guiScene.performDelayed(this, restoreFocus)
-      ::update_objects_under_windows_state(guiScene)
+      guiScene.performDelayed(this, function() {
+        if (!isValid())
+          return
+        ::update_objects_under_windows_state(guiScene)
+        restoreFocus()
+      })
     }
     else
-      ::clear_objects_under_windows(guiScene)
+      guiScene.performDelayed(this, function() {
+        if (isValid())
+          ::update_objects_under_windows_state(guiScene)
+      })
 
     onChatWindowMouseOver(scene)
   }
@@ -2267,7 +2274,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local blocked = ::isPlayerNickInContacts(data.user, ::EPL_BLOCKLIST)
     if (blocked)
-      addRoomMsg(curRoom.id, "", format(::loc("chat/cantChatWithBlocked"), "<Link="+::g_chat.generatePlayerLink(data.user)+">"+data.user+"</Link>"))
+      addRoomMsg(
+        curRoom.id,
+        "",
+        ::format(
+          ::loc("chat/cantChatWithBlocked"),
+          $"<Link={::g_chat.generatePlayerLink(data.user)}>{getPlayerName(data.user)}</Link>"
+        )
+      )
     else if (data.user != curRoom.id)
     {
       local userRoom = ::g_chat.getRoomById(data.user)
@@ -2834,6 +2848,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventInviteUpdated(params)
   {
     onEventInviteReceived(params)
+  }
+
+  function onChatInputWrapRight() {
+    if (checkScene())
+      ::move_mouse_on_obj(scene.findObject("btn_send"))
   }
 
   scene = null

@@ -63,6 +63,21 @@
     "useSingleIconForBullet": true
   },
   {
+    "fxGroundDust": ""
+  },
+  {
+    "fxSandDust": ""
+  },
+  {
+    "fxSnowDust": ""
+  },
+  {
+    "fxConcreteDust": ""
+  },
+  {
+    "fxWaterShockWave": ""
+  },
+  {
     "shouldCollideWithRendinsts": true
   },
   {
@@ -149,7 +164,7 @@
         "explodeOnRendinst": true,
         "fresnel": [0.23,0.1,2.0],
         "bulletName": "us_starstreak",
-        "maxDeltaAngle": 2.0,
+        "maxDeltaAngle": 0.0,
         "dragCx": 0.027,
         "length": 1.08,
         "distFromCmToStab": 0.005,
@@ -181,7 +196,7 @@
         "waterCollisionEffect": "120-203_he_water_splash",
         "waterFxScale": [1.2,1.4],
         "explosionPatchRadius": 5.0,
-        "fireEffect": "rocket_fire_light_sam",
+        "fireEffect": "rocket_fire_light_multiple",
         "smokeEffect": "",
         "hazeEffect": "haze_missile",
         "endSmokeViscosity": 0.05,
@@ -237,9 +252,9 @@
           "operatedDist": 9800.0,
           "autoLeveling": true,
           "autoAiming": true,
-          "maxAxisValues": 1.0,
+          "maxAxisValues": 2.8,
           "aimSensitivity": 15.0,
-          "autoAimTrackingSensitivity": 0.4,
+          "autoAimTrackingSensitivity": 0.35,
           "explosionEffect": "atgm_hit",
           "defFxScale": [2.2,2.5],
           "groundCollisionEffect": "art_ground_splash",
@@ -271,6 +286,8 @@
           "speedViscosity": 0.1,
           "timeToLive": 30.4,
           "price": 3000.0,
+          "hasTracerTrail": true,
+          "tracerTrailEmitter": [-0.5,0.0,0.0],
           "collisions": {
             "steel": {
               "fx": "cannon_hit_armor_cumulative",
@@ -299,6 +316,14 @@
           "hitpower": {
             "HitPower0m": [1.0,500.0],
             "HitPower7000m": [0.9,7000.0]
+          },
+          "tracerTrail": {
+            "smokeEffect": "",
+            "visual": {
+              "traceFreq": 1,
+              "tracer": "152mmRed",
+              "trail": "black"
+            }
           }
         },
         "stabilityRicochetModifier": [

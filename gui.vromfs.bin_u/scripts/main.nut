@@ -1,7 +1,8 @@
+require("scripts/ui_globals.nut")
+
 local __string = require("string")
 foreach (name, func in require("dagor.localize"))
   ::dagor[name] <- func
-::loc <- require("dagor.localize").loc
 
 ::regexp<-__string.regexp
 ::split <-__string.split
@@ -15,9 +16,6 @@ local __math = require("math")
 local frp = require("frp")
 ::Watched <- frp.Watched
 ::Computed <-frp.Computed
-
-::utf8 <- require("utf8")
-::regexp2 <- require("regexp2")
 
 ::script_protocol_version <- null
 require("scripts/version.nut")
@@ -268,6 +266,7 @@ global enum SEEN {
   WARBONDS_SHOP = "warbondsShop"
   EXT_XBOX_SHOP = "ext_xbox_shop"
   EXT_PS4_SHOP  = "ext_ps4_shop"
+  EXT_EPIC_SHOP = "ext_epic_shop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"
@@ -332,6 +331,7 @@ local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
   USER_PRESENCE_UPDATE = 2
   CONFIG_VALIDATION = 2
   LOGIN_PROCESS = 3
+  MEMOIZE_VALIDATION = 4
 }
 subscriptions.setDefaultPriority(::g_listener_priority.DEFAULT)
 ::broadcastEvent <- subscriptions.broadcast
@@ -374,7 +374,6 @@ foreach (fn in [
   "scripts/options/optionsExtNames.nut"
   "scripts/options/fonts.nut"
   "scripts/options/consoleMode.nut"
-  "scripts/options/optionsManager.nut"
   "scripts/options/optionsBeforeLogin.nut"
 
   //probably used before login on ps4
@@ -509,6 +508,7 @@ local isFullScriptsLoaded = false
     "gamercard.nut"
     "popups/popups.nut"
     "popups/popup.nut"
+    "popups/popupFilter.nut"
 
     "wheelmenu/wheelmenu.nut"
     "guiLines.nut"
@@ -628,7 +628,6 @@ local isFullScriptsLoaded = false
     "controls/input/doubleAxis.nut"
     "controls/input/image.nut"
     "controls/input/keyboardAxis.nut"
-    "controls/controlsPseudoAxes.nut"
     "controls/controlsWizard.nut"
     "controls/controlsType.nut"
     "controls/AxisControls.nut"
@@ -900,8 +899,9 @@ local isFullScriptsLoaded = false
   require("scripts/slotbar/elems/squadronExpIconElem.nut")
   require("scripts/matching/serviceNotifications/showInfo.nut")
   require("scripts/unit/unitContextMenu.nut")
-  require("sqDagui/guiBhv/bhvUpdateByWatched.nut")
+  require("sqDagui/guiBhv/bhvUpdateByWatched.nut").setAssertFunction(::script_net_assert_once)
   require("scripts/social/activityFeed/activityFeedModule.nut")
+  require("scripts/controls/controlsPseudoAxes.nut")
 
   if (platform.isPlatformXboxOne)
     require("scripts/global/xboxCallbacks.nut")

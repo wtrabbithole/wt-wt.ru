@@ -1,30 +1,5 @@
-local {isArray, isTable, isDataBlock, isInstance, isEqual, isFunction} = require("u.nut")
+local {isTable, isDataBlock, isInstance, isEqual, isFunction} = require("u.nut")
 local { DataBlock } = require("datablockWrapper.nut")
-
-//Recursive translator to DataBlock data.
-//More conviniet to store, search and use data in DataBlock.
-// It saves order of items in tables as an array,
-// and block can easily be found by header as in table.
-
-local function fillBlock(id, block, data, arrayKey = "array") {
-  if (isArray(data)) {
-    local newBl = id == arrayKey? block.addNewBlock(id) : block.addBlock(id)
-    foreach (idx, v in data)
-      fillBlock(v?.label ?? arrayKey, newBl, v)
-  }
-  else if (isTable(data)) {
-    local newBl = id == arrayKey? block.addNewBlock(id) : block.addBlock(id)
-    foreach (key, val in data)
-      fillBlock(key, newBl, val)
-  }
-  else {
-    if (id == arrayKey)
-      block[id] <- data
-    else
-      block[id] = data
-  }
-}
-
 
 local function get_blk_by_path_array(path, blk, defaultValue = null) {
   local currentBlk = blk
@@ -156,7 +131,7 @@ local function copyFromDataBlock(fromDataBlock, toDataBlock, override = true) {
   }
   for (local i = 0; i < fromDataBlock.paramCount(); i++) {
     local paramName = fromDataBlock.getParamName(i)
-    if (!toDataBlock?[paramName])
+    if (toDataBlock?[paramName] == null)
       toDataBlock[paramName] <- fromDataBlock[paramName]
     else if (override)
       toDataBlock[paramName] = fromDataBlock[paramName]
@@ -166,5 +141,5 @@ local function copyFromDataBlock(fromDataBlock, toDataBlock, override = true) {
 return {
   copyFromDataBlock, blkOptFromPath, blkFromPath,
   set_blk_value_by_path, get_blk_value_by_path, get_blk_by_path_array,
-  fillBlock, isDataBlock, DataBlock, setFuncBlkByArrayPath
+  isDataBlock, DataBlock, setFuncBlkByArrayPath
 }

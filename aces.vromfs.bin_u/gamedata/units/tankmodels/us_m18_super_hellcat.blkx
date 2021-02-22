@@ -639,70 +639,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 250.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 180.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -751,23 +687,6 @@
             "kill": true,
             "killEffect": "hullBreak"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 700.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
         }
       ],
       "mount": [
@@ -809,23 +728,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 700.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "expl": 1.0,
-            "conditionDead": true,
             "kill": true,
             "killEffect": "hullBreak"
           }
@@ -1414,7 +1316,7 @@
         "event": {
           "name": "fuel_internal",
           "fx": {
-            "name": "tank_engine_fire",
+            "name": "tank_ex_fuel_explosion",
             "centerDmgPart": true
           }
         }
@@ -1614,6 +1516,25 @@
         "gun_mask_dm": {
           "armorThickness": 76.2
         }
+      },
+      "body_shields": {
+        "armorClass": "tank_structural_steel",
+        "hp": 1000.0,
+        "armorThickness": 4.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "ex_decor_l_02_dm": [],
+        "ex_decor_l_03_dm": [],
+        "ex_decor_l_04_dm": [],
+        "ex_decor_l_05_dm": [],
+        "ex_decor_l_09_dm": [],
+        "ex_decor_l_10_dm": [],
+        "ex_decor_r_01_dm": [],
+        "ex_decor_r_02_dm": [],
+        "ex_decor_r_03_dm": [],
+        "ex_decor_r_04_dm": [],
+        "ex_decor_r_09_dm": [],
+        "ex_decor_r_10_dm": []
       },
       "optics": {
         "armorClass": "optics_tank",
@@ -2837,8 +2758,27 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.8,
+              "fire": 0.7,
+              "expl": 0.1,
               "damage": 300.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.5,
+              "expl": 0.5,
+              "damage": 400.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.2,
+              "expl": 0.8,
+              "damage": 600.0,
               "fHitCritical": true
             }
           },
@@ -2850,8 +2790,9 @@
           },
           {
             "onKill": {
-              "fire": 0.3,
-              "nothing": 0.7,
+              "fire": 0.5,
+              "expl": 0.3,
+              "nothing": 0.2,
               "fHitCritical": true
             }
           }

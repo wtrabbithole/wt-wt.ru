@@ -972,13 +972,13 @@
       "fm": "wing_middle_l",
       "elementType": "common",
       "dm": "wing1_l_dm",
-      "impulseVelLimits": [3.0,10.0],
+      "impulseVelLimits": [3.0,8.0],
       "dmCut": "spar1_l_dm"
     }
   },
   {
     "object": {
-      "fm": "wing_middle_l",
+      "fm": "wing_end_l",
       "elementType": "common",
       "dm": "wing2_l_dm",
       "impulseVelLimits": [3.0,8.0],
@@ -999,7 +999,7 @@
       "fm": "wing_middle_r",
       "elementType": "common",
       "dm": "wing1_r_dm",
-      "impulseVelLimits": [3.0,10.0],
+      "impulseVelLimits": [3.0,8.0],
       "dmCut": "spar1_r_dm"
     }
   },
@@ -1093,10 +1093,13 @@
   {
     "object": [
       {
-        "dm": "fin2_dm"
+        "fm": "ver_stab"
       },
       {
         "elementType": "common"
+      },
+      {
+        "dm": "fin2_dm"
       },
       {
         "dm": "rudder1_dm"
@@ -1169,12 +1172,6 @@
         "elementIndex": 0
       },
       {
-        "dm": "_ClipLGear"
-      },
-      {
-        "dm": "_ClipLGear_%02d"
-      },
-      {
         "dm": "gear_l_dm"
       },
       {
@@ -1187,10 +1184,19 @@
         "dm": "wheel%d_l_dm"
       },
       {
+        "dm": "_ClipLGear"
+      },
+      {
+        "dm": "_ClipLGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_l_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },
@@ -1206,12 +1212,6 @@
         "elementIndex": 1
       },
       {
-        "dm": "_Clip1LGear"
-      },
-      {
-        "dm": "_Clip1LGear_%02d"
-      },
-      {
         "dm": "gear_1l_dm"
       },
       {
@@ -1224,10 +1224,19 @@
         "dm": "wheel%d_1l_dm"
       },
       {
+        "dm": "_Clip1LGear"
+      },
+      {
+        "dm": "_Clip1LGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_1l_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },
@@ -1243,12 +1252,6 @@
         "elementIndex": 2
       },
       {
-        "dm": "_ClipRGear"
-      },
-      {
-        "dm": "_ClipRGear_%02d"
-      },
-      {
         "dm": "gear_r_dm"
       },
       {
@@ -1261,10 +1264,19 @@
         "dm": "wheel%d_r_dm"
       },
       {
+        "dm": "_ClipRGear"
+      },
+      {
+        "dm": "_ClipRGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_r_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },
@@ -1280,12 +1292,6 @@
         "elementIndex": 3
       },
       {
-        "dm": "_Clip1RGear"
-      },
-      {
-        "dm": "_Clip1RGear_%02d"
-      },
-      {
         "dm": "gear_1r_dm"
       },
       {
@@ -1298,10 +1304,19 @@
         "dm": "wheel%d_1r_dm"
       },
       {
+        "dm": "_Clip1RGear"
+      },
+      {
+        "dm": "_Clip1RGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_1r_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },
@@ -1317,12 +1332,6 @@
         "elementIndex": 4
       },
       {
-        "dm": "_ClipCGear"
-      },
-      {
-        "dm": "_ClipCGear_%02d"
-      },
-      {
         "dm": "gear_c_dm"
       },
       {
@@ -1335,10 +1344,19 @@
         "dm": "wheel%d_c_dm"
       },
       {
+        "dm": "_ClipCGear"
+      },
+      {
+        "dm": "_ClipCGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_c_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },
@@ -1354,12 +1372,6 @@
         "elementIndex": 5
       },
       {
-        "dm": "_Clip2CGear"
-      },
-      {
-        "dm": "_Clip2CGear_%02d"
-      },
-      {
         "dm": "gear_2c_dm"
       },
       {
@@ -1372,10 +1384,19 @@
         "dm": "wheel%d_2c_dm"
       },
       {
+        "dm": "_Clip2CGear"
+      },
+      {
+        "dm": "_Clip2CGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_2c_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },
@@ -1391,12 +1412,6 @@
         "elementIndex": 6
       },
       {
-        "dm": "_Clip3CGear"
-      },
-      {
-        "dm": "_Clip3CGear_%02d"
-      },
-      {
         "dm": "gear_3c_dm"
       },
       {
@@ -1409,10 +1424,19 @@
         "dm": "wheel%d_3c_dm"
       },
       {
+        "dm": "_Clip3CGear"
+      },
+      {
+        "dm": "_Clip3CGear_%02d"
+      },
+      {
         "impulseVelLimits": [2.0,6.0]
       },
       {
         "dmCut": "gear_3c_dm"
+      },
+      {
+        "enableSceneCollision": false
       }
     ]
   },

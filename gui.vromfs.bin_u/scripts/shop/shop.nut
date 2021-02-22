@@ -7,10 +7,15 @@ local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 local { getStatusTbl, getTimedStatusTbl, updateCellStatus, updateCellTimedStatus, initCell
 } = require("shopUnitCellFill.nut")
+local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
 
 local lastUnitType = null
 
 const COUNT_REQ_FOR_FAKE_UNIT = 2
+
+const OPEN_RCLICK_UNIT_MENU_AFTER_SELECT_TIME = 500 // when select slot by right click button
+                                                    // then menu vehilce opened and close
+
 /*
 shopData = [
   { name = "country_japan"
@@ -81,6 +86,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   unitActionsListTimer = null
   hasSpendExpProcess = false
+  actionsListOpenTime = 0
 
   function initScreen()
   {
@@ -1387,7 +1393,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       searchBoxWeak.searchCancel()
   }
 
-  function openMenuForUnit(unit)
+  function openMenuForUnit(unit, ignoreMenuHover = false)
   {
     if ("name" not in unit)
       return
@@ -1395,29 +1401,46 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (curAirObj == null && groupChooseObj?.isValid())
       curAirObj = groupChooseObj.findObject(unit.name)
     if (curAirObj?.isValid())
-      openUnitActionsList(curAirObj)
+      openUnitActionsList(curAirObj, false, ignoreMenuHover)
   }
 
-  function onAircraftClick(obj)
-  {
+  function selectCell(obj) {
     local holderId = obj?.holderId
-    if (holderId != null) {
-      local { idx } = getUnitById(holderId)
-      if (idx < 0)
-        return
-      if (::checkObj(groupChooseObj))
-        groupChooseObj.findObject("airs_table").setValue(idx)
-      else
-        scene.findObject("shop_items_list").setValue(idx)
-    }
+    if (holderId == null)
+      return
+
+    local { idx } = getUnitById(holderId)
+    if (idx < 0)
+      return
+    if (groupChooseObj?.isValid())
+      groupChooseObj.findObject("airs_table").setValue(idx)
+    else
+      scene.findObject("shop_items_list").setValue(idx)
+  }
+
+  function onAircraftClick(obj, ignoreMenuHover = false)
+  {
+    selectCell(obj)
     local unit = getCurAircraft()
     checkSelectAirGroup(unit)
-    openMenuForUnit(unit)
+    openMenuForUnit(unit, ignoreMenuHover)
   }
 
   function onUnitDblClick(obj) {
     if (!::show_console_buttons) //to use for not console buttons need to divide events activate and dbl_click
       onUnitMainFunc(obj)
+  }
+
+  function onUnitClick(obj) {
+    actionsListOpenTime = ::dagor.getCurTime()
+    onAircraftClick(obj)
+  }
+
+  function onUnitRightClick(obj) {
+    if (::dagor.getCurTime() - actionsListOpenTime
+        < OPEN_RCLICK_UNIT_MENU_AFTER_SELECT_TIME)
+      return
+    onAircraftClick(obj)
   }
 
   function checkSelectAirGroup(item, selectUnitName = "")
@@ -1860,6 +1883,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onUnitMainFunc(obj)
   {
+    if (::show_console_buttons) { // open vehicle menu on slot button click
+      onAircraftClick(obj, true)
+      return
+    }
+
+    selectCell(obj)
     local unit = ::getAircraftByName(obj?.holderId) ?? getCurAircraft()
     if (!unit)
       return
@@ -1876,6 +1905,19 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       setResearchManually = setResearchManually
       availableFlushExp = availableFlushExp
     })
+  }
+
+  function onUnitMainFuncBtnUnHover(obj) {
+    if (!::show_console_buttons)
+      return
+
+    local unitObj = unitContextMenuState.value?.unitObj
+    if (!unitObj?.isValid())
+      return
+
+    local actionListObj = unitObj.findObject("actions_list")
+    if (actionListObj?.isValid())
+      actionListObj.closeOnUnhover = "yes"
   }
 
   function onModifications(obj)
