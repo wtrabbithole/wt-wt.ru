@@ -1,3 +1,5 @@
+local { isMarketplaceEnabled, goToMarketplace } = require("scripts/items/itemsMarketplace.nut")
+
 ::dagui_propid.add_name_id("itemId")
 
 local branchIdPrefix = "branch_"
@@ -295,6 +297,7 @@ local getItemBlockView = ::kwarg(
             needShowHeader = false
             isShowItemIconInsteadItemType = true
             visibleResources = allowableResources
+            isTooltipByHold = ::show_console_buttons
           })
     }
 })
@@ -455,7 +458,7 @@ local bodyButtonsConfig = {
     link = ""
     isLink = true
     isFeatured = true
-    isHidden = @() !::ItemsManager.isMarketplaceEnabled()
+    isHidden = @() !isMarketplaceEnabled()
   }
 }
 local buttonViewParams = {
@@ -572,7 +575,8 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     local itemBlockInterval = ::to_pixels("1@{0}raftTreeBlockInterval".subst(sizes.intervalPrefix))
     local itemBlockHeight = itemHeight + itemBlockInterval
     local headerBlockInterval = ::to_pixels("1@headerAndCraftTreeBlockInterval")
-    local isItemIdKnown = (@(itemsList, itemId) workshopSet.isItemIdKnown(itemId)).bindenv(workshopSet)
+    local wSet = workshopSet
+    local isItemIdKnown = @(itemsList, itemId) wSet.isItemIdKnown(itemId)
     local buttonHeight = ::to_pixels("1@buttonHeight") + 2*::to_pixels("1@buttonMargin")
     local titleMargin = ::to_pixels("1@dp")
     local items = itemsList
@@ -758,6 +762,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       conectionsInRow = conectionsInRow
       textBlocks = textBlocks
       buttons = buttons
+      isTooltipByHold = ::show_console_buttons
     }
   }
 
@@ -911,7 +916,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onToMarketplaceButton() {
-    ::ItemsManager.goToMarketplace()
+    goToMarketplace()
   }
 }
 

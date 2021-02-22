@@ -1779,8 +1779,8 @@
     },
     "gun": {
       "armorClass": "tank_barrel",
-      "hp": 300.0,
-      "armorThickness": 30.0,
+      "hp": 250.0,
+      "armorThickness": 40.0,
       "gun_barrel_dm": [],
       "gun_barrel_01_dm": {
         "armorThrough": 10.0,
@@ -2083,6 +2083,7 @@
       "fireProtectionHp": 10.0,
       "createSecondaryShatters": false,
       "fireParamsPreset": "fuel_internal",
+      "stopChanceOnDeadPart": 0.0,
       "fuel_tank_dm": [],
       "fuel_tank_01_dm": [],
       "fuel_tank_02_dm": [],
@@ -2120,6 +2121,29 @@
     }
   },
   "commonWeapons": [
+    {
+      "Weapon": {
+        "dummy": true,
+        "trigger": "gunner0",
+        "triggerGroup": "primary",
+        "blk": "gameData/Weapons/dummy_weapon.blk",
+        "emitter": "bone_gun_barrel",
+        "defaultYaw": 0.0,
+        "defaultPitch": 0.0,
+        "barrelDP": "optic_gun_dm",
+        "speedYaw": 120.0,
+        "speedPitch": 90.0,
+        "bullets": 1,
+        "turret": {
+          "head": "bone_turret",
+          "gun": "bone_gun"
+        },
+        "limits": {
+          "yaw": [-180.0,180.0],
+          "pitch": [0.0,19.0]
+        }
+      }
+    },
     {
       "Weapon": {
         "trigger": "gunner0",

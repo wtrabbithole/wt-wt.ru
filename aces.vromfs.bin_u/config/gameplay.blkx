@@ -27,6 +27,8 @@
   "saclosMissileTreesTransparencyTreshold": 0.5,
   "saclosMissileClientOnlyMoveCompensation": false,
   "guidedMissileAutopilotVelFrameReference": true,
+  "resyncGuidedMissilesOnClient": true,
+  "seekerPostArretTimeOut": 0.5,
   "minFreeCrewIntegrity": -1.0,
   "ai": {
     "outerSphereMul": 3.0,
@@ -3095,8 +3097,15 @@
     "ricochetCosinePower": 2.0
   },
   "instructor": {
+    "minOnGroundSpeed": 0.1,
     "pitchPropCoeffBase": 0.12,
-    "pitchDerrCoeffBase": 5.0
+    "pitchDerrCoeffBase": 5.0,
+    "ailDegToPredict": 14.0,
+    "elevonDegToPredict": 10.0,
+    "maxCvtAngle": 1.5,
+    "instructorSmoothness": 0.29,
+    "instructorAlphaPrediction": 5.0,
+    "instructorCritAngleK": 0.2
   },
   "mouseAim": {
     "mouseAimDisableControlTreshold": 0.8,
@@ -3539,6 +3548,10 @@
     "engineInfraRedBrightnessAspectMultSide": 0.06,
     "engineInfraRedBrightnessAspectMultRear": 1.0,
     "engineInfraRedBrightnessSourcesMask": 1,
+    "engineAfterburnerInfraRedBrightnessAspectMultFront": 0.0006,
+    "engineAfterburnerInfraRedBrightnessAspectMultSide": 0.06,
+    "engineAfterburnerInfraRedBrightnessAspectMultRear": 1.0,
+    "engineAfterburnerInfraRedBrightnessSourcesMask": 1,
     "airframeInfraRedBrightnessMult": 200.0,
     "airframeInfraRedBrightnessSourcesMask": 2,
     "sunInfraRedBrightnessMult": 0.0001,
@@ -3678,6 +3691,7 @@
     "terrainRoughnessWaveLengthMult": 2.0,
     "terrainRoughnessAmplitude": 0.02,
     "surfaceFriction": 0.8,
+    "surfaceFrictionDamageMultiplier": [0.9,1.0,0.0,1.3],
     "surfaceBounce": 0.05,
     "surfaceErpMult": 0.04,
     "moveMinSq": 0.0,
@@ -4844,64 +4858,7 @@
           "allowNode": "compartment_11_dm"
         },
         {
-          "allowNode": "bulkhead_01_dm"
-        },
-        {
-          "allowNode": "bulkhead_02_dm"
-        },
-        {
-          "allowNode": "bulkhead_03_dm"
-        },
-        {
-          "allowNode": "bulkhead_04_dm"
-        },
-        {
-          "allowNode": "bulkhead_05_dm"
-        },
-        {
-          "allowNode": "bulkhead_06_dm"
-        },
-        {
-          "allowNode": "bulkhead_07_dm"
-        },
-        {
-          "allowNode": "bulkhead_08_dm"
-        },
-        {
-          "allowNode": "bulkhead_09_dm"
-        },
-        {
-          "allowNode": "bulkhead_10_dm"
-        },
-        {
-          "allowNode": "bulkhead_11_dm"
-        },
-        {
-          "allowNode": "bulkhead_12_dm"
-        },
-        {
-          "allowNode": "bulkhead_13_dm"
-        },
-        {
-          "allowNode": "bulkhead_14_dm"
-        },
-        {
-          "allowNode": "bulkhead_15_dm"
-        },
-        {
-          "allowNode": "bulkhead_16_dm"
-        },
-        {
-          "allowNode": "bulkhead_17_dm"
-        },
-        {
-          "allowNode": "bulkhead_18_dm"
-        },
-        {
-          "allowNode": "bulkhead_19_dm"
-        },
-        {
-          "allowNode": "bulkhead_20_dm"
+          "allowNode": "compartment_12_dm"
         },
         {
           "allowNode": "cover_01_dm"
@@ -4926,6 +4883,84 @@
         },
         {
           "allowNode": "cover_08_dm"
+        },
+        {
+          "allowNode": "cover_09_dm"
+        },
+        {
+          "allowNode": "cover_10_dm"
+        },
+        {
+          "allowNode": "cover_11_dm"
+        },
+        {
+          "allowNode": "cover_12_dm"
+        },
+        {
+          "allowNode": "superstructure_dm"
+        },
+        {
+          "allowNode": "superstructure_front_dm"
+        },
+        {
+          "allowNode": "superstructure_back_dm"
+        },
+        {
+          "allowNode": "superstructure_side_dm"
+        },
+        {
+          "allowNode": "superstructure_top_dm"
+        },
+        {
+          "allowNode": "superstructure_bottom_dm"
+        },
+        {
+          "allowNode": "stern_bottom_dm"
+        },
+        {
+          "allowNode": "armor_cit_01_dm"
+        },
+        {
+          "allowNode": "armor_cit_02_dm"
+        },
+        {
+          "allowNode": "armor_cit_03_dm"
+        },
+        {
+          "allowNode": "armor_cit_04_dm"
+        },
+        {
+          "allowNode": "armor_cit_05_dm"
+        },
+        {
+          "allowNode": "armor_cit_06_dm"
+        },
+        {
+          "allowNode": "armor_cit_07_dm"
+        },
+        {
+          "allowNode": "armor_cit_08_dm"
+        },
+        {
+          "allowNode": "armor_cit_09_dm"
+        },
+        {
+          "allowNode": "armor_cit_10_dm"
+        },
+        {
+          "allowNode": "armor_cit_11_dm"
+        },
+        {
+          "allowNode": "armor_cit_12_dm"
+        },
+        {
+          "allowNode": "armor_cit_13_dm"
+        },
+        {
+          "allowNode": "armor_cit_14_dm"
+        },
+        {
+          "allowNode": "armor_cit_15_dm"
         }
       ]
     }

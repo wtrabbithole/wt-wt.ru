@@ -664,33 +664,21 @@
         "armorClass": "steel_tankman",
         "hp": 40.0,
         "genericDamageMult": 3.0,
-        "driver_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_dm": {
-          "genericDamageMult": 3.0
-        },
-        "commander_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_dm": {
-          "genericDamageMult": 3.0
-        }
+        "pressureDamageMult": 1.0,
+        "driver_dm": [],
+        "loader_dm": [],
+        "loader_01_dm": [],
+        "loader_02_dm": [],
+        "gunner_dm": [],
+        "gunner_01_dm": [],
+        "gunner_02_dm": [],
+        "gunner_03_dm": [],
+        "commander_dm": [],
+        "machine_gunner_dm": [],
+        "machine_gunner_01_dm": [],
+        "machine_gunner_02_dm": [],
+        "machine_gunner_03_dm": [],
+        "machine_gunner_04_dm": []
       },
       "equipment_body_turret": {
         "armorClass": "tank_structural_steel",
@@ -967,6 +955,7 @@
         "fireProtectionHp": 10.0,
         "createSecondaryShatters": false,
         "fireParamsPreset": "fuel_internal",
+        "stopChanceOnDeadPart": 0.0,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -2136,7 +2125,7 @@
   },
   {
     "gunConvergence": {
-      "distance": 800.0,
+      "defaultDistance": 800.0,
       "vertical": true,
       "horizontal": true
     }
@@ -2177,7 +2166,7 @@
           "speedPitch": 60.0,
           "yawSpdLowBattery": 60.0,
           "pitchSpdLowBattery": 60.0,
-          "bullets": 1920,
+          "bullets": 1000,
           "fireConeAngle": 15.0,
           "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
@@ -2223,7 +2212,7 @@
           "speedPitch": 60.0,
           "yawSpdLowBattery": 60.0,
           "pitchSpdLowBattery": 60.0,
-          "bullets": 1800,
+          "bullets": 1000,
           "fireConeAngle": 15.0,
           "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
@@ -2271,7 +2260,7 @@
           "speedPitch": 60.0,
           "yawSpdLowBattery": 60.0,
           "pitchSpdLowBattery": 60.0,
-          "bullets": 1920,
+          "bullets": 1000,
           "fireConeAngle": 15.0,
           "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,

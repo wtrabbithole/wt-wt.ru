@@ -2,7 +2,7 @@
   "IgnoreErrors": true,
   "AileronEffectiveSpeed": 650.004,
   "RudderEffectiveSpeed": 600.005,
-  "ElevatorsEffectiveSpeed": 850.005,
+  "ElevatorsEffectiveSpeed": 900.005,
   "AileronPowerLoss": 1.4,
   "RudderPowerLoss": 1.8,
   "ElevatorPowerLoss": 2.4,
@@ -45,8 +45,8 @@
   "RudderAngles": [25.0,25.0],
   "Elevon": false,
   "VSlats": [150.0,200.0],
-  "Vne": 1300.0,
-  "VneControl": 1210.0,
+  "Vne": 1365.0,
+  "VneControl": 1500.0,
   "VneMach": 2.2,
   "MaxSpeedNearGround": 1093.0,
   "MaxSpeedAtAltitude": 1060.0,
@@ -154,7 +154,7 @@
     "OilRadiatorCd": 0.0,
     "BombBayCd": 0.0,
     "FuseCd": 0.0,
-    "AirbrakeCd": 0.065,
+    "AirbrakeCd": 0.045,
     "CockpitDoorCd": 0.007,
     "chuteCx": 28.0,
     "FlapsPolarBlending1": [0.0,0.0],
@@ -221,7 +221,7 @@
       },
       "Takeoff": {
         "Presents": true,
-        "Flaps": 0.33
+        "Flaps": 0.55
       },
       "Landing": {
         "Presents": true,
@@ -251,12 +251,12 @@
       "CdMin": 0.0055
     },
     "FullFlaps": {
-      "Cl0": 0.3,
+      "Cl0": 0.35,
       "alphaCritHigh": 28.0,
       "alphaCritLow": -25.0,
-      "ClCritHigh": 1.35,
+      "ClCritHigh": 1.45,
       "ClCritLow": -0.35,
-      "CdMin": 0.04
+      "CdMin": 0.05
     },
     "Fuselage": {
       "OswaldsEfficiencyNumber": 0.5,
@@ -1085,7 +1085,7 @@
       "ElevatorToThrust": [0.0,0.0,0.0],
       "RudderToThrust": [0.0,0.0,0.0],
       "VtolToThrust": [0.0,0.0],
-      "FlapsToThrust": [0.33,1.0,0.5,0.8]
+      "FlapsToThrust": [0.55,1.0,0.8,0.8]
     },
     "Nozzle1": {
       "Position": [-0.4,0.0,2.05],
@@ -1103,7 +1103,7 @@
       "ElevatorToThrust": [0.0,0.0,0.0],
       "RudderToThrust": [0.0,0.0,0.0],
       "VtolToThrust": [0.0,0.0],
-      "FlapsToThrust": [0.33,0.0,0.5,1.0],
+      "FlapsToThrust": [0.55,0.0,0.8,1.0],
       "TipPosition": true
     },
     "Nozzle2": {
@@ -1122,7 +1122,7 @@
       "ElevatorToThrust": [0.0,0.0,0.0],
       "RudderToThrust": [0.0,0.0,0.0],
       "VtolToThrust": [0.0,0.0],
-      "FlapsToThrust": [0.33,0.0,0.5,1.0],
+      "FlapsToThrust": [0.55,0.0,0.8,1.0],
       "TipPosition": true
     }
   },

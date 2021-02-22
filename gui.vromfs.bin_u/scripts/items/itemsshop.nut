@@ -8,6 +8,7 @@ local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 local { canStartPreviewScene } = require("scripts/customization/contentPreview.nut")
 local { setDoubleTextToButton, setColoredDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 local mkHoverHoldAction = require("sqDagui/timer/mkHoverHoldAction.nut")
+local { isMarketplaceEnabled, goToMarketplace } = require("scripts/items/itemsMarketplace.nut")
 
 ::gui_start_itemsShop <- function gui_start_itemsShop(params = null)
 {
@@ -270,6 +271,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         idx = count++
         text = ::loc(sh.locId)
         isCollapsable = isCollapsable
+        isHeader = true
         }))
       if (isCollapsable)
         foreach(param in sh.getSubsetsListParameters().subsetList)
@@ -436,7 +438,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local emptyListObj = scene.findObject("empty_items_list")
     if (::checkObj(emptyListObj))
     {
-      local adviseMarketplace = curTab == itemsTab.INVENTORY && curSheet.isMarketplace && ::ItemsManager.isMarketplaceEnabled()
+      local adviseMarketplace = curTab == itemsTab.INVENTORY && curSheet.isMarketplace && isMarketplaceEnabled()
       local itemsInShop = curTab == itemsTab.SHOP? itemsList : curSheet.getItemsList(itemsTab.SHOP, curSubsetId)
       local adviseShop = ::has_feature("ItemsShop") && curTab != itemsTab.SHOP && !adviseMarketplace && itemsInShop.len() > 0
 
@@ -572,6 +574,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     fillPage()
   }
 
+  function updateItemsList()
+  {
+    itemsListValid = false
+    applyFilters(false)
+  }
+
   function updateItemInfo()
   {
     local item = getCurItem()
@@ -609,19 +617,28 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateButtons()
   {
-    if (!updateButtonsBar())
-      return
-
     local item = getCurItem()
-    local mainActionData = item ? item.getMainActionData() : null
-    local limitsCheckData = item ? item.getLimitsCheckData() : null
-    local limitsCheckResult = ::getTblValue("result", limitsCheckData, true)
+    local mainActionData = item?.getMainActionData()
+    local limitsCheckData = item?.getLimitsCheckData()
+    local limitsCheckResult = limitsCheckData?.result ?? true
     local showMainAction = mainActionData && limitsCheckResult
-    local buttonObj = showSceneBtn("btn_main_action", showMainAction)
     local curSet = curSheet?.getSet()
     local craftTree = curSet?.getCraftTree()
     local needShowCraftTree = craftTree != null
     local openCraftTreeBtnText = ::loc(craftTree?.openButtonLocId ?? "")
+
+    local craftTreeBtnObj = showSceneBtn("btn_open_craft_tree", needShowCraftTree)
+    if (curSet != null && needShowCraftTree)
+    {
+      craftTreeBtnObj.setValue(openCraftTreeBtnText)
+      if (curSet.needShowAccentToCraftTreeBtn())
+        showAccentToCraftTreeBtn(curSet, craftTreeBtnObj)
+    }
+
+    if (!updateButtonsBar()) //buttons below are hidden if item action bar is hidden
+      return
+
+    local buttonObj = showSceneBtn("btn_main_action", showMainAction)
     local canCraftOnlyInCraftTree = needShowCraftTree && (item?.canCraftOnlyInCraftTree() ?? false)
     if (showMainAction)
     {
@@ -659,14 +676,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         linkObj.findObject("img")["background-image"] = item.linkActionIcon
       }
     }
-
-    local craftTreeBtnObj = showSceneBtn("btn_open_craft_tree", needShowCraftTree)
-    if (curSet != null && needShowCraftTree)
-    {
-      craftTreeBtnObj.setValue(openCraftTreeBtnText)
-      if (curSet.needShowAccentToCraftTreeBtn())
-        showAccentToCraftTreeBtn(curSet, craftTreeBtnObj)
-    }
   }
 
   function onLinkAction(obj)
@@ -688,9 +697,17 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(buttonObj)
   {
-    local id = buttonObj?.holderId ?? "-1"
-    local item = ::getTblValue(id.tointeger(), itemsList)
+    local id = ::to_integer_safe(buttonObj?.holderId, -1)
+    local item = itemsList?[id]
     local obj = scene.findObject("shop_item_" + id)
+
+    // Need to change list object current index because of
+    // we can click on action button in non selected item
+    // and wrong item will be updated after main action
+    local listObj = getItemsListObj()
+    if (listObj.getValue() != id && id >= 0 && id < listObj.childrenCount())
+      listObj.setValue(id)
+
     doMainAction(item, obj)
   }
 
@@ -709,10 +726,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (item.canCraftOnlyInCraftTree() && curSheet?.getSet().getCraftTree() != null)
       openCraftTree(item)
     else
+    {
+      local updateFn = item?.needUpdateListAfterAction ? updateItemsList : updateItemInfo
       item.doMainAction(
-        ::Callback(@(result) updateItemInfo(), this),
+        ::Callback(@(result) updateFn(), this),
         this,
         { obj = obj })
+    }
 
     markItemSeen(item)
   }
@@ -768,7 +788,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onToMarketplaceButton(obj)
   {
-    ::ItemsManager.goToMarketplace()
+    goToMarketplace()
   }
 
   function goBack()
@@ -889,10 +909,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function updateInventoryItemsList()
   {
     if (curTab != itemsTab.SHOP)
-    {
-      itemsListValid = false
-      applyFilters(false)
-    }
+      updateItemsList()
   }
 
   function onItemsListFocusChange()

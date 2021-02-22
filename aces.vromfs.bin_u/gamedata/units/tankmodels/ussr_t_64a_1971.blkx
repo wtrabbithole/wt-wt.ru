@@ -205,7 +205,7 @@
         "composite_armor_hull_01_dm": {
           "armorThickness": 105.0,
           "genericArmorQuality": 0.001,
-          "cumulativeArmorQuality": 0.4
+          "cumulativeArmorQuality": 0.6
         }
       },
       "turret_composite_armor": {
@@ -468,8 +468,8 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 250.0,
-        "armorThickness": 25.0,
+        "hp": 200.0,
+        "armorThickness": 35.0,
         "gun_barrel_dm": [],
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
@@ -821,6 +821,7 @@
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
         "createSecondaryShatters": false,
+        "stopChanceOnDeadPart": 0.0,
         "fireParamsPreset": "fuel_internal",
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
@@ -846,6 +847,7 @@
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "fuel_exterior",
+        "stopChanceOnDeadPart": 0.0,
         "fuel_tank_exterior_r_01_dm": [],
         "fuel_tank_exterior_r_02_dm": [],
         "fuel_tank_exterior_r_03_dm": [],
@@ -1937,7 +1939,7 @@
   },
   {
     "gunConvergence": {
-      "distance": 1200.0,
+      "defaultDistance": 1200.0,
       "vertical": true,
       "horizontal": true
     }

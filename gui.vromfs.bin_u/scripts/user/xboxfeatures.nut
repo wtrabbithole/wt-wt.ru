@@ -17,12 +17,16 @@ local function checkMultiplayerPrivilege(showMarket = true, cb = null)
     multiplayerPrivelegeCallback?()
 
   multiplayerPrivelegeCallback = null
+
+  if (!::g_login.isLoggedIn())
+    return
+
   ::broadcastEvent("XboxMultiplayerPrivilegeUpdated")
 }
 
 return isPlatformXboxOne? {
   checkAndShowMultiplayerPrivilegeWarning = function() {
-    if (cachedMultiplayerPrivilege.value)
+    if (cachedMultiplayerPrivilege.value || !::g_login.isLoggedIn())
       return true
 
     checkMultiplayerPrivilege(true)

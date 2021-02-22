@@ -9,7 +9,7 @@ local optionsUtils = require("scripts/options/optionsUtils.nut")
 local optionsMeasureUnits = require("scripts/options/optionsMeasureUnits.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local soundDevice = ::require_native("soundDevice")
-local { getBulletsListHeader } = require("scripts/weaponry/weaponryVisual.nut")
+local { getBulletsListHeader } = require("scripts/weaponry/weaponryDescription.nut")
 local { setUnitLastBullets,
         getOptionsBulletsList } = require("scripts/weaponry/bulletsInfo.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
@@ -18,6 +18,7 @@ local {bombNbr} = require("scripts/unit/unitStatus.nut")
 local { saveProfile } = require("scripts/clientState/saveProfile.nut")
 local { checkUnitSpeechLangPackWatch } = require("scripts/options/optionsManager.nut")
 local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
+local { aeroSmokesList } = require("scripts/unlocks/unlockSmoke.nut")
 //
 
 
@@ -542,6 +543,8 @@ local isWaitMeasureEvent = false
       optionsUtils.fillBoolOption(descr, "enableSoundSpeed", ::OPTION_ENABLE_SOUND_SPEED); break;
     case ::USEROPT_PITCH_BLOCKER_WHILE_BRACKING:
       optionsUtils.fillBoolOption(descr, "pitchBlockerWhileBraking", ::OPTION_PITCH_BLOCKER_WHILE_BRACKING); break;
+    case ::USEROPT_COMMANDER_CAMERA_IN_VIEWS:
+      optionsUtils.fillBoolOption(descr, "commanderCameraInViews", ::OPTION_COMMANDER_CAMERA_IN_VIEWS); break;
 
     case ::USEROPT_VIEWTYPE:
       descr.id = "viewtype"
@@ -653,7 +656,7 @@ local isWaitMeasureEvent = false
           })
        }
        descr.value = find_in_array(descr.values, ::get_option_flares_series())
-       defaultValue = 5
+       defaultValue = 4
        break
 
     case ::USEROPT_FLARES_SERIES_PERIODS:
@@ -670,6 +673,57 @@ local isWaitMeasureEvent = false
           })
        }
        descr.value = find_in_array(descr.values, ::get_option_flares_series_periods())
+       defaultValue = 1
+       break
+
+    case ::USEROPT_CHAFFS_PERIODS:
+       descr.id = "chaffs_periods"
+       descr.values = [0.1,0.2,0.5,1.0]
+       descr.items = []
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+         local text = time.secondsToString(descr.values[i], true, true, 2)
+         local tooltipLoc = "guiHints/chaffs_periods/periods"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { sec = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_chaffs_periods())
+       defaultValue = 0.1
+       break
+
+    case ::USEROPT_CHAFFS_SERIES:
+       descr.id = "chaffs_series"
+       descr.items = []
+       descr.values = [1,2,3,4]
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+          local text = descr.values[i].tostring()
+          local tooltipLoc = "guiHints/chaffs_periods/series"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { num = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_chaffs_series())
+       defaultValue = 4
+       break
+
+    case ::USEROPT_CHAFFS_SERIES_PERIODS:
+       descr.id = "chaffs_series_periods"
+       descr.items = []
+       descr.values = [1,2,5,10]
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+          local text = time.secondsToString(descr.values[i], true, true, 2)
+          local tooltipLoc = "guiHints/chaffs_periods/series_periods"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { sec = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_chaffs_series_periods())
        defaultValue = 1
        break
 
@@ -722,36 +776,28 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_AEROBATICS_SMOKE_TYPE:
       descr.id = "aerobatics_smoke_type"
-      descr.cb = "onTripleAerobaticsSmokeSelected";
-      descr.items = ["#options/aerobaticsSmokeWings1", "#options/aerobaticsSmokeWings2", "#options/aerobaticsSmokeWings3",
-                     "#options/aerobaticsSmokeWings4", "#options/aerobaticsSmokeWings5", "#options/aerobaticsSmokeWings6",
-                     "#options/aerobaticsSmokeWings7",
-                     "#options/aerobaticsSmokeCenter1", "#options/aerobaticsSmokeCenter2", "#options/aerobaticsSmokeCenter3",
-                     "#options/aerobaticsSmokeCenter4", "#options/aerobaticsSmokeCenter5", "#options/aerobaticsSmokeCenter6",
-                     "#options/aerobaticsSmokeCenter7"]
-      descr.values = [1, 2, 3, 4, 5, 6, 7,
-                      8, 9, 10, 11, 12, 13, 14]
+      descr.cb = "onTripleAerobaticsSmokeSelected"
 
-      local localSmokeType = ::get_option_aerobatics_smoke_type();
+      descr.items = []
+      descr.values = []
+      descr.unlocks <- []
 
-      if (::has_feature("AerobaticTricolorSmoke")) // triple color
+      local localSmokeType = ::get_option_aerobatics_smoke_type()
+      foreach(idx, inst in aeroSmokesList.value)
       {
-        descr.items.append("#options/aerobaticsSmokeTriple");
-        descr.values.append(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1);
-      }
-      else if (localSmokeType == (::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1))
-        localSmokeType = 1;
+        if ((idx == ::TRICOLOR_INDEX - 1) && !::has_feature("AerobaticTricolorSmoke")) //not triple color
+          continue
 
-      local unlockId = "aerobatics_smoke_winter" // temp hardcode for winter smoke, will be read from the config when the code for this is ready
-      if (::g_unlocks.getUnlockById(unlockId) && ::is_unlocked(-1, unlockId))
-      {
-        descr.items.append("#options/aerobaticsSmokeWinter");
-        descr.values.append(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 2);
-      }
-      else if (localSmokeType == (::MAX_AEROBATICS_SMOKE_INDEX * 2 + 2))
-        localSmokeType = 1;
+        local unlockId = inst?.unlockId ?? ""
+        if (unlockId != "" && !(::g_unlocks.getUnlockById(unlockId) && ::is_unlocked(-1, unlockId)))
+          continue
 
-      descr.value = find_in_array(descr.values, localSmokeType);
+        descr.items.append(::loc(inst?.locId ?? ""))
+        descr.values.append(inst.id)
+        descr.unlocks.append(unlockId)
+      }
+
+      descr.value = descr.values.findindex(@(v) v == localSmokeType) ?? 1
       break
 
     case ::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR:
@@ -2225,13 +2271,6 @@ local isWaitMeasureEvent = false
           descr.items = bullets.items
           descr.values = bullets.values
           descr.value = bullets.value
-
-          for(local i = 0; i < descr.items.len(); i++)
-            descr.items[i].tooltipObj <- {
-              id = bullets.values[i]
-              open = "onModificationTooltipOpen"
-              tooltipParams = format("unitName:t='%s'; groupIdx:t='%d';", aircraft, groupIndex)
-            }
         }
         descr.cb = "onMyWeaponOptionUpdate"
       }
@@ -3911,6 +3950,17 @@ local isWaitMeasureEvent = false
       defaultValue = false
       break
 
+    case ::USEROPT_PRELOADER_SETTINGS:
+      descr.id = "preloader_settings"
+      descr.controlType = optionControlType.BUTTON
+      descr.funcName <- "onPreloaderSettings"
+      descr.delayed <- true
+      descr.shortcut <- "R3"
+      descr.text <- ::loc("preloaderSettings/title")
+      descr.title = descr.text
+      descr.showTitle <- false
+      break
+
     default:
       local optionName = ::user_option_name_by_idx?[optionId] ?? ""
       ::dagor.assertf(false, $"[ERROR] Options: Get: Unsupported type {optionId} ({optionName})")
@@ -4044,6 +4094,15 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_FLARES_SERIES_PERIODS:
       ::set_option_flares_series_periods(descr.values[value])
+      break
+    case ::USEROPT_CHAFFS_PERIODS:
+      ::set_option_chaffs_periods(descr.values[value])
+      break
+    case ::USEROPT_CHAFFS_SERIES:
+      ::set_option_chaffs_series(descr.values[value])
+      break
+    case ::USEROPT_CHAFFS_SERIES_PERIODS:
+      ::set_option_chaffs_series_periods(descr.values[value])
       break
     case ::USEROPT_USE_PERFECT_RANGEFINDER:
       ::set_option_use_perfect_rangefinder(value ? 1 : 0)
@@ -4708,6 +4767,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_MAP_ZOOM_BY_LEVEL:
     case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
     case ::USEROPT_PITCH_BLOCKER_WHILE_BRACKING:
+    case ::USEROPT_COMMANDER_CAMERA_IN_VIEWS:
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
     case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
     case ::USEROPT_ENABLE_SOUND_SPEED:
@@ -5095,24 +5155,25 @@ local isWaitMeasureEvent = false
   ::saveLocalByAccount("wnd/diffMode", mode)
 }
 
-::create_options_container <- function create_options_container(name, options, is_centered, columnsRatio = 0.5, fullTable = true, absolutePos=true, context = null)
+::create_options_container <- function create_options_container(name, options, is_centered, columnsRatio = 0.5, absolutePos=true, context = null)
 {
-  local data = ""
   local selectedRow = 0
   local iRow = 0
-  local resDescr = {}
-  resDescr.name <- name
-  resDescr.data <- []
+  local resDescr = {
+    name = name
+    data = []
+  }
 
   columnsRatio = ::clamp(columnsRatio, 0.1, 0.9)
   local wLeft  = ::format("%.2fpw", columnsRatio)
   local wRight = ::format("%.2fpw", 1.0 - columnsRatio)
 
+  local rowsView = []
   local headerHaveContent = false
   for(local i = options.len() - 1; i >= 0; i--)
   {
     local opt = options[i]
-    if (!::getTblValue(2, opt, true))
+    if (!(opt?[2] ?? true))
       continue
 
     local optionData = get_option(opt[0], context)
@@ -5122,34 +5183,18 @@ local isWaitMeasureEvent = false
     local isHeader = optionData.controlType == optionControlType.HEADER
     if(isHeader)
     {
-      if( ! headerHaveContent)
+      if(!headerHaveContent)
         continue
       else
         headerHaveContent = false
     } else
       headerHaveContent = true
 
-    if( ! ::getTblValue("controlName", optionData))
-      optionData.controlName <- ::getTblValue(1, opt) || "spinner"
+    if(optionData?.controlName == null)
+      optionData.controlName <- opt?[1] ?? "spinner"
 
-    local rowData = ""
     local isVlist = false
     local haveOptText = true
-
-    if ("enabled" in optionData)
-      rowData += "enable:t='" + (optionData.enabled ? "yes" : "no") + "'; "
-
-    if (!::u.isEmpty(optionData.hint))
-      rowData += "tooltip:t='" + ::g_string.stripTags(optionData.hint) + "'; "
-
-    if (optionData.controlName == "listbox")
-    {
-      if ("trListParams" in optionData)
-        rowData += optionData.trListParams
-    } else
-    if ("trParams" in optionData)
-      rowData += optionData.trParams
-
     local elemTxt = ""
     switch (optionData.controlName)
     {
@@ -5194,19 +5239,20 @@ local isWaitMeasureEvent = false
         elemTxt = create_option_vlistbox(optionData.id, optionData.items, optionData.value, optionData.cb, true)
         isVlist = true
         break
+
+      case "button":
+        elemTxt = ::handyman.renderCached(("gui/commonParts/button"), optionData)
+        haveOptText = optionData?.showTitle ?? false
+        break
     }
 
-    local optionTitleStyle = "optiontext";
-    if(isHeader)
-      optionTitleStyle = "optionBlockHeader"
-
+    local cell = []
     if (elemTxt != null)
     {
       if (isVlist)
-      {
-        rowData += "td { width:t = '0'; }"
-        rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemTxt + " }"
-      }
+        cell.append({ params = {
+          width = 0
+        }})
       else
       {
         local tdText = ""
@@ -5217,12 +5263,41 @@ local isWaitMeasureEvent = false
           elemTxt += ::format("optionValueText { id:t='%s'; text:t='%s' }",
             "value_" + optionData.id, optionData.getValueLocText(optionData.value))
 
-        rowData += "td { overflow:t='hidden'; cellType:t='left'; width:t='" + wLeft + "'; " + optionTitleStyle + " { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
-        rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemTxt + " }"
+        local optionTitleStyle = isHeader ? "optionBlockHeader" : "optiontext"
+        cell.append({ params = {
+          cellType = "left"
+          width = wLeft
+          autoScrollText = "yes"
+          rawParam = "".concat(optionTitleStyle, " { id:t = 'lbl_", optionData.id,
+            "'; text:t ='", tdText, "'; }")
+        }})
       }
 
-      data = "tr { " + (isHeader ? "inactive:t='yes' " : "") +
-        "css-hier-invalidate:t='all'; width:t='pw'; id:t = '" + optionData.getTrId() + "'; " + rowData + " }" + data
+      cell.append({ params = {
+        cellType = "right"
+        width = wRight
+        rawParam = $"padding-left:t='@optPad'; {elemTxt}"
+      }})
+
+      local rowParams = []
+      if (isHeader)
+        rowParams.append("inactive:t='yes'")
+      if ("enabled" in optionData)
+        rowParams.append($"enable:t='{optionData.enabled ? "yes" : "no"}';")
+      if (!::u.isEmpty(optionData.hint))
+        rowParams.append($"tooltip:t='{::g_string.stripTags(optionData.hint)}';")
+      if (optionData.controlName == "listbox")
+      {
+        if ("trListParams" in optionData)
+          rowParams.append(optionData.trListParams)
+      } else if ("trParams" in optionData)
+        rowParams.append(optionData.trParams)
+
+      rowsView.insert(0, {
+        row_id = optionData.getTrId()
+        trParams = "\n".join(rowParams)
+        cell = cell
+      })
 
       if (iRow == 0)
         selectedRow = iRow
@@ -5232,28 +5307,17 @@ local isWaitMeasureEvent = false
     resDescr.data.insert(0, optionData)
   }
 
-  local onTblClick = ::getTblValue("onTblClick", context)
-  if (fullTable)
-    data = format("flow:t='vertical' table {" +
-                    "id:t='%s'; " +
-                    "width:t='pw'; pos:t='(pw-w)/2, %s'; position:t = '%s'; " +
-                    "class:t = 'optionsTable'; " +
-                    "baseRow:t = 'yes'; " +
-                    "behavior:t = 'PosOptionsNavigator'; value:t='%d'; " +
-                    "%s" +
-                    "\n%s\n" +
-                  "}",
-                  name,
-                  is_centered? "(ph-h)/2":"0", absolutePos? "absolute":"relative",
-                  selectedRow,
-                  onTblClick ? "on_click:t=" + onTblClick : "",
-                  data
-                 )
-
-  local res = {}
-  res.tbl <- data
-  res.descr <- resDescr
-  return res
+  return {
+    tbl = ::handyman.renderCached("gui/options/optionsContainer", {
+      id = name
+      topPos = is_centered ? "(ph-h)/2" : "0"
+      position = absolutePos ? "absolute" : "relative"
+      value = selectedRow
+      onClick = context?.onTblClick
+      row = rowsView
+    })
+    descr = resDescr
+  }
 }
 
 ::units_img_preset <- null

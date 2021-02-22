@@ -11,6 +11,10 @@
   enable:t='no'
   <</isHidden>>
 
+  <<#tooltip>>
+  tooltip:t='<<tooltip>>'
+  <</tooltip>>
+
   <<#isSelected>>
   selected:t='yes'
   <</isSelected>>
@@ -19,6 +23,14 @@
   collapsed:t='no'
   collapsing:t='no'
   collapse_header:t='yes'
+  <</isCollapsable>>
+
+  <<^isCollapsable>>
+  <<#isHeader>>
+  collapsed:t='no'
+  collapsing:t='no'
+  collapse_header:t='no'
+  <</isHeader>>
   <</isCollapsable>>
 
   <<#itemClass>>

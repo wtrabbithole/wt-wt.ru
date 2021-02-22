@@ -1,6 +1,7 @@
 local { checkTutorialsList, reqTutorial, tutorialRewardData, clearTutorialRewardData
 } = require("scripts/tutorials/tutorialsData.nut")
 local { getMissionRewardsMarkup } = require("scripts/missions/missionsUtilsModule.nut")
+local { canStartPreviewScene, getDecoratorDataToUse, useDecorator } = require("scripts/customization/contentPreview.nut")
 
 local TutorialRewardHandler = class extends ::gui_handlers.BaseGuiHandlerWT {
   wndType = handlerType.MODAL
@@ -9,6 +10,9 @@ local TutorialRewardHandler = class extends ::gui_handlers.BaseGuiHandlerWT {
   misName = ""
   rewardMarkup = ""
   afterRewardText = ""
+  decorator = null
+  decoratorUnit = null
+  decoratorSlot = null
 
   function initScreen() {
     scene.findObject("award_name").setValue(::loc("mainmenu/btnTutorial"))
@@ -23,6 +27,16 @@ local TutorialRewardHandler = class extends ::gui_handlers.BaseGuiHandlerWT {
       local rewardsObj = scene.findObject("reward_markup")
       guiScene.replaceContentFromText(rewardsObj, rewardMarkup, rewardMarkup.len(), this)
       rewardsObj.show(true)
+    }
+
+    updateDecoratorButton()
+    if (decorator != null) { //Not show new unlock window
+      local decoratorId = decorator.id
+      ::getUserLogsList({
+        show = [::EULT_NEW_UNLOCK]
+        disableVisible = true
+        checkFunc = @(userlog) decoratorId == (userlog?.body.unlockId ?? "")
+      })
     }
 
     foreach(t in checkTutorialsList)
@@ -46,6 +60,31 @@ local TutorialRewardHandler = class extends ::gui_handlers.BaseGuiHandlerWT {
 
   function onOk() {
     goBack()
+  }
+
+  onUseDecorator = @() useDecorator(decorator, decoratorUnit, decoratorSlot)
+
+  function updateDecoratorButton() {
+    local canUseDecorator = decorator != null && canStartPreviewScene(false)
+    local obj = showSceneBtn("btn_use_decorator", canUseDecorator)
+    if (!canUseDecorator)
+      return
+
+    local resourceType = decorator.decoratorType.resourceType
+    local decorData = getDecoratorDataToUse(decorator.id, resourceType)
+    canUseDecorator = decorData.decorator != null
+    obj?.show(canUseDecorator)
+    if (!canUseDecorator)
+      return
+
+    decoratorUnit = decorData.decoratorUnit
+    decoratorSlot = decorData.decoratorSlot
+    if (obj?.isValid ?? false)
+      obj.setValue(::loc($"decorator/use/{resourceType}"))
+  }
+
+  function onEventHangarModelLoaded(params = {}) {
+    updateDecoratorButton()
   }
 }
 
@@ -75,12 +114,17 @@ local function tryOpenTutorialRewardHandler() {
   if (tutorialRewardData.value.presetFilename != "")
     ::apply_joy_preset_xchange(tutorialRewardData.value.presetFilename)
 
+  local decorator = ::g_decorator.getDecoratorByResource(
+    tutorialRewardData.value.resource,
+    tutorialRewardData.value.resourceType)
+  local hasDecoratorUnlocked = !tutorialRewardData.value.isResourceUnlocked && (decorator?.isUnlocked() ?? false)
+
   local newCountries = null
-  if (progress!=tutorialRewardData.value.progress)
+  if (progress!=tutorialRewardData.value.progress || hasDecoratorUnlocked)
   {
     local misName = tutorialRewardData.value.missionName
 
-    if (tutorialRewardData.value.progress>=3 && progress>=0 && progress<3)
+    if ((tutorialRewardData.value.progress>=3 && progress>=0 && progress<3) || hasDecoratorUnlocked)
     {
       local rBlk = ::get_pve_awards_blk()
       local dataBlk = rBlk?[::get_game_mode_name(::GM_TRAINING)]
@@ -108,6 +152,7 @@ local function tryOpenTutorialRewardHandler() {
       ::gui_start_modal_wnd(::gui_handlers.TutorialRewardHandler,
       {
         misName = misName
+        decorator = decorator
         rewardMarkup = getMissionRewardsMarkup(dataBlk ?? ::DataBlock(), misName, rewardsConfig)
         afterRewardText = ::loc(miscText)
       })

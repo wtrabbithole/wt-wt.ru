@@ -7,7 +7,7 @@
   "sampleRate": 44100,
   "memoryPc": 210,
   "memoryPS4": 175,
-  "memoryPCLowMode": 140,
+  "memoryPCLowMode": 210,
   "memoryPCHighMode": 210,
   "cockpitVolumeMultMinValue": 0.1,
   "soundSpeed": 400.0,
@@ -18,6 +18,7 @@
   "banksExtension": ".bank",
   "defGame": "master",
   "waitForMenuMusic": true,
+  "useOneshotForAirGunSound": true,
   "minShotStep": 0.08,
   "maxAltFallBullets": 20.0,
   "maxSpeedFallBullets": 50.0,
@@ -35,9 +36,9 @@
   "dialogsVolumeDownSpeed": 0.4,
   "dialogsVolumeUpSpeed": 0.1,
   "dialogFilePrefix": "dialogs_wopl_",
-  "hangar_sound": "new_hangar/hangar_outside_xmas",
-  "hangar_sound_tanks": "new_hangar/hangar_tanks_xmas",
-  "hangar_sound_ships": "new_hangar/hangar_ships_xmas",
+  "hangar_sound": "new_hangar/hangar_outside",
+  "hangar_sound_tanks": "new_hangar/hangar_tanks",
+  "hangar_sound_ships": "new_hangar/hangar_ships",
   "hangar_sound_globe": "hangar_worldwar",
   "moveListenerPosInCutscenesByFovK": 15.0,
   "timeToDownVolIfHasExting": 20.0,
@@ -338,10 +339,10 @@
       "name": "musicmenu"
     },
     "radio": {
-      "name": "radio"
+      "name": "dialogs/crew_common"
     },
     "dialogs": {
-      "name": "dialogs"
+      "name": "dialogs/dialogs"
     },
     "voice_out": [],
     "voice_in": [],
@@ -610,7 +611,8 @@
     "eventWaveHitBoat": "collision_wave_boat",
     "eventWaveHitShip": "collision_wave_ship",
     "shipSizeThreshold": 20.0,
-    "eventNuclearStrike": "explosions_far"
+    "eventNuclearStrike": "explosions_far",
+    "shockImpulseThreshold": 1.0
   },
   "explosions": {
     "path": "aircraft/explosions",
@@ -5672,6 +5674,55 @@
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
       "offsetPos": [1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "ground/engines/brdm",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [1.0,1.0,0.0]
+    },
+    "ai": {
+      "effects": {
+        "path": "ground/engines/ai/brdm",
+        "eventStart": "engine_start",
+        "eventStop": "engine_stop"
+      },
+      "outside": {
+        "path": "ground/engines/ai/brdm",
+        "eventBack": "engine",
+        "rpmSmooth": 0.02,
+        "loadScale": 6.0,
+        "loadSmooth": 0.05,
+        "distSmooth": 0.9,
+        "distScaleOnNotHero": 1.0
+      }
+    }
+  },
+  "engine_brdm_rear": {
+    "effects": {
+      "path": "ground/engines/brdm",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ground/engines/brdm",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.5,1.0,0.0]
     },
     "cockpit": {
       "path": "ground/engines/brdm",

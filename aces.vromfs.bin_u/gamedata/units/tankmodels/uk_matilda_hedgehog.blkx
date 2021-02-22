@@ -263,6 +263,13 @@
           "armorThickness": 20.0
         }
       },
+      "ex_armor": {
+        "armorClass": "tank_structural_steel",
+        "hp": 200.0,
+        "armorThickness": 4.0,
+        "turret_03_front_dm": [],
+        "turret_03_side_dm": []
+      },
       "optics": {
         "armorClass": "optics_tank",
         "optic_gun_dm": {
@@ -333,8 +340,8 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 150.0,
-        "armorThickness": 15.0,
+        "hp": 120.0,
+        "armorThickness": 20.0,
         "gun_barrel_dm": [],
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
@@ -365,7 +372,9 @@
       "tracks": {
         "armorClass": "tank_traks",
         "armorThickness": 20.0,
-        "hp": 300.0,
+        "armorEffectiveThicknessMax": 20.0,
+        "hp": 100.0,
+        "genericEffectiveThicknessMax": 20.0,
         "track_r_dm": [],
         "track_l_dm": [],
         "track_r_01_dm": [],
@@ -375,33 +384,21 @@
         "armorClass": "steel_tankman",
         "hp": 40.0,
         "genericDamageMult": 3.0,
-        "driver_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_dm": {
-          "genericDamageMult": 3.0
-        },
-        "commander_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_dm": {
-          "genericDamageMult": 3.0
-        }
+        "pressureDamageMult": 1.0,
+        "driver_dm": [],
+        "loader_dm": [],
+        "loader_01_dm": [],
+        "loader_02_dm": [],
+        "gunner_dm": [],
+        "gunner_01_dm": [],
+        "gunner_02_dm": [],
+        "gunner_03_dm": [],
+        "commander_dm": [],
+        "machine_gunner_dm": [],
+        "machine_gunner_01_dm": [],
+        "machine_gunner_02_dm": [],
+        "machine_gunner_03_dm": [],
+        "machine_gunner_04_dm": []
       },
       "equipment_body_turret": {
         "armorClass": "tank_structural_steel",
@@ -678,6 +675,7 @@
         "fireProtectionHp": 10.0,
         "createSecondaryShatters": false,
         "fireParamsPreset": "fuel_internal",
+        "stopChanceOnDeadPart": 0.0,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1737,7 +1735,7 @@
   },
   {
     "gunConvergence": {
-      "distance": 800.0,
+      "defaultDistance": 800.0,
       "vertical": true,
       "horizontal": true
     }
@@ -2813,31 +2811,64 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "primaryShells": {
-        "ammo_turret_04_dm": {
-          "count": 7
-        },
-        "ammo_turret_03_dm": {
-          "count": 8
-        },
-        "ammo_turret_01_dm": {
-          "count": 15
-        },
-        "ammo_turret_02_dm": {
-          "count": 11
-        },
-        "ammo_body_04_dm": {
-          "count": 12
-        },
-        "ammo_body_01_dm": {
-          "count": 12
-        },
-        "ammo_body_03_dm": {
-          "count": 14
-        },
-        "ammo_body_02_dm": {
-          "count": 14
+    "ammoStowages": {
+      "ammo1": {
+        "removeLoadedAmmo": false,
+        "weaponTrigger": "gunner0",
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "ammo_turret_04_dm": {
+            "count": 7
+          },
+          "ammo_turret_03_dm": {
+            "count": 8
+          },
+          "ammo_turret_01_dm": {
+            "count": 15
+          },
+          "ammo_turret_02_dm": {
+            "count": 11
+          },
+          "ammo_body_04_dm": {
+            "count": 12
+          },
+          "ammo_body_01_dm": {
+            "count": 12
+          },
+          "ammo_body_03_dm": {
+            "count": 14
+          },
+          "ammo_body_02_dm": {
+            "count": 14
+          }
+        }
+      },
+      "ammo2": {
+        "removeLoadedAmmo": false,
+        "weaponTrigger": "gunner1",
+        "shells": {
+          "ammo_body_05_dm": {
+            "count": 1
+          },
+          "ammo_body_06_dm": {
+            "count": 1
+          },
+          "ammo_body_07_dm": {
+            "count": 1
+          },
+          "ammo_body_08_dm": {
+            "count": 1
+          },
+          "ammo_body_09_dm": {
+            "count": 1
+          },
+          "ammo_body_10_dm": {
+            "count": 1
+          },
+          "ammo_body_11_dm": {
+            "count": 1
+          }
         }
       }
     }

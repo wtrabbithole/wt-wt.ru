@@ -6,8 +6,6 @@ local { updateContacts } = require("scripts/contacts/contactsManager.nut")
 local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
 local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 local { openUrl } = require("scripts/onlineShop/url.nut")
-local { updateWeaponTooltip } = require("scripts/weaponry/weaponryVisual.nut")
-local { getModificationByName } = require("scripts/weaponry/modificationInfo.nut")
 local { get_time_msec } = require("dagor.time")
 
 local stickedDropDown = null
@@ -163,7 +161,7 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
     local isFoundSelected = false
     foreach(diff in ::g_difficulty.types)
     {
-      if (!diff.isAvailable() || (filterFunc && !filterFunc(diff.crewSkillName)))
+      if (!diff.isAvailable() || (filterFunc && !filterFunc(diff)))
         continue
 
       local isSelected = selectedDiffCode == diff.diffCode
@@ -171,6 +169,7 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
       tabsView.append({
         tabName = diff.getLocName(),
         selected = isSelected,
+        holderDiffCode = diff.diffCode.tostring()
       })
     }
     if (!isFoundSelected && tabsView.len())
@@ -546,17 +545,9 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
       || (!ignoreSelect && (parentObj?.chosen ?? parentObj?.selected) != "yes"))
       return
 
-    if (::show_console_buttons)
-    {
-      local currentMenuUnitObj = unitContextMenuState.value?.unitObj
-      if (currentMenuUnitObj != null && unitObj.isEqual(currentMenuUnitObj))
-        return unitContextMenuState(null)
-    }
-
     if (unitContextMenuState.value?.unitObj.isValid()
-        && unitContextMenuState.value.unitObj.isEqual(unitObj)) {
-      unitContextMenuState(null)
-    }
+      && unitContextMenuState.value.unitObj.isEqual(unitObj))
+      return unitContextMenuState(null)
 
     unitContextMenuState({
       unitObj = unitObj
@@ -649,26 +640,6 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
   function onGenericTooltipOpen(obj)
   {
     ::g_tooltip.open(obj, this)
-  }
-
-  function onModificationTooltipOpen(obj)
-  {
-    local modName = ::getObjIdByPrefix(obj, "tooltip_")
-    local unitName = obj?.unitName
-    if (!modName || !unitName)
-    {
-      obj["class"] = "empty"
-      return
-    }
-
-    local unit = ::getAircraftByName(unitName)
-    if (!unit)
-      return
-
-    local mod = getModificationByName(unit, modName)
-      || { name = modName, isDefaultForGroup = (obj?.groupIdx ?? 0).tointeger() }
-    mod.type <- weaponsItem.modification
-    updateWeaponTooltip(obj, unit, mod, this)
   }
 
   function onTooltipObjClose(obj)

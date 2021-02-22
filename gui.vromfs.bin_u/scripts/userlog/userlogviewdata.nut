@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getWeaponNameText } = require("scripts/weaponry/weaponryDescription.nut")
 local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
 local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = require("scripts/onlineShop/entitlements.nut")
 local { isCrossPlayEnabled,
@@ -10,6 +10,8 @@ local activityFeedPostFunc = require("scripts/social/activityFeed/activityFeedPo
 local imgFormat = "img {size:t='%s'; background-image:t='%s'; margin-right:t='0.01@scrn_tgt;'} "
 local textareaFormat = "textareaNoTab {id:t='description'; width:t='pw'; text:t='%s'} "
 local descriptionBlkMultipleFormat = "tdiv { flow:t='h-flow'; width:t='pw'; {0} }"
+local { boosterEffectType } = require("scripts/items/boosterEffect.nut")
+local { getActiveBoostersDescription } = require("scripts/items/itemVisual.nut")
 
 local clanActionNames = {
   [ULC_CREATE]                  = "create",
@@ -325,7 +327,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
         activeBoosters = [ activeBoosters ]
 
       if (activeBoosters.len() > 0)
-        foreach(effectType in ::BoosterEffectType)
+        foreach(effectType in boosterEffectType)
         {
           local boostersArray = []
           foreach(idx, block in activeBoosters)
@@ -336,7 +338,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
           }
 
           if (boostersArray.len())
-            usedItems.append(::ItemsManager.getActiveBoostersDescription(boostersArray, effectType))
+            usedItems.append(getActiveBoostersDescription(boostersArray, effectType))
         }
 
       if (usedItems.len())
@@ -666,11 +668,12 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
     res.logImg = config.image
     if ("country" in log && ::checkCountry(log.country, "EULT_NEW_UNLOCK"))
       res.logImg2 = ::get_country_icon(log.country)
-    else if (config?.image2 != null)
+    else if ((config?.image2 ?? "") != "")
       res.logImg2 = config?.image2
 
+    local unlock = ::g_unlocks.getUnlockById(log?.unlockId ?? log?.id ?? "")
     local desc = ""
-    if ("desc" in config)
+    if (!(unlock?.isMultiUnlock ?? false) && "desc" in config)
     {
       desc = config.desc
       res.tooltip = config.desc
@@ -769,13 +772,13 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
     }
     else if (log.type==::EULT_BUYING_UNLOCK)
     {
-      config = build_log_unlock_data(log)
-      resourceType = ::get_name_by_unlock_type(config.type)
+      config = ::build_log_unlock_data(log)
+      resourceType = log?.isAerobaticSmoke ? "smoke" : ::get_name_by_unlock_type(config.type)
     }
 
     res.name = format(::loc("userlog/"+logName+"/"+resourceType), config.name) + priceText
 
-    local desc = ""
+    local desc = config?.desc ?? ""
     if (decoratorType)
       desc = decoratorType.getLocDesc(config.id)
 
@@ -1385,6 +1388,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
       taskName = ::g_battle_tasks.generateStringForUserlog(log, log.id)
     }
 
+    res.buttonName = ::loc("mainmenu/battleTasks/OtherTasksCount")
     res.name = ::loc(locNameId, {taskName = taskName})
   }
   else if (log.type == ::EULT_PUNLOCK_REROLL_PROPOSAL && "new_proposals" in log)
@@ -1618,19 +1622,14 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
     res.description <- ::g_string.implode(descLines, "\n")
   }
 
-  if (::getTblValue("description", res, "") != "")
+  if ((res?.description ?? "") != "")
   {
-    local textDescriptionBlk = ::format("textareaNoTab {" +
-      "id:t='description';" +
-      "width:t='pw';" +
-      "text:t='%s';" +
-    "}",
-    ::g_string.stripTags(res.description))
-
     if (!("descriptionBlk" in res))
       res.descriptionBlk <- ""
 
-    res.descriptionBlk = textDescriptionBlk + res.descriptionBlk
+    res.descriptionBlk = "".concat(res.descriptionBlk,
+      "textareaNoTab { id:t='description'; width:t='pw'; text:t='",
+      ::g_string.stripTags(res.description),"';}")
   }
 
   //------------- when userlog not found or not full filled -------------//

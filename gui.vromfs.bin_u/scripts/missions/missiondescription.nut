@@ -11,7 +11,7 @@
   applyDescConfig(config) - direct used atm, but better to exchange them on events
 */
 
-local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getWeaponNameText } = require("scripts/weaponry/weaponryDescription.nut")
 local { checkJoystickThustmasterHotas } = require("scripts/controls/hotas.nut")
 local { getMissionRewardsMarkup } = require("scripts/missions/missionsUtilsModule.nut")
 local { getTutorialFirstCompletRewardData } = require("scripts/tutorials/tutorialsData.nut")
@@ -291,8 +291,10 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
             isAdditionalReward = true
           })
         else {
-          local firstCompletRewardData = getTutorialFirstCompletRewardData(dataBlk?[mission.id],
-            { showFullReward = true })
+          local firstCompletRewardData = getTutorialFirstCompletRewardData(dataBlk?[mission.id], {
+            showFullReward = true
+            isMissionComplete = ::DIFFICULTY_ARCADE <= status
+          })
           if (firstCompletRewardData.hasReward)
             rewardsConfig.append(firstCompletRewardData)
         }

@@ -31,7 +31,7 @@ local function sendBqRecord(metric, itemId, result = null) {
 
   if (result != null)
   {
-    sendStat["isPlusAuthorized"] <- result?.isPlusAuthorized ?? null
+    sendStat["isPlusAuthorized"] <- result?.isPlusAuthorized
     sendStat["action"] <- result?.action ?? BQ_DEFAULT_ACTION_ERROR
   }
 
@@ -91,7 +91,13 @@ local Ps4ShopPurchasableItem = class
     local imagesArray = blk?.images != null ? (blk.images % "array") : []
     local imageIndex = imagesArray.findindex(@(t) t.type == IMAGE_TYPE_INDEX)
     if (imageIndex != null && imagesArray[imageIndex]?.url)
-      imagePath = "{0}?P1".subst(imagesArray[imageIndex].url)
+      imagePath = $"{imagesArray[imageIndex].url}?P1"
+    else {
+      local psnShopBlk = ::configs.GUI.get()?.ps4_ingame_shop
+      local ingameShopImages = psnShopBlk?.items
+      if (ingameShopImages?[id] != null && psnShopBlk?.mainPart != null && psnShopBlk?.fileExtension != null)
+        imagePath = $"!{psnShopBlk.mainPart}{id}{psnShopBlk.fileExtension}"
+    }
 
     updateSkuInfo(blk)
   }

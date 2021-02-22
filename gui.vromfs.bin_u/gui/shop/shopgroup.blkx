@@ -53,8 +53,11 @@
         "on_click": "onUnitClick",
         "on_r_click": "onUnitRightClick",
         "on_select": "onUnitSelect",
-        "on_activate": "onAircraftClick",
-        "on_dbl_click": "onUnitDblClick"
+        "on_activate": "onUnitActivate",
+        "on_dbl_click": "onUnitDblClick",
+        "on_pushed": "::gcb.delayedTooltipListPush",
+        "on_hold_start": "::gcb.delayedTooltipListHoldStart",
+        "on_hold_stop": "::gcb.delayedTooltipListHoldStop"
       }
     }
   },

@@ -1,7 +1,6 @@
-local { getDefaultBulletName } = require("scripts/weaponry/weaponryVisual.nut")
-local { isFakeBullet,
-        getBulletsSetData,
-        getBulletsIconView } = require("scripts/weaponry/bulletsInfo.nut")
+local { getDefaultBulletName } = require("scripts/weaponry/weaponryDescription.nut")
+local { isFakeBullet, getBulletsSetData, getBulletsIconView } = require("scripts/weaponry/bulletsInfo.nut")
+local { MODIFICATION } = require("scripts/weaponry/weaponryTooltips.nut")
 
 const LONG_ACTIONBAR_TEXT_LEN = 6;
 
@@ -24,6 +23,8 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
 
   __action_id_prefix = "action_bar_item_"
 
+  isFootballMission = false
+
   constructor(_nestObj) {
     if (!::checkObj(_nestObj))
       return
@@ -33,6 +34,8 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
     weaponActions = []
 
     canControl = !::isPlayerDedicatedSpectator() && !::is_replay_playing()
+
+    isFootballMission = (::get_game_type() & ::GT_FOOTBALL) != 0
 
     updateVisibility()
 
@@ -119,6 +122,12 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
     if (needShortcuts && actionBarType.getShortcut(item, unit))
     {
       shortcutId = actionBarType.getVisualShortcut(item, unit)
+
+      if (isFootballMission)
+        shortcutId = item?.modificationName == "152mm_football" ? "ID_FIRE_GM"
+          : item?.modificationName == "152mm_football_jump" ? "ID_FIRE_GM_MACHINE_GUN"
+          : shortcutId
+
       local shType = ::g_shortcut_type.getShortcutTypeByShortcutId(shortcutId)
       local scInput = shType.getFirstInput(shortcutId)
       shortcutText = scInput.getText()
@@ -153,7 +162,7 @@ local sectorAngle1PID = ::dagui_propid.add_name_id("sector-angle-1")
           return getBulletsIconView(data)
         }
       )
-      viewItem.tooltipId <- ::g_tooltip.getIdModification(unit.name, modifName, { isInHudActionBar = true })
+      viewItem.tooltipId <- MODIFICATION.getTooltipId(unit.name, modifName, { isInHudActionBar = true })
       viewItem.tooltipDelayed <- !canControl
     }
     else if (item.type == ::EII_ARTILLERY_TARGET)

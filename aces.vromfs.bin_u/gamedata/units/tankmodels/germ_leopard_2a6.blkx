@@ -670,8 +670,8 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 250.0,
-        "armorThickness": 25.0,
+        "hp": 200.0,
+        "armorThickness": 35.0,
         "gun_barrel_dm": [],
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
@@ -717,7 +717,9 @@
       "tracks": {
         "armorClass": "tank_traks",
         "armorThickness": 20.0,
-        "hp": 300.0,
+        "armorEffectiveThicknessMax": 20.0,
+        "hp": 100.0,
+        "genericEffectiveThicknessMax": 20.0,
         "track_r_dm": [],
         "track_l_dm": [],
         "track_r_01_dm": [],
@@ -727,39 +729,21 @@
         "armorClass": "steel_tankman",
         "hp": 40.0,
         "genericDamageMult": 3.0,
-        "driver_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "commander_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_02_dm": {
-          "genericDamageMult": 3.0
-        }
+        "pressureDamageMult": 1.0,
+        "driver_dm": [],
+        "loader_dm": [],
+        "loader_01_dm": [],
+        "loader_02_dm": [],
+        "gunner_dm": [],
+        "gunner_01_dm": [],
+        "gunner_02_dm": [],
+        "gunner_03_dm": [],
+        "commander_dm": [],
+        "machine_gunner_dm": [],
+        "machine_gunner_01_dm": [],
+        "machine_gunner_02_dm": [],
+        "machine_gunner_03_dm": [],
+        "machine_gunner_04_dm": []
       },
       "equipment_body_turret": {
         "armorClass": "tank_structural_steel",
@@ -1024,6 +1008,7 @@
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
         "createSecondaryShatters": false,
+        "stopChanceOnDeadPart": 0.0,
         "fireParamsPreset": "fuel_internal",
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
@@ -1049,6 +1034,7 @@
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "fuel_exterior",
+        "stopChanceOnDeadPart": 0.0,
         "fuel_tank_exterior_r_01_dm": [],
         "fuel_tank_exterior_r_02_dm": [],
         "fuel_tank_exterior_r_03_dm": [],
@@ -2377,7 +2363,7 @@
     "gunConvergence": {
       "updateFromRangefinder": true,
       "minDistance": 200.0,
-      "distance": 1000.0,
+      "defaultDistance": 1000.0,
       "vertical": true,
       "horizontal": true
     }
@@ -2413,7 +2399,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/120mm_Rheinmetall_L55_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
-          "shotFreq": 0.1667,
+          "shotFreq": 0.15,
           "recoilOffset": 0.37,
           "recoilTimes": [0.05,0.4],
           "defaultYaw": 0.0,
@@ -3332,7 +3318,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/120mm_Rheinmetall_L55_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
-                "shotFreq": 0.1667,
+                "shotFreq": 0.15,
                 "recoilOffset": 0.37,
                 "recoilTimes": [0.05,0.4],
                 "defaultYaw": 0.0,

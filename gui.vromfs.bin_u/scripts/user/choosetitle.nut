@@ -2,6 +2,7 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local seenTitles = require("scripts/seen/seenList.nut").get(SEEN.TITLES)
 local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
 local stdMath = require("std/math.nut")
+local { UNLOCK } = require("scripts/utils/genericTooltipTypes.nut")
 
 class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -36,7 +37,7 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
         name = name
         text = locText
         lowerText = ::g_string.utf8ToLower(locText)
-        tooltipId = ::g_tooltip_type.UNLOCK.getTooltipId(name)
+        tooltipId = UNLOCK.getTooltipId(name)
         isSelected = name == curTitle
         unseenIcon = hasUnseen && bhvUnseen.makeConfigStr(SEEN.TITLES, name)
       }
@@ -49,8 +50,8 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
     local titleHeight = ::to_pixels("1@buttonHeight")
     local gRatioColumns = stdMath.calc_golden_ratio_columns(titlesData.len(),
       titleWidth / (titleHeight || 1))
-    local maxColumns = (::to_pixels("1@rw - 1@scrollBarSize") / titleWidth ).tointeger()
-    local columns = ::clamp(gRatioColumns, 3, maxColumns)
+    local maxColumns = (::to_pixels("1@rw - 1@scrollBarSize") / titleWidth ).tointeger() || 1
+    local columns = ::clamp(gRatioColumns, ::min(3, maxColumns), maxColumns)
 
     //sort alphabetically, and by columns
     titlesData.sort(@(a, b) a.lowerText <=> b.lowerText)

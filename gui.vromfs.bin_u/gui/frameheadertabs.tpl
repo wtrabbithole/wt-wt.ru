@@ -15,6 +15,10 @@ shopFilter {
     selected:t='yes'
   <</selected>>
 
+  <<#holderDiffCode>>
+    holderDiffCode:t='<<holderDiffCode>>'
+  <</holderDiffCode>>
+
   <<#isWorldWarMode>>
     isWorldWarMode:t='yes'
   <</isWorldWarMode>>
@@ -22,7 +26,10 @@ shopFilter {
   tooltip:t='<<tooltip>>'
 
   <<#tabImage>>
-  shopFilterImg { background-image:t='<<tabImage>>' }
+  shopFilterImg {
+    background-image:t='<<tabImage>>'
+    <<@tabImageParam>>
+  }
   <</tabImage>>
 
   <<#unseenIcon>>

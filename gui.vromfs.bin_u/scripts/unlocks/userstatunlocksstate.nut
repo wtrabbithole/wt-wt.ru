@@ -26,7 +26,6 @@ local unlockTables = ::Computed(function() {
 })
 
 local function calcUnlockProgress(progressData, unlockDesc) {
-  unlockDesc = unlockDesc ?? {}
   local res = clone emptyProgress
   local stage = progressData?.stage ?? 0
   res.stage = stage
@@ -36,7 +35,6 @@ local function calcUnlockProgress(progressData, unlockDesc) {
   if (progressData?.progress != null) {
     res.current = progressData.progress
     res.required = progressData.nextStage
-    unlockDesc.__update(res)
     return res
   }
 
@@ -48,7 +46,6 @@ local function calcUnlockProgress(progressData, unlockDesc) {
     res.isFinished = isLastStageCompleted && !res.hasReward
     res.current = res.required
   }
-  unlockDesc.__update(res)
   return res
 }
 
@@ -82,10 +79,38 @@ local unlockProgress = ::Computed(function() {
 
 local servUnlockProgress = ::Computed(@() userstatUnlocks.value?.unlocks ?? {})
 
+local function clampStage(unlockDesc, stage) {
+  local lastStage = unlockDesc?.stages.len() ?? 0
+  if (lastStage <= 0 || !(unlockDesc?.periodic ?? false) || stage < lastStage)
+    return stage
+
+  local loopStage = (unlockDesc?.startStageLoop ?? 1) - 1
+  if (loopStage >= lastStage)
+    loopStage = 0
+  return loopStage + (stage - loopStage) % (lastStage - loopStage)
+}
+
+local getStageByIndex = @(unlockDesc, stage) unlockDesc?.stages[clampStage(unlockDesc, stage)]
 
 local RECEIVE_REWARD_DEFAULT_OPTIONS = {
   showProgressBox = true
 }
+
+local function sendReceiveRewardRequest(params)
+{
+  local { stage, rewards, unlockName, taskOptions, needShowRewardWnd } = params
+  local receiveRewardsCallback = function(res) {
+    ::dagor.debug($"receiveRewards {unlockName} results: {res}")
+    delete rewardsInProgress[unlockName]
+  }
+  rewardsInProgress[unlockName] <- stage
+  receiveUnlockRewards(unlockName, stage, function(res) {
+    receiveRewardsCallback("success")
+    if (needShowRewardWnd)
+      showRewardWnd(rewards)
+  }, receiveRewardsCallback, taskOptions)
+}
+
 local function receiveRewards(unlockName, taskOptions = RECEIVE_REWARD_DEFAULT_OPTIONS, needShowRewardWnd = true) {
   if (!unlockName || unlockName in rewardsInProgress.value)
     return
@@ -93,19 +118,16 @@ local function receiveRewards(unlockName, taskOptions = RECEIVE_REWARD_DEFAULT_O
   local progressData = servUnlockProgress.value?[unlockName]
   local stage = progressData?.stage ?? 0
   local lastReward = progressData?.lastRewardedStage ?? 0
-  local rewards = activeUnlocks.value?[unlockName].stages[stage - 1].rewards
-  if (lastReward < stage && canGetRewards(rewards)) {
-    local receiveRewardsCallback = function(res) {
-      ::dagor.debug($"receiveRewards {unlockName} results: {res}")
-      delete rewardsInProgress[unlockName]
-    }
-    rewardsInProgress[unlockName] <- stage
-    receiveUnlockRewards(unlockName, stage, function(res) {
-      receiveRewardsCallback("success")
-      if (needShowRewardWnd)
-        showRewardWnd(rewards)
-    }, receiveRewardsCallback, taskOptions)
+  local params = {
+    stage = stage
+    rewards = getStageByIndex(activeUnlocks.value?[unlockName], stage - 1)?.rewards
+    unlockName = unlockName
+    taskOptions = taskOptions
+    needShowRewardWnd = needShowRewardWnd
   }
+  if (lastReward < stage && canGetRewards(sendReceiveRewardRequest,
+      params.__merge({ needShowRewardWnd = false })))
+    sendReceiveRewardRequest(params)
 }
 
 local function getRewards(unlockDesc) {
@@ -138,19 +160,6 @@ local function requestRewardItems(unlocksByRewardValue) {
 
 unlocksByReward.subscribe(requestRewardItems)
 requestRewardItems(unlocksByReward.value)
-
-local function clampStage(unlockDesc, stage) {
-  local lastStage = unlockDesc?.stages.len() ?? 0
-  if (lastStage <= 0 || !(unlockDesc?.periodic ?? false) || stage < lastStage)
-    return stage
-
-  local loopStage = (unlockDesc?.startStageLoop ?? 1) - 1
-  if (loopStage >= lastStage)
-    loopStage = 0
-  return loopStage + (stage - loopStage) % (lastStage - loopStage)
-}
-
-local getStageByIndex = @(unlockDesc, stage) unlockDesc?.stages[clampStage(unlockDesc, stage)]
 
 local function getUnlockReward(userstatUnlock) {
   local rewardMarkUp = { rewardText = "", itemMarkUp = ""}

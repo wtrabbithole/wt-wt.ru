@@ -32,7 +32,8 @@
           "overflow-y": "auto",
           "scrollbarShortcuts": "yes",
           "position": "absolute",
-          "pos": "50%pw-50%w, 50%ph-50%h"
+          "pos": "50%pw-50%w, 50%ph-50%h",
+          "holdTooltipChildren": "yes"
         }
       },
       "navBar": {
@@ -601,7 +602,10 @@
                             "enable": "no",
                             "on_click": "::gcb.openBattlePassShopWnd",
                             "img": {
-                              "background-image": "#ui/gameuiskin#item_type_bp.svg"
+                              "id": "gc_BattlePassProgressImg",
+                              "behaviour": "bhvUpdateByWatched",
+                              "background-image": "#ui/gameuiskin#item_type_bp.svg",
+                              "background-saturate": "1"
                             }
                           }
                         },

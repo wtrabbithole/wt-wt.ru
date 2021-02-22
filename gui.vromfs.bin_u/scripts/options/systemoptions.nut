@@ -73,6 +73,7 @@ local mUiStruct = [
       "msaa"
       "antialiasing"
       "ssaa"
+      "latency"
       "texQuality"
       "shadowQuality"
       "backgroundScale"
@@ -109,6 +110,7 @@ local mUiStruct = [
       "jpegShots"
       "compatibilityMode"
       "enableHdr"
+      "enableVr"
     ]
   }
 ]
@@ -350,6 +352,19 @@ local function getAvailableDlssModes()
   return values;
 }
 
+local function getAvailableLatencyModes()
+{
+  local values = ["off"]
+  if (::is_low_latency_available(1))
+    values.append("on")
+  if (::is_low_latency_available(2))
+    values.append("boost")
+  if (::is_low_latency_available(4))
+    values.append("experimental")
+
+  return values;
+}
+
 local function getListOption(id, desc, cb, needCreateList = true) {
   local raw = desc.values.indexof(mCfgCurrent[id]) ?? -1
   local customItems = ("items" in desc) ? desc.items : null
@@ -467,6 +482,14 @@ mShared = {
   dlssClick = function() {
     foreach (id in [ "antialiasing", "ssaa" ])
       enableGuiOption(id, getOptionDesc(id)?.enabled() ?? true)
+  }
+
+  latencyClick = function() {
+    local latencyMode = getGuiValue("latency", "off")
+    if (latencyMode == "on" || latencyMode == "boost") {
+      setGuiValue("vsync", false)
+    }
+    enableGuiOption("vsync", getOptionDesc("vsync")?.enabled() ?? true)
   }
 
   cloudsQualityClick = function() {
@@ -663,6 +686,7 @@ mSettings = {
     init = function(blk, desc) {
       desc.values <- ::is_gpu_nvidia() ? [ "vsync_off", "vsync_on", "vsync_adaptive" ] : [ "vsync_off", "vsync_on" ]
     }
+    enabled = @() getGuiValue("latency", "off") != "on" && getGuiValue("latency", "off") != "boost"
   }
   graphicsQuality = { widgetType="tabs" def="high" blk="graphicsQuality" restart=false
     values = [ "ultralow", "low", "medium", "high", "max", "movie", "custom" ]
@@ -705,7 +729,7 @@ mSettings = {
     }
   }
   antialiasing = { widgetType="list" def="none" blk="video/postfx_antialiasing" restart=false
-    values = ::is_opengl_driver() ? [ "none", "fxaa", "high_fxaa"] : [ "none", "fxaa", "high_fxaa", "low_taa", "high_taa" ]
+    values = [ "none", "fxaa", "high_fxaa", "low_taa", "high_taa" ]
     enabled = @() !getGuiValue("compatibilityMode") && getGuiValue("dlss", "off") == "off"
   }
   ssaa = { widgetType="list" def="none" blk="graphics/ssaa" restart=false
@@ -720,6 +744,20 @@ mSettings = {
       local res = (val == "4X") ? 4.0 : 1.0
       set_blk_value_by_path(blk, desc.blk, res)
     }
+  }
+  latency = { widgetType="list" def="off" blk="video/latency" restart=false
+    init = function(blk, desc) {
+      desc.values <- getAvailableLatencyModes()
+    }
+    getFromBlk = function(blk, desc) {
+      local quality = get_blk_value_by_path(blk, desc.blk, -1)
+      return (quality == 1) ? "on" : (quality == 2) ? "boost" : (quality == 4) ? "experimental" : "off"
+    }
+    setToBlk = function(blk, desc, val) {
+      local quality = (val == "on") ? 1 : (val == "boost") ? 2 : (val == "experimental") ? 4 : 0
+      set_blk_value_by_path(blk, desc.blk, quality)
+    }
+    onChanged = "latencyClick"
   }
   texQuality = { widgetType="list" def="high" blk="graphics/texquality" restart=true
     init = function(blk, desc) {
@@ -818,7 +856,7 @@ mSettings = {
     values = [ "low", "medium", "high", "ultrahigh" ]
   }
   giQuality = { widgetType="list" def="low" blk="graphics/giQuality" restart=false
-    values = [ "low", "medium", "high" ], isVisible = @() !::is_opengl_driver()
+    values = [ "low", "medium", "high" ], isVisible = @() true
   }
   dirtSubDiv = { widgetType="list" def="high" blk="graphics/dirtSubDiv" restart=false
     values = [ "high", "ultrahigh" ]
@@ -858,6 +896,7 @@ mSettings = {
     onChanged = "compatibilityModeClick"
   }
   enableHdr = { widgetType="checkbox" def=false blk="directx/enableHdr" restart=true enabled=@() ::is_hdr_available() }
+  enableVr = { widgetType="checkbox" def=false blk="video/vrMode" restart=true enabled=@() ::is_platform_windows }
   displacementQuality = { widgetType="slider" def=2 min=0 max=3 blk="graphics/displacementQuality" restart=false
   }
   contactShadowsQuality = { widgetType="slider" def=0 min=0 max=2 blk="graphics/contactShadowsQuality" restart=false

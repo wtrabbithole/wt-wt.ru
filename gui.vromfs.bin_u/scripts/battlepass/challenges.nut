@@ -109,7 +109,7 @@ local function getChallengeView(config, paramsCfg = {}) {
   local { addTitle, titleIcon } = getConditionInTitleConfig(config)
   local headerCond = ::UnlockConditions.getHeaderCondition(unlockConfig.conditions)
 
-  local progressData = unlockConfig?.getProgressBarData() ?? null
+  local progressData = unlockConfig?.getProgressBarData()
   local progressBarValue = unlockConfig?.curVal != null && unlockConfig.curVal >= 0
     ? (unlockConfig.curVal.tofloat() / (unlockConfig?.maxVal ?? 1) * 1000)
     : 0
@@ -134,6 +134,9 @@ local function getChallengeView(config, paramsCfg = {}) {
   }
 }
 
+local hasChallengesReward = ::Computed(@() battlePassChallenges.value
+  .findindex(@(unlock) activeUnlocks.value?[unlock.id].hasReward ?? false) != null)
+
 return {
   updateChallenges
   curSeasonChallenges
@@ -141,4 +144,5 @@ return {
   mainChallengeOfSeasonId
   mainChallengeOfSeason
   curSeasonChallengesByStage
+  hasChallengesReward
 }

@@ -91,12 +91,14 @@
       "foliageReprojection": false,
       "waterQuality": "low",
       "giQuality": "low",
-      "lowResFx": true
+      "lowResFx": true,
+      "riGpuObjects": true
     },
     "sound": {
       "speakerMode": "",
       "fmod_sound_enable": false,
-      "enable_mod": false
+      "enable_mod": false,
+      "useLoopsForGunSound": false
     },
     "video": {
       "resolution": "",
@@ -351,17 +353,18 @@
     "clipmapScaleFor4K": 6,
     "backgroundAptiveSharpen": false,
     "backgroundAptiveSharpenAdaptiveness": 16.0,
-    "backgroundAptiveSharpenQuality": 12.0
+    "backgroundAptiveSharpenQuality": 12.0,
+    "riGpuObjects": true
   },
   "ps4": {
-    "garlic_size_mb": 2450,
-    "neo_garlic_size_mb": 2800,
-    "onion_size_mb": 160,
+    "garlic_size_mb": 2650,
+    "neo_garlic_size_mb": 3150,
+    "onion_size_mb": 150,
     "dcb_size_mb": 8,
     "ccb_size_mb": 8,
     "onion_blocks": 16384,
     "max_genmip_tex_sz": 2052,
-    "mem_reserve_mb": 256,
+    "mem_reserve_mb": 768,
     "emergency_buffer_pages": 20,
     "shader_garlic_size_kb": 2048,
     "dynbuf_heap_garlic_mb": 96,
@@ -569,9 +572,6 @@
       "verboseLogs": false
     },
     {
-      "maxMemQuotaKB": 2838528
-    },
-    {
       "lqIsSplitBQ": false
     },
     {
@@ -677,7 +677,7 @@
     "enabled": true
   },
   "unitedVdata.dynModel": {
-    "use": false,
+    "use": true,
     "canRebuild": false,
     "ps4": {
       "IB": 60000,
@@ -688,15 +688,24 @@
       "VB5": 0
     },
     "common_1GB": {
-      "IB": 20000,
+      "IB": 30000,
       "VB1": 65536,
-      "VB2": 0
+      "VB2": 32000,
+      "VB3": 0
     },
     "common_2GB": {
-      "IB": 40000,
+      "IB": 50000,
       "VB1": 65536,
       "VB2": 65536,
       "VB3": 0
+    },
+    "common_3GB": {
+      "IB": 80000,
+      "VB1": 65536,
+      "VB2": 65536,
+      "VB3": 65536,
+      "VB4": 65536,
+      "VB5": 0
     },
     "common": {
       "IB": 60000,
@@ -716,6 +725,11 @@
     "common_1GB": {
       "IB": 12000,
       "VB1": 48000,
+      "VB2": 0
+    },
+    "common_2GB": {
+      "IB": 16384,
+      "VB1": 65536,
       "VB2": 0
     },
     "common_3GB": {

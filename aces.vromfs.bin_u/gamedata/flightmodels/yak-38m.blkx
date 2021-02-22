@@ -30,10 +30,11 @@
   "damagePartsExcludeFromHoleBlk": "gameData/FlightModels/DM/dm_parts_exclude_from_hole.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "1200kph",
-  "fightAiBehaviour": "fighter",
+  "fightAiBehaviour": "assault",
   "autopilotImpl": "Full",
   "fullAutopilotIndSpeedTransition": [180.0,220.0],
   "fullAutopilotVtolTransition": [0.7,0.3],
+  "canTakeoffWithoutGear": true,
   "DamageParts": {
     "armor10": {
       "cannon1_dm": {
@@ -3383,6 +3384,7 @@
             "counterIndex": 1,
             "dragCx": 0.001,
             "gearLimit": [0.0,0.1],
+            "gearName": "gear_c",
             "external": true
           }
         }

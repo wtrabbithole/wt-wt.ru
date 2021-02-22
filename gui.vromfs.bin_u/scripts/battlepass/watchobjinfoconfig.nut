@@ -1,7 +1,7 @@
-local { seasonLevel, todayLoginExp,
+local { seasonLevel, todayLoginExp, hasBattlePassReward,
   loginStreak, tomorowLoginExp, levelExp
 } = require("scripts/battlePass/seasonState.nut")
-local { mainChallengeOfSeason } = require("scripts/battlePass/challenges.nut")
+local { mainChallengeOfSeason, hasChallengesReward } = require("scripts/battlePass/challenges.nut")
 local { leftSpecialTasksBoughtCount } = require("scripts/warbonds/warbondShopState.nut")
 local { isUserstatMissingData } = require("scripts/userstat/userstat.nut")
 
@@ -63,6 +63,10 @@ local easyDailyTaskProgressWatchObj = {
     obj.status = value ? "done" : "notDone"
     obj.findObject("text").setValue(::loc("battlePass/info/easy_daily_task_progress",
       { status = statusText }))
+    local imgObj = obj.findObject("task_img")
+    if (imgObj?.isValid())
+      imgObj["background-image"] = ::g_battle_tasks.getDifficultyImage(
+        ::g_battle_tasks.currentTasksArray.findvalue(@(v) v._puType == "Easy"))
   }
 }
 
@@ -73,6 +77,10 @@ local mediumDailyTaskProgressWatchObj = {
     obj.status = value ? "done" : "notDone"
     obj.findObject("text").setValue(::loc("battlePass/info/medium_daily_task_progress",
       { status = statusText }))
+    local imgObj = obj.findObject("task_img")
+    if (imgObj?.isValid())
+      imgObj["background-image"] = ::g_battle_tasks.getDifficultyImage(
+        ::g_battle_tasks.currentTasksArray.findvalue(@(v) v._puType == "Medium"))
   }
 }
 
@@ -106,7 +114,21 @@ local leftSpecialTasksBoughtCountWatchObj = {
 
     obj.findObject("text").setValue(::loc("battlePass/info/available_special_tasks",
       { tasksNum = ::colorize("@goodTextColor", value) }))
+    local imgObj = obj.findObject("task_img")
+    if (imgObj?.isValid())
+      imgObj["background-image"] = ::g_battle_tasks.getDifficultyImage(
+        ::g_battle_tasks.currentTasksArray.findvalue(@(v) v._puType == "Hard"))
   }
+}
+
+local hasBattlePassRewardWatchObj = {
+  watch = hasBattlePassReward
+  updateFunc = @(obj, value) obj.show(value)
+}
+
+local hasChallengesRewardWatchObj = {
+  watch = hasChallengesReward
+  updateFunc = @(obj, value) obj.show(value)
 }
 
 return {
@@ -119,4 +141,6 @@ return {
   mediumDailyTaskProgressWatchObj
   seasonTasksProgressWatchObj
   leftSpecialTasksBoughtCountWatchObj
+  hasBattlePassRewardWatchObj
+  hasChallengesRewardWatchObj
 }

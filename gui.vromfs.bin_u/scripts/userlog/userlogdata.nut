@@ -4,7 +4,7 @@ local workshopPreview = require("scripts/items/workshop/workshopPreview.nut")
 local { disableSeenUserlogs } = require("scripts/userLog/userlogUtils.nut")
 local { showEntitlement } = require("scripts/onlineShop/entitlementRewardWnd.nut")
 local { showUnlock } = require("scripts/unlocks/unlockRewardWnd.nut")
-local { isUserstatItemRewards, removeUserstatItemRewardToShow,
+local { getUserstatItemRewardData, removeUserstatItemRewardToShow,
   userstatRewardTitleLocId, userstatItemsListLocId
 } = require("scripts/userstat/userstatItemsRewards.nut")
 
@@ -379,8 +379,9 @@ local logNameByType = {
       local key = blk.body.id + "" + ::getTblValue("parentTrophyRandId", blk.body, "")
       local itemId = blk?.body?.itemDefId || blk?.body?.trophyItemDefId || blk?.body?.id || ""
       local item = ::ItemsManager.findItemById(itemId)
-      local isUserstatRewards = isUserstatItemRewards(item?.id)
-      if ((!item?.shouldAutoConsume || isUserstatRewards) &&
+      local userstatItemRewardData = getUserstatItemRewardData(itemId)
+      local isUserstatRewards = userstatItemRewardData != null
+      if (item != null && (!item?.shouldAutoConsume || isUserstatRewards) &&
         (item?.needShowRewardWnd?() || blk?.body?.id == "@external_inventory_trophy"))
       {
         local trophyRewardTable = buildTableFromBlk(blk.body)
@@ -628,6 +629,7 @@ local logNameByType = {
       time = ::get_user_log_time_sec(i)
       enabled = !blk?.disabled
       roomId = blk?.roomId
+      isAerobaticSmoke = unlock?.isAerobaticSmoke ?? false
     }
 
     for (local j = 0, c = blk.body.paramCount(); j < c; j++)

@@ -8,6 +8,7 @@ local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.n
 local { getStatusTbl, getTimedStatusTbl, updateCellStatus, updateCellTimedStatus, initCell
 } = require("shopUnitCellFill.nut")
 local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
+local { hideWaitIcon } = require("scripts/utils/delayedTooltip.nut")
 
 local lastUnitType = null
 
@@ -126,9 +127,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local blk = ::get_shop_blk()
 
     local totalCountries = blk.blockCount()
-    local selAir = getAircraftByName(selAirName)
-    local selAirCountry = ::getUnitCountry(selAir)
-    local selAirType = ::get_es_unit_type(selAir)
+    local selAir = ::getAircraftByName(selAirName)
     for(local c = 0; c < totalCountries; c++)  //country
     {
       local cblk = blk.getBlock(c)
@@ -170,7 +169,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
             local air = getAircraftByName(airBlk.getBlockName())
             if (air)
             {
-              selected = selected || (::get_es_unit_type(air) == selAirType && ::getUnitCountry(air) == selAirCountry)
+              selected = selected || air.name == selAirName
 
               if (!air.isVisibleInShop())
                 continue
@@ -193,7 +192,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                 if (!("rank" in airData))
                   airData.rank <- air.rank
                 airData.airsGroup.append(air)
-                selected = selected || (::get_es_unit_type(air) == selAirType && ::getUnitCountry(air) == selAirCountry)
+                selected = selected || air.name == selAirName
                 hasSquadronUnits = hasSquadronUnits || air.isSquadronVehicle()
               }
               if (airData.airsGroup.len()==0)
@@ -408,7 +407,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     foreach(idx, unit in curUnitsList) {
       local config = getItemStatusData(unit, curName)
       if (config.checkAir || ((curIdx < 0) && !unit?.isFakeUnit))
-        curIdx = cellsList.len()
+        curIdx = idx
       if (config.broken)
         brokenList.append(unit) //fix me: we can update it together with update units instead of fill all
     }
@@ -708,15 +707,14 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       horSeparators = [],
     }
 
-    local lastFilledRank = treeData.ranksHeight.len() - 1
-    for(local i = lastFilledRank - 1; i >= 0; i--)
+    local tiersTotal = treeData.ranksHeight.len() - 1
+    for(local i = tiersTotal - 1; i >= 0; i--)
     {
-      if (treeData.ranksHeight[i] != treeData.ranksHeight[lastFilledRank])
+      if (treeData.ranksHeight[i] != treeData.ranksHeight[tiersTotal])
         break
-      lastFilledRank = i
+      tiersTotal = i
     }
 
-    local tiersTotal = min(lastFilledRank, treeData.tree.len())
     local sectionsTotal = treeData.sectionsPos.len() - 1
 
     local widthStr = ::is_small_screen
@@ -732,11 +730,15 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     for(local i = 0; i < tiersTotal; i++)
     {
-      local isTop = i == 0 || treeData.ranksHeight[i] == 0
-      local isBottom = i == tiersTotal - 1
       local tierNum = (i+1).tostring()
       local tierUnlocked = ::is_era_available(curCountry, i + 1, getCurPageEsUnitType())
       local fakeRowsCount = treeData.fakeRanksRowsCount[i + 1]
+
+      local pY = treeData.ranksHeight[i] + fakeRowsCount
+      local pH = treeData.ranksHeight[i + 1] - pY
+
+      local isTop = pY == 0
+      local isBottom = i == tiersTotal - 1
 
       for(local s = 0; s < sectionsTotal; s++)
       {
@@ -745,25 +747,28 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         local isResearchable = ::getTblValue(s, treeData.sectionsResearchable)
         local tierType = tierUnlocked || !isResearchable ? "unlocked" : "locked"
 
-        local x = treeData.sectionsPos[s] + "@shop_width" + (isLeft ? "" : extraLeft)
-        local y = (treeData.ranksHeight[i] + fakeRowsCount) + "@shop_height" + (isTop && fakeRowsCount == 0 ? "" : extraTop)
-        local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width"
-          + (isLeft ? extraLeft : "") + (isRight ? extraRight : "")
-        local h = (treeData.ranksHeight[i + 1] - treeData.ranksHeight[i] - fakeRowsCount)
-          + "@shop_height" + ((isTop && fakeRowsCount == 0) ? extraTop : "") + (isBottom ? extraBottom : "")
+        local pX = treeData.sectionsPos[s]
+        local pW = treeData.sectionsPos[s + 1] - pX
 
+        local x = "".concat($"{pX}@shop_width", isLeft ? "" : extraLeft)
+        local y = "".concat($"{pY}@shop_height", isTop ? "" : extraTop)
+        local w = "".concat($"{pW}@shop_width", isLeft ? extraLeft : "", isRight ? extraRight : "")
+        local h = "".concat($"{pH}@shop_height", isTop ? extraTop : "", isBottom ? extraBottom : "")
 
         if (fakeRowsCount > 0)
         {
-          local fakeRowY = treeData.ranksHeight[i] + "@shop_height" + (isTop ? "" : extraTop)
-          local fakeRowH = fakeRowsCount + "@shop_height" + (isTop ? extraTop : "") + (isBottom ? extraBottom : "")
+          local fakePY = treeData.ranksHeight[i]
+          local isFakeTop = fakePY == 0
+          local fakeRowY = "".concat($"{fakePY}@shop_height", isFakeTop ? "" : extraTop)
+          local fakeRowH = "".concat($"{fakeRowsCount}@shop_height", isFakeTop ? extraTop : "", isBottom ? extraBottom : "")
+
           view.plates.append({ tierNum = tierNum, tierType = "unlocked", x = x, y = fakeRowY, w = w, h = fakeRowH })
           if (!isLeft)
-            view.vertSeparators.append({ x = x, y = fakeRowY, h = fakeRowH, isTop = isTop, isBottom = isBottom })
-          if (!isTop)
-            view.horSeparators.append({ x = x, y = fakeRowY, w = w, isLeft = isLeft })
-          isTop = false
+            view.vertSeparators.append({ x = x, y = fakeRowY, h = fakeRowH, isTop = isFakeTop, isBottom = isBottom })
         }
+
+        if (pH == 0)
+          continue
 
         view.plates.append({ tierNum = tierNum, tierType = tierType, x = x, y = y, w = w, h = h })
         if (!isLeft)
@@ -772,6 +777,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
           view.horSeparators.append({ x = x, y = y, w = w, isLeft = isLeft })
       }
     }
+
     local data = ::handyman.renderCached("gui/shop/treeBgPlates", view)
     guiScene.replaceContentFromText(tblBgObj, data, data.len(), this)
   }
@@ -1418,6 +1424,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       scene.findObject("shop_items_list").setValue(idx)
   }
 
+  function onUnitActivate(obj)
+  {
+    hideWaitIcon()
+    onAircraftClick(obj)
+  }
+
   function onAircraftClick(obj, ignoreMenuHover = false)
   {
     selectCell(obj)
@@ -1432,6 +1444,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   }
 
   function onUnitClick(obj) {
+    hideWaitIcon()
     actionsListOpenTime = ::dagor.getCurTime()
     onAircraftClick(obj)
   }

@@ -110,7 +110,8 @@
             "rankUpList": {
               "id": "unit_nest",
               "pos": "0.5pw - 0.5w, 0",
-              "position": "relative"
+              "position": "relative",
+              "holdTooltipChildren": "yes"
             }
           }
         ]
@@ -645,7 +646,10 @@
                             "enable": "no",
                             "on_click": "::gcb.openBattlePassShopWnd",
                             "img": {
-                              "background-image": "#ui/gameuiskin#item_type_bp.svg"
+                              "id": "gc_BattlePassProgressImg",
+                              "behaviour": "bhvUpdateByWatched",
+                              "background-image": "#ui/gameuiskin#item_type_bp.svg",
+                              "background-saturate": "1"
                             }
                           }
                         },

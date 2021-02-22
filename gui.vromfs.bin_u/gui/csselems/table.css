@@ -188,6 +188,10 @@ playerStateIcon[background-image=""] {
   size:pw,@baseTrHeight;
 }
 
+optionsList[baseRow=yes] > tr > td {
+  height:@baseTrHeight;
+}
+
 .fastshortcut > tr {
   re-type:9rect;
   background-image:#ui/gameuiskin#horizontal_fade;
@@ -282,29 +286,6 @@ tr[isLeaderBoardHeader=yes] {
   interactive:yes;
 }
 
-.airInfoPanel > tr > td {
-  width:0.48@airInfoPanelWidth;
-  overflow:hidden;
-}
-
-.airInfoPanel > tr > td[hasIncreasedSize=yes] {
-  width:0.55@airInfoPanelWidth;
-}
-
-.airInfoPanel > tr > td > textarea {
-  auto-scroll:slow;
-}
-
-.airInfoPanel[showStatsProgress=no] > tr > td {
-  padding:0, 0, @blockInterval, 0;
-}
-.airInfoPanel[showStatsProgress=yes] > tr > td {
-  padding:0, @referenceProgressHeight, @blockInterval, @referenceProgressHeight + @referenceProgressOffset;
-}
-.airInfoPanel, .airInfoPanel > tr, .airInfoPanel > tr > td {
-  css-hier-invalidate:yes;
-}
-
 tr[totalRowStyle], tr[totalRowStyle] > td {
   css-hier-invalidate:yes;
 }
@@ -345,14 +326,19 @@ tr[iconType=aircraft] {
 tr[iconType=country] {
   size:pw,8*@scrn_tgt/100.0;
 }
-tr[iconType=listbox] {
-  size:pw, 3@baseTrHeight;
+
+optionsList > tr[iconType=country] > td {
+  height:8*@scrn_tgt/100.0;
 }
+
+tr[iconType=listbox],
 tr[iconType=listbox_country] {
   size:pw, 3@baseTrHeight;
 }
 
-tr[iconType=crosshair] {
+optionsList > tr[iconType=listbox] > td,
+optionsList > tr[iconType=listbox_country] > td {
+  height:3@baseTrHeight;
 }
 
 tr[queueTableIconRow=yes] > td > img {

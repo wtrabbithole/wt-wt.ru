@@ -94,6 +94,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     local data = ::build_aircraft_item(unit.name, unit, params)
     local airObj = scene.findObject("reward_aircrafts")
     guiScene.replaceContentFromText(airObj, data, data.len(), this)
+    airObj.tooltipId = ::g_tooltip.getIdUnit(unit.name)
     ::fill_unit_item_timers(airObj.findObject(unit.name), unit, params)
   }
 
@@ -332,4 +333,6 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     ::g_promo.launchAction(actionData, this, null)
   }
+
+  function onUseDecorator() {}
 }

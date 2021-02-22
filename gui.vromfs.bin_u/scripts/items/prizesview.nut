@@ -6,6 +6,8 @@ local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
 local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 local { getPrizeChanceConfig } = require("scripts/items/prizeChance.nut")
+local { MODIFICATION, SPARE } = require("scripts/weaponry/weaponryTooltips.nut")
+local { isLoadingBgUnlock } = require("scripts/loading/loadingBgData.nut")
 
 //prize - blk or table in format of trophy prizes from trophies.blk
 //content - array of prizes (better to rename it)
@@ -478,9 +480,10 @@ PrizesView.getPrizeText <- function getPrizeText(prize, colored = true, _typeNam
     local unlockId = prize.unlock
     local unlockType = ::get_unlock_type_by_id(unlockId)
     local typeValid = unlockType >= 0
-    local unlockTypeText = typeValid ? ::get_name_by_unlock_type(unlockType) : "unknown"
 
-    local unlockTypeName = ::loc("trophy/unlockables_names/" + unlockTypeText)
+    local unlockTypeName = isLoadingBgUnlock(unlockId)
+      ? ::loc("loading_bg")
+      : ::loc($"trophy/unlockables_names/{typeValid ? ::get_name_by_unlock_type(unlockType) : "unknown"}")
     unlockTypeName = colored ? ::colorize(typeValid ? "activeTextColor" : "red", unlockTypeName) : unlockTypeName
 
     name = unlockTypeName
@@ -536,13 +539,21 @@ PrizesView.getPrizeText <- function getPrizeText(prize, colored = true, _typeNam
   }
   else if (prize?.unlockAddProgress)
   {
-    local progressArray = prize.unlockAddProgress.split("_")
-    local value = progressArray.top()
-    local typeName = cutPostfix(prize.unlockAddProgress, $"_{value}")
-    if (_typeName)
-      name = ::loc(typeName)
-    else
-      name = ::loc("progress/amount", { amount = value.tointeger() * (prize?.count ?? 1) })
+    local unlock = ::g_unlocks.getUnlockById(prize.unlockAddProgress)
+    if (unlock != null) {
+      local config = ::build_conditions_config(unlock)
+      if (config.maxVal <= (prize?.count ?? 1)) //show reward only for item what open unlock
+        name = get_unlock_rewards_text(config)
+    }
+    if (name == "") {
+      local progressArray = prize.unlockAddProgress.split("_")
+      local value = progressArray.top()
+      local typeName = cutPostfix(prize.unlockAddProgress, $"_{value}")
+      if (_typeName)
+        name = ::loc(typeName)
+      else
+        name = ::loc("progress/amount", { amount = value.tointeger() * (prize?.count ?? 1) })
+    }
     showCount = false
   }
   else
@@ -617,8 +628,13 @@ PrizesView.getPrizeTypeIcon <- function getPrizeTypeIcon(prize, unitImage = fals
     return "#ui/gameuiskin#item_type_Free_RP"
   if (prize?.warbonds)
     return "#ui/gameuiskin#item_type_warbonds"
-  if (prize?.unlockAddProgress)
-    return "#ui/gameuiskin#item_type_bp.svg"
+  if (prize?.unlockAddProgress) {
+    local unlock = ::g_unlocks.getUnlockById(prize.unlockAddProgress)
+    local rewardText = ""
+    if (unlock != null)
+      rewardText = ::get_unlock_rewards_text(::build_conditions_config(unlock))
+    return rewardText != "" ? "" : "#ui/gameuiskin#item_type_bp.svg"
+  }
   return "#ui/gameuiskin#item_type_placeholder"
 }
 
@@ -972,7 +988,7 @@ PrizesView.getViewDataMod <- function getViewDataMod(unitName, modName, params)
     icon2 = ::get_unit_country_icon(unit)
     title = ::colorize("activeTextColor", ::getUnitName(unitName, true)) + ::loc("ui/colon")
           + ::colorize("userlogColoredText", getModificationName(unit, modName))
-    tooltipId = ::g_tooltip.getIdModification(unitName, modName)
+    tooltipId = MODIFICATION.getTooltipId(unitName, modName)
   }
 }
 
@@ -992,7 +1008,7 @@ PrizesView.getViewDataSpare <- function getViewDataSpare(unitName, count, params
     icon2 = ::get_unit_country_icon(unit)
     shopItemType = getUnitRole(unit)
     title = title
-    tooltipId = ::g_tooltip.getIdSpare(unitName)
+    tooltipId = SPARE.getTooltipId(unitName)
   }
 }
 
