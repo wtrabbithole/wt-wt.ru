@@ -408,7 +408,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     foreach(idx, unit in curUnitsList) {
       local config = getItemStatusData(unit, curName)
       if (config.checkAir || ((curIdx < 0) && !unit?.isFakeUnit))
-        curIdx = cellsList.len()
+        curIdx = idx
       if (config.broken)
         brokenList.append(unit) //fix me: we can update it together with update units instead of fill all
     }

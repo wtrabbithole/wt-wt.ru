@@ -7,6 +7,8 @@ local { getStageByIndex } = require("scripts/unlocks/userstatUnlocksState.nut")
 
 const COUNT_OF_VISIBLE_INCOMPLETED_LOOP_STAGES = 5
 
+local overrideStagesIcon = ::Computed(@() basicUnlock.value?.meta.overrideStageIcon ?? {})
+
 local getStageStatus = @(stageIdx) (stageIdx + 1) < seasonLevel.value ? "past"
   : (stageIdx + 1) == seasonLevel.value ? "current"
   : "future"
@@ -71,8 +73,10 @@ local function getChallengeTooltipId(stage, stageChallenge) {
 
 local function getStageViewData(stageData, idxOnPage) {
   local { unlockId, stageStatus, prizeStatus, stage, isFree, rewards = null, warbondsShopLevel, stageChallenge } = stageData
+  local overrideStageIcon = overrideStagesIcon.value?[stage.tostring()]
   local itemId = rewards?.keys()[0]
   local currentWarbond = ::g_warbonds.getCurrentWarbond()
+  local isChallengeStage = stageChallenge != null
   return {
     holderId = unlockId
     rewardId = itemId
@@ -86,6 +90,7 @@ local function getStageViewData(stageData, idxOnPage) {
         hasOverlayIcon = false })
       : ""
     items = itemId != null ? [::ItemsManager.findItemById(itemId.tointeger())?.getViewData({
+        overrideLayeredImage = overrideStageIcon != null ? ::LayersIcon.getIconData(null, overrideStageIcon) : null
         enableBackground = false
         showAction = false
         showPrice = false
@@ -95,7 +100,10 @@ local function getStageViewData(stageData, idxOnPage) {
         count = rewards[itemId]
       })]
     : null
-    challengeTooltipId = getChallengeTooltipId(stage, stageChallenge)
+    stageIcon = overrideStageIcon ?? (isChallengeStage ? "#ui/gameuiskin#item_challenge" : null)
+    stageTooltipId = isChallengeStage
+      ? getChallengeTooltipId(stage, stageChallenge)
+      : null
   }
 }
 

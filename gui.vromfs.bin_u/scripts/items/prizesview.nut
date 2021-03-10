@@ -6,6 +6,7 @@ local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
 local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 local { getPrizeChanceConfig } = require("scripts/items/prizeChance.nut")
+local { isLoadingBgUnlock } = require("scripts/loading/loadingBgData.nut")
 
 //prize - blk or table in format of trophy prizes from trophies.blk
 //content - array of prizes (better to rename it)
@@ -478,9 +479,10 @@ PrizesView.getPrizeText <- function getPrizeText(prize, colored = true, _typeNam
     local unlockId = prize.unlock
     local unlockType = ::get_unlock_type_by_id(unlockId)
     local typeValid = unlockType >= 0
-    local unlockTypeText = typeValid ? ::get_name_by_unlock_type(unlockType) : "unknown"
 
-    local unlockTypeName = ::loc("trophy/unlockables_names/" + unlockTypeText)
+    local unlockTypeName = isLoadingBgUnlock(unlockId)
+      ? ::loc("loading_bg")
+      : ::loc($"trophy/unlockables_names/{typeValid ? ::get_name_by_unlock_type(unlockType) : "unknown"}")
     unlockTypeName = colored ? ::colorize(typeValid ? "activeTextColor" : "red", unlockTypeName) : unlockTypeName
 
     name = unlockTypeName

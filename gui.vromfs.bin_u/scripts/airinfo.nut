@@ -192,7 +192,7 @@ local function fillProgressBar(obj, curExp, newExp, maxExp, isPaused = false)
     return false
 
   local status = ::shop_unit_research_status(unit.name)
-  return (status == ::ES_ITEM_STATUS_IN_RESEARCH) && !::isUnitMaxExp(unit)
+  return ((status & ::ES_ITEM_STATUS_IN_RESEARCH) != 0) && !::isUnitMaxExp(unit)
 }
 
 ::findUnitNoCase <- function findUnitNoCase(unitName)
