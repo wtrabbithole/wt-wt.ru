@@ -1,6 +1,6 @@
 local { blkFromPath } = require("sqStdLibs/helpers/datablockUtils.nut")
 local { isWeaponAux, getLastPrimaryWeapon } = require("scripts/weaponry/weaponryInfo.nut")
-local { getWeaponInfoText} = require("scripts/weaponry/weaponryVisual.nut")
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryDescription.nut")
 
 local canBuyNotResearched = @(unit) unit.isVisibleInShop()
   && ::canResearchUnit(unit)
@@ -99,7 +99,8 @@ local function getBitStatus(unit, params = {})
 
 local availablePrimaryWeaponsMod = {}
 local defaultPrimaryWeaponsMod = {
-  flares = null
+  flares = null,
+  chaffs = null
 }
 
 local function isAvailablePrimaryWeapon(unit, weaponName) {
@@ -124,6 +125,12 @@ local function isAvailablePrimaryWeapon(unit, weaponName) {
         local weapBlk = blkFromPath(weap.blk)
         if (availableWeapons!=null && (weapBlk?.rocket.isFlare ?? false))
           availableWeapons.flares = modName
+        if (availableWeapons!=null && (weapBlk?.rocket.isChaff ?? false))
+          availableWeapons.chaffs = modName
+        if (availableWeapons!=null && (weapBlk?.bullet.rocket.isChaff ?? false))
+          availableWeapons.chaffs = modName
+        if (availableWeapons!=null && (weapBlk?.bullet.rocket.isFlare ?? false))
+          availableWeapons.flares = modName
       }
     }
 
@@ -131,13 +138,12 @@ local function isAvailablePrimaryWeapon(unit, weaponName) {
   return getLastPrimaryWeapon(unit) == availableWeapons[weaponName]
 }
 
-
-local function hasFlares(unit) {
+local function hasCountermeasures(unit) {
   if (unit == null)
     return false
 
-  return unit.getAvailableSecondaryWeapons().hasFlares
-    || isAvailablePrimaryWeapon(unit, "flares")
+  return unit.getAvailableSecondaryWeapons().hasCountermeasures
+    || isAvailablePrimaryWeapon(unit, "flares") || isAvailablePrimaryWeapon(unit, "chaffs")
 }
 
 local function bombNbr(unit) {
@@ -151,7 +157,7 @@ return {
   canBuyNotResearched             = canBuyNotResearched
   isShipWithoutPurshasedTorpedoes = isShipWithoutPurshasedTorpedoes
   getBitStatus                    = getBitStatus
-  hasFlares                       = hasFlares
+  hasCountermeasures              = hasCountermeasures
   bombNbr                         = bombNbr
   isUnitHaveSecondaryWeapons      = isUnitHaveSecondaryWeapons
 }

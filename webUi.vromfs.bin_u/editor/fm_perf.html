@@ -149,6 +149,7 @@
     items: {
       altitude:       { type: 'number', unit: 'altitude', controlId: 'EditAltitude',           value: 0.0 },
       throttle:       { type: 'number', unit: 'ratio',    controlId: 'EditThrottle',           value: 1.0, min: 0.0, max: 1.1 },
+      sweep:          { type: 'number', unit: 'ratio',    controlId: 'EditSweep',              value: 0.0, min: 0.0, max: 1.1 },
       speedType:      { type: 'enum',                     controlId: 'ComboSpeedType',         value: SpeedType.TAS },
       speedRangeManual: { type: 'bool',                   controlId: 'CheckBoxSpeedRangeManual', value: false },
       speedMin:       { type: 'number', unit: 'velocity', controlId: 'EditSpeedMin',           value: 10.0,  min: 0.0, max: 1000.0 },
@@ -506,6 +507,7 @@
     state.fm = data.id
     
     document.getElementById('HeaderAircraftType').innerHTML = 'Aircraft: ' + state.fm.typeName + ' from \"' + state.fm.fileName + '\"'
+    document.getElementById('EditSweep').disabled = !data.sweepControl
     
     for (var tableName in data.tables)
       fmTables[tableName] = data.tables[tableName]
@@ -614,6 +616,7 @@
       cmd: 'getFmTables',
       alt: chartsParameters.items.altitude.value,
       throttle: chartsParameters.items.throttle.value,
+      sweep: chartsParameters.items.sweep.value,
       speedType: chartsParameters.items.speedType.value,
       speedRangeManual: chartsParameters.items.speedRangeManual.value,
       speedMin: chartsParameters.items.speedMin.value,
@@ -722,6 +725,10 @@
             <td>Throttle</td>  
             <td colspan="2"><input class="number-box" type="number" id="EditThrottle" size = "5" value="0" onchange="onChartsParamChange(['throttle'])"></td>  
           </tr>
+          <tr>
+            <td>Sweep</td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditSweep" size = "5" value="0" onchange="onChartsParamChange(['sweep'])"></td>  
+          </tr>          
           <tr>
             <td>Speed Type</td>  
             <td colspan="2">

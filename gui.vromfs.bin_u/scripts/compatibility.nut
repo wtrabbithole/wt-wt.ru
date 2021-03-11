@@ -79,6 +79,7 @@
 
 //----------------------------wop_2_1_0_X---------------------------------//
 ::apply_compatibilities({
+  TRICOLOR_INDEX = 15
   USEROPT_ACTIVATE_AIRBORNE_WEAPON_SELECTION_ON_SPAWN = -1
   epic_is_running = @() false
   epic_get_shop_item_async = @(...) null
@@ -90,6 +91,17 @@
 
 //----------------------------wop_2_3_0_X---------------------------------//
 ::apply_compatibilities({
+  USEROPT_COUNTERMEASURES_SERIES_PERIODS = -1
+  USEROPT_COUNTERMEASURES_PERIODS = -1
+  USEROPT_COUNTERMEASURES_SERIES = -1
+  set_option_countermeasures_series = @(...) null
+  get_option_countermeasures_series = @() 1
+  set_option_countermeasures_periods = @(...) null
+  get_option_countermeasures_periods = @() 0.5
+  set_option_countermeasures_series_periods = @(...) null
+  get_option_countermeasures_series_periods = @() 2.0
   set_dagui_mouse_last_time_used = @(...) null
+  hangar_get_attachable_tm = @() TMatrix()
+  OPTION_COMMANDER_CAMERA_IN_VIEWS = -1
 })
 

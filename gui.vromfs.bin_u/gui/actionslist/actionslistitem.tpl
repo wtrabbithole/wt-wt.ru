@@ -23,11 +23,16 @@ actionListItem {
     <<#iconRotation>>
       rotation:t = '<<iconRotation>>'
     <</iconRotation>>
-    background-image:t='<<icon>>'; }
+    background-image:t='<<icon>>';
+    color-factor:t='0'
+  }
   <</icon>>
 
   <<#haveWarning>>
-  warning_icon { id:t='warning_icon' }
+  warning_icon {
+    id:t='warning_icon'
+    color-factor:t='0'
+  }
   <</haveWarning>>
 
   text {
@@ -35,14 +40,18 @@ actionListItem {
     text:t='<<text>>';
     <<#isLink>>
       isLink:t='yes';
-      underline{}
+      underline {
+        color-factor:t='0'
+      }
     <</isLink>>
+    color-factor:t='0'
   }
 
   <<#haveDiscount>>
   discount_notification {
     id:t='discount_image';
     type:t='line'
+    color-factor:t='0'
   }
   <</haveDiscount>>
 }

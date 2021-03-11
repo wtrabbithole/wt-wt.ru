@@ -529,6 +529,46 @@
         charts: polarChartTypesData,
         data: { polarType: 'wing' }
       },
+      wingSweep1: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep1' }
+      },
+      wingSweep2: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep2' }
+      },
+      wingSweep3: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep3' }
+      },
+      wingSweep4: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep4' }
+      },
+      wingSweep5: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep5' }
+      },
+      wingSweep6: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep6' }
+      },
+      wingSweep7: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep7' }
+      },
+      wingSweep8: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'wingSweep8' }
+      },      
       stabilizer: {
         enabled: false,
         charts: polarChartTypesData,
@@ -581,6 +621,14 @@
   {
     polar: {
       wing:           chartsData.polar.wing,
+      wingSweep1:     chartsData.polar.wingSweep1,
+      wingSweep2:     chartsData.polar.wingSweep2,
+      wingSweep3:     chartsData.polar.wingSweep3,
+      wingSweep4:     chartsData.polar.wingSweep4,
+      wingSweep5:     chartsData.polar.wingSweep5,
+      wingSweep6:     chartsData.polar.wingSweep6,
+      wingSweep7:     chartsData.polar.wingSweep7,
+      wingSweep8:     chartsData.polar.wingSweep8,
       stabilizer:     chartsData.polar.stabilizer,
       fin:            chartsData.polar.fin,
       fuselage:       chartsData.polar.fuselage,
@@ -589,13 +637,21 @@
       propeller3Blade: chartsData.polar.propeller3Blade,
       propeller4Blade: chartsData.polar.propeller4Blade,
       propeller5Blade: chartsData.polar.propeller5Blade,
-      propeller6Blade: chartsData.polar.propeller6Blade,
+      propeller6Blade: chartsData.polar.propeller6Blade
     }
   }
   
   const chartVariantsNames =
   {
     wing: "Wing",
+    wingSweep1: "Wing Sweep 1",
+    wingSweep2: "Wing Sweep 2",
+    wingSweep3: "Wing Sweep 3",
+    wingSweep4: "Wing Sweep 4",
+    wingSweep5: "Wing Sweep 5",
+    wingSweep6: "Wing Sweep 6",
+    wingSweep7: "Wing Sweep 7",
+    wingSweep8: "Wing Sweep 8",
     stabilizer: "Stabilizer",
     fin: "Fin",
     fuselage: "Fuselage",
@@ -800,18 +856,33 @@
   function readFmBlk(tbl, fmBlk)
   {
     var aerodynamics = fmBlk.Aerodynamics
-    var wing = aerodynamics
-    var stab = aerodynamics.Stab
-    var fin = aerodynamics.Fin
-    var fuselage = aerodynamics.Fuselage
-    const engine = fmBlk.Engine0
-
-    tbl.polar = {
-      wing:           readPolarFromBlk(wing),
-      stabilizer:     readPolarFromBlk(stab),
-      fin:            readPolarFromBlk(fin),
-      fuselage:       readPolarFromBlk(fuselage)
+    tbl.polar = {}
+    
+    var wingSweepTable = false
+    for (var i = 0; i < 8; ++i)
+    {
+      var polarName = "wingSweep" + (i + 1).toString();
+      var wingName = "WingPlaneSweep" + i.toString();
+      var wingSweep = aerodynamics[wingName]
+      if (wingSweep != undefined)
+      {
+        tbl.polar[polarName] = readPolarFromBlk(wingSweep.Polar)
+        wingSweepTable = true
+      }
     }
+    if (!wingSweepTable)
+    {
+      var wing = aerodynamics.WingPlane.Polar
+      tbl.polar['wing'] = readPolarFromBlk(wing)
+    }
+
+    var stab = aerodynamics.HorStabPlane.Polar
+    var fin = aerodynamics.VerStabPlane.Polar
+    var fuselage = aerodynamics.FuselagePlane.Polar
+    
+    tbl.polar['stabilizer'] = readPolarFromBlk(stab)
+    tbl.polar['fin'] = readPolarFromBlk(fin)
+    tbl.polar['fuselage'] = readPolarFromBlk(fuselage)
     
     for (var i = 0; i < 6; ++i)
     {
@@ -847,8 +918,12 @@
     {
       if ("propeller1Blade" in fmProperties.polar)
         comboPolarType.value = polarType = "propeller1Blade"
-      else
+      else if ("wing" in fmProperties.polar)      
         comboPolarType.value = polarType = "wing"
+      else if ("wingSweep1" in fmProperties.polar)      
+        comboPolarType.value = polarType = "wingSweep1"
+      else
+        comboPolarType.value = polarType = "stabilizer"
     }
       
     selectChartVariant('polar', polarType)
