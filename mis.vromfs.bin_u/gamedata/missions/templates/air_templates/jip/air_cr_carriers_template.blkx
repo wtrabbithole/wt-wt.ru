@@ -1352,7 +1352,12 @@
             "time": 10.0
           }
         },
-        "conditions": [],
+        "conditions": {
+          "misObjStatus": {
+            "target": "cr_t2_detect_carrier_quest",
+            "status": "inProgress"
+          }
+        },
         "actions": [
           {
             "comment": {
@@ -1391,7 +1396,11 @@
             }
           }
         ],
-        "else_actions": []
+        "else_actions": {
+          "triggerDisable": {
+            "target": "cr_t1_detection_rotator"
+          }
+        }
       },
       "cr_t2_detection_rotator": {
         "is_enabled": false,
@@ -1406,7 +1415,12 @@
             "time": 10.0
           }
         },
-        "conditions": [],
+        "conditions": {
+          "misObjStatus": {
+            "target": "cr_t1_detect_carrier_quest",
+            "status": "inProgress"
+          }
+        },
         "actions": [
           {
             "comment": {
@@ -1445,7 +1459,11 @@
             }
           }
         ],
-        "else_actions": []
+        "else_actions": {
+          "triggerDisable": {
+            "target": "cr_t2_detection_rotator"
+          }
+        }
       },
       "cr_t1_detection_players_distance_check": {
         "is_enabled": false,
@@ -1548,7 +1566,6 @@
             "object": "@cr_t2_carrier_name",
             "target": "t1_players_squad",
             "var": "cr_t1_detection_range",
-            "object_var_value": 0,
             "compareCenters": false
           }
         },
@@ -1850,7 +1867,7 @@
           },
           {
             "wait": {
-              "time": 20.0
+              "time": 6.0
             }
           },
           {
@@ -1915,7 +1932,7 @@
           },
           {
             "wait": {
-              "time": 20.0
+              "time": 6.0
             }
           },
           {
