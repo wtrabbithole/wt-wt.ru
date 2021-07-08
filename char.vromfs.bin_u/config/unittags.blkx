@@ -12315,8 +12315,8 @@
     "tags": {
       "axis": true,
       "country_germany": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
+      "type_assault": true,
+      "type_strike_aircraft": true,
       "berlin": true,
       "western_front": true,
       "eastern_front": true,
@@ -20351,6 +20351,68 @@
       "maxSpeedAlt": 3048.0,
       "climbAlt": 3048.0,
       "climbSpeed": 17.5169,
+      "wingLoading": 170.0,
+      "powerToWeightRatio": 0.42,
+      "rollRate": 102.0
+    }
+  },
+  "p-39q_25_france": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_france",
+    "releaseDate": "2021-05-12 00:00:00",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "allison",
+        "model": "1710-85",
+        "mass": 594.0
+      },
+      "tanks_params": {
+        "protected": true
+      }
+    },
+    "tags": {
+      "ally": true,
+      "type_fighter": true,
+      "country_france": true,
+      "eastern_front": true,
+      "air": true
+    },
+    "years_active": {
+      "year1942": {
+        "berlin": 1.0,
+        "korsun": 1.0,
+        "krymsk": 1.0,
+        "mozdok": 1.0,
+        "stalingrad": 1.0,
+        "stalingrad_w": 1.0
+      },
+      "year1943": {
+        "berlin": 0.7,
+        "korsun": 0.7,
+        "krymsk": 0.7,
+        "mozdok": 0.7,
+        "stalingrad": 0.7,
+        "stalingrad_w": 0.7
+      },
+      "year1944": {
+        "berlin": 0.3,
+        "korsun": 0.3,
+        "krymsk": 0.3,
+        "mozdok": 0.3,
+        "stalingrad": 0.3,
+        "stalingrad_w": 0.3
+      }
+    },
+    "Shop": {
+      "maxAltitude": 9000.0,
+      "maxSpeed": 164.049,
+      "turnTime": 18.0,
+      "airfieldLen": 268.678,
+      "climbTime": 75.0,
+      "maxSpeedAlt": 3049.0,
+      "climbAlt": 1524.0,
+      "climbSpeed": 20.32,
       "wingLoading": 170.0,
       "powerToWeightRatio": 0.42,
       "rollRate": 102.0
@@ -64040,7 +64102,9 @@
     "tags": {
       "country_germany": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [20.0,14.0,12.0],
@@ -64581,6 +64645,22 @@
       "armorThicknessTurret": [15.0,15.0,15.0]
     }
   },
+  "it_toldi_II_a": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_italy_tft",
+    "operatorCountry": "country_hungary",
+    "releaseDate": "2021-05-12 00:00:00",
+    "tags": {
+      "country_italy": true,
+      "tank": true,
+      "type_light_tank": true
+    },
+    "Shop": {
+      "armorThicknessHull": [20.0,13.0,9.0],
+      "armorThicknessTurret": [33.0,13.0,13.0]
+    }
+  },
   "it_sahariano": {
     "type": "tank",
     "hangar_place": "tank",
@@ -65036,7 +65116,9 @@
     "tags": {
       "country_italy": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [12.7,12.7,12.7],
@@ -65135,7 +65217,7 @@
     "tags": {
       "country_italy": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -65152,7 +65234,7 @@
     "tags": {
       "country_italy": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -65185,7 +65267,7 @@
     "tags": {
       "country_italy": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -65771,7 +65853,7 @@
     "tags": {
       "country_usa": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -65804,6 +65886,21 @@
     "Shop": {
       "armorThicknessHull": [101.6,69.8,44.1],
       "armorThicknessTurret": [101.6,82.5,82.5]
+    }
+  },
+  "us_m6a2e1": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_ussr_tft",
+    "releaseDate": "2021-05-12 00:00:00",
+    "tags": {
+      "country_usa": true,
+      "tank": true,
+      "type_heavy_tank": true
+    },
+    "Shop": {
+      "armorThicknessHull": [140.0,60.0,41.0],
+      "armorThicknessTurret": [229.0,89.0,208.0]
     }
   },
   "us_m103": {
@@ -66451,7 +66548,7 @@
     "tags": {
       "country_usa": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true
     }
   },
   "ussr_t_28E": {
@@ -66577,7 +66674,9 @@
     "tags": {
       "country_usa": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessTurret": [25.4,12.7,12.7]
@@ -66590,7 +66689,9 @@
     "tags": {
       "country_usa": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessTurret": [25.4,12.7,12.7]
@@ -67269,7 +67370,9 @@
     "tags": {
       "country_usa": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [12.7,12.7,12.7],
@@ -67554,7 +67657,9 @@
     "tags": {
       "country_usa": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessTurret": [76.2,31.75,25.4]
@@ -67797,7 +67902,9 @@
     "tags": {
       "country_germany": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [67.0,20.0,20.0],
@@ -68330,7 +68437,7 @@
     "tags": {
       "country_sweden": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_medium_tank": true
     },
     "Shop": {
       "armorThicknessHull": [55.0,30.0,20.0],
@@ -68465,7 +68572,9 @@
     "tags": {
       "country_sweden": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [10.0,8.0,8.0],
@@ -69241,7 +69350,7 @@
     "tags": {
       "country_britain": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -69395,7 +69504,7 @@
     "tags": {
       "country_britain": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -69790,7 +69899,7 @@
     "tags": {
       "country_britain": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_medium_tank": true
     },
     "Shop": {
       "armorThicknessHull": [64.0,46.0,38.0],
@@ -69804,7 +69913,7 @@
     "tags": {
       "country_britain": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_medium_tank": true
     }
   },
   "uk_chieftain_mk_10": {
@@ -70963,7 +71072,9 @@
     "tags": {
       "country_france": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [20.0,14.0,12.0],
@@ -72122,7 +72233,7 @@
     "tags": {
       "country_japan": true,
       "tank": true,
-      "type_tank_destroyer": true,
+      "type_light_tank": true,
       "scout": true,
       "canRepairAnyAlly": true
     },
@@ -77894,7 +78005,9 @@
     "tags": {
       "country_china": true,
       "tank": true,
-      "type_light_tank": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessHull": [25.0,25.0,25.0],
@@ -78411,7 +78524,9 @@
     "tags": {
       "country_china": true,
       "tank": true,
-      "type_tank_destroyer": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
     },
     "Shop": {
       "armorThicknessTurret": [25.4,12.7,12.7]
@@ -80693,7 +80808,7 @@
       "armorThicknessCitadel": [152.0,152.0,63.5],
       "armorThicknessTurretMainCaliber": [203.0,82.5,37.0],
       "maxSpeed": 16.98,
-      "displacement": 11420000.0
+      "displacement": 17031000.0
     }
   },
   "uk_battlecruiser_invincible": {
@@ -80891,6 +81006,26 @@
       "armorThicknessTurretMainCaliber": [3.175,3.175,3.175],
       "maxSpeed": 19.55,
       "displacement": 2900000.0
+    }
+  },
+  "ussr_cruiser_voroshilov": {
+    "type": "ship",
+    "hangar_place": "ship",
+    "testFlight": "testFlight_destroyer_ussr_tfs",
+    "releaseDate": "2021-05-12 00:00:00",
+    "tags": {
+      "country_ussr": true,
+      "type_light_cruiser": true,
+      "ship": true,
+      "pacific": true,
+      "mediterran": true,
+      "westernfront": true
+    },
+    "Shop": {
+      "armorThicknessCitadel": [50.0,50.0,50.0],
+      "armorThicknessTurretMainCaliber": [50.0,50.0,50.0],
+      "maxSpeed": 18.52,
+      "displacement": 9400000.0
     }
   }
 }
